@@ -3,7 +3,7 @@ import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/Presenation/SignUp/WelcomePage.dart';
 import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/utenslis/SnackBar.dart';
+import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 
 class Elevated_button extends StatelessWidget {
   const Elevated_button(

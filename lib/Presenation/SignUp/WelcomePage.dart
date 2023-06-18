@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/utenslis/Elevatedbutton.dart';
+import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
-import 'package:instagram_clone/utenslis/TextButton.dart';
+import 'package:instagram_clone/Presenation/widget/TextButton.dart';
 
 class welcome extends StatelessWidget {
   const welcome({Key? key}) : super(key: key);

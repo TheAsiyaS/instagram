@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/utenslis/Elevatedbutton.dart';
+import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 

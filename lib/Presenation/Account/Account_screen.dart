@@ -6,7 +6,11 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('AccountScreen'),),
+      appBar: AppBar(
+        title: Text('username'),
+        actions: [],
+      ),
     );
   }
 }
+ 

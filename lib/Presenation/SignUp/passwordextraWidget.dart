@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/utenslis/CupertinoTextfield.dart';
-import 'package:instagram_clone/utenslis/Elevatedbutton.dart';
+import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
+import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
 final TextEditingController passwordController = TextEditingController();

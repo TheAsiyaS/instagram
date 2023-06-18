@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/SignUp/Password.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/utenslis/CupertinoTextfield.dart';
+import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
-import 'package:instagram_clone/utenslis/Title_subtitle.dart';
+import 'package:instagram_clone/Presenation/widget/Title_subtitle.dart';
 
 class UsernameGet extends StatelessWidget {
   UsernameGet({Key? key}) : super(key: key);
