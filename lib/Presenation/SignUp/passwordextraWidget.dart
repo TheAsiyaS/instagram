@@ -45,6 +45,7 @@ class passwordExtraWidget extends StatelessWidget {
           SizedBox(
             height: 50,
             child: Cupertino_textfield(
+               backgroundcolour: ktransaparent,
                 placeholderText: 'Password..',
                 borderradiusValue: 10,
                 borderwidthValue: 1,

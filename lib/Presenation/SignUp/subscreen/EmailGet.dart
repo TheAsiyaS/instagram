@@ -19,6 +19,7 @@ class EmailGet extends StatelessWidget {
           SizedBox(
             height: 50,
             child: Cupertino_textfield(
+              backgroundcolour: ktransaparent,
                 placeholderText: 'E-mail adress...',
                 borderradiusValue: 10,
                 borderwidthValue: 2,
