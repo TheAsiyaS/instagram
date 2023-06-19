@@ -44,8 +44,8 @@ class SearchScreen extends StatelessWidget {
                 child: GridView.custom(
                     gridDelegate: SliverQuiltedGridDelegate(
                       crossAxisCount: 3,
-                      mainAxisSpacing: 4,
-                      crossAxisSpacing: 4,
+                      mainAxisSpacing: 3,
+                      crossAxisSpacing: 3,
                       repeatPattern: QuiltedGridRepeatPattern.inverted,
                       pattern: [
                         const QuiltedGridTile(1, 1),
@@ -65,7 +65,7 @@ class SearchScreen extends StatelessWidget {
                             color: Color.fromARGB(255, 48, 48, 48),
                             image: DecorationImage(
                                 image: NetworkImage(
-                                    'https://www.befunky.com/images/prismic/f5ca4181-01da-4237-92bf-b6938359503e_hero-blur-image-5.jpg?auto=avif,webp&format=jpg&width=896'),
+                                    'https://www.vieribottazzini.com/wp-content/uploads/X1DII1_00190_slide.jpg'),
                                 fit: BoxFit.cover)),
                       );
                     })),

@@ -51,7 +51,7 @@ class AddpostScreen extends StatelessWidget {
                         ),
                       ),
                 Positioned(
-                    top: MediaQuery.of(context).size.height / 4,
+                    top: MediaQuery.of(context).size.height / 3.5,
                     child: IconButton(
                         onPressed: () {},
                         icon: const Icon(
@@ -63,34 +63,32 @@ class AddpostScreen extends StatelessWidget {
           Expanded(
               flex: 2,
               child: Stack(children: [
-                Container(
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    children: List.generate(
-                        21,
-                        (index) => Container(
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          'https://thumbs.dreamstime.com/b/scenic-view-moraine-lake-mountain-range-sunset-landscape-canadian-rocky-mountains-49666349.jpg'),
-                                      fit: BoxFit.cover)),
-                            )),
-                  ),
+                GridView.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 3,
+                  crossAxisSpacing: 3,
+                  children: List.generate(
+                      21,
+                      (index) => Container(
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://thumbs.dreamstime.com/b/scenic-view-moraine-lake-mountain-range-sunset-landscape-canadian-rocky-mountains-49666349.jpg'),
+                                    fit: BoxFit.cover)),
+                          )),
                 ),
                 DropdownImagePick(id: 'AddPost'),
                 Positioned(
                     top: MediaQuery.of(context).size.height / 4.2,
                     left: MediaQuery.of(context).size.width / 2,
                     child: Card(
-                      color: Colors.transparent,
+                      color: ktransaparentGrey,
                       child: Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: const Color.fromARGB(255, 51, 51, 51),
+                          color: const Color.fromARGB(105, 20, 20, 20),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 15),
@@ -135,7 +133,8 @@ class DropdownImagePick extends StatefulWidget {
 class _DropdownImagePickState extends State<DropdownImagePick> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: kblackshade,
       height: MediaQuery.of(context).size.height / 13,
       width: double.infinity,
       child: Row(
@@ -144,19 +143,16 @@ class _DropdownImagePickState extends State<DropdownImagePick> {
             builder: (context, value, child) {
               return DropdownButton(
                 value: dropInitValue.value,
-
                 icon: const Icon(Icons.keyboard_arrow_down),
                 onTap: () {
                   // log(dropdownvalue.toString());
                 },
-                // Array list of items
                 items: photoPickList.map((String items) {
                   return DropdownMenuItem(
                     value: items,
                     child: Text(items),
                   );
                 }).toList(),
-
                 onChanged: (String? newValue) async {
                   dropInitValue.value = newValue!;
                   // if (newValue == 'Gallery') {

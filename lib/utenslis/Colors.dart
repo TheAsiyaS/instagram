@@ -9,3 +9,4 @@ const kGrey = Color.fromARGB(255, 170, 170, 170);
 const klightwhite = Color.fromARGB(255, 211, 211, 211);
 const kblackshade = Color.fromARGB(98, 0, 0, 0);
 const kblue = Colors.blue;
+const kgreydarktrans = Color.fromARGB(106, 105, 105, 105);

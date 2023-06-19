@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
+import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
+
 /*
 https://www.befunky.com/images/prismic/f5ca4181-01da-4237-92bf-b6938359503e_hero-blur-image-5.jpg?auto=avif,webp&format=jpg&width=896,
 https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg,
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
             const NavigationBarThemeData(backgroundColor: kblack),
         brightness: Brightness.dark,
       ),
-      home: const NavigationPage(),
+      home: LoginScreen(),
     );
   }
 }
