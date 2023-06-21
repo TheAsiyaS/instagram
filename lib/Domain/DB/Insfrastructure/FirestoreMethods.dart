@@ -46,4 +46,27 @@ class firestoreMethods {
     }
     return isok;
   }
+  Future<bool> postLike(String uid, String postId, List likes) async {
+    late bool isok;
+
+    try {
+      if (likes.contains(uid)) {
+        // if the likes list contains the user uid, we need to remove it
+        _firestore.collection('post').doc(postId).update({
+          'likes': FieldValue.arrayRemove([uid])
+        });
+        isok = false;
+      } else {
+        // if the likes list doesn't contains the user uid, we need to add it
+        _firestore.collection('post').doc(postId).update({
+          'likes': FieldValue.arrayUnion([uid])
+        });
+        isok = true;
+      }
+    } catch (e) {
+      isok = false;
+    }
+    return isok;
+  }
+
 }
