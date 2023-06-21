@@ -120,4 +120,25 @@ class firestoreMethods {
       return false;
     }
   }
+  Future<void> followUser(currentUserId, followedUserId) async {
+    DocumentSnapshot<Map<String, dynamic>> snap =
+        await _firestore.collection('user').doc(currentUserId).get();
+    List follwoing = snap.data()!['following'];
+    if (follwoing.contains(followedUserId)) {
+      //if current user contain follow id(those who want to follow) remove that user from folllow list
+      await _firestore.collection('user').doc(currentUserId).update({
+        'following': FieldValue.arrayRemove([followedUserId])
+      });
+      await _firestore.collection('user').doc(followedUserId).update({
+        'follower': FieldValue.arrayRemove([currentUserId])
+      });
+    } else {
+      await _firestore.collection('user').doc(currentUserId).update({
+        'following': FieldValue.arrayUnion([followedUserId])
+      });
+      await _firestore.collection('user').doc(followedUserId).update({
+        'follower': FieldValue.arrayUnion([currentUserId])
+      });
+    }
+  }
 }
