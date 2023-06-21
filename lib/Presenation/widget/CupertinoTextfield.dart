@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:instagram_clone/Presenation/SignUp/Username_get.dart';
 import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 
@@ -16,8 +17,7 @@ class Cupertino_textfield extends StatelessWidget {
       required this.suffixWidget,
       required this.keyboardInputTyoe,
       required this.isobscure,
-     required this.backgroundcolour
-      });
+      required this.backgroundcolour});
   final String placeholderText;
   final double borderradiusValue;
   final double borderwidthValue;
@@ -41,7 +41,7 @@ class Cupertino_textfield extends StatelessWidget {
       keyboardType: keyboardInputTyoe,
       style: const TextStyle(color: kwhite),
       decoration: BoxDecoration(
-        color: backgroundcolour,  
+        color: backgroundcolour,
         borderRadius: BorderRadius.circular(borderradiusValue),
         border: Border.all(
           color: borderColor,
@@ -51,12 +51,16 @@ class Cupertino_textfield extends StatelessWidget {
       onSubmitted: (value) {
         if (textfieldId == 'PasswordGet') {
           passwordController.text = value;
-        } else {}
+        } else if (textfieldId == 'UsernameGet') {
+          UsernameController.text = value;
+        }
       },
       onChanged: (value) {
         if (textfieldId == 'PasswordGet') {
           passwordController.text = value;
-        } else {}
+        } else if (textfieldId == 'UsernameGet') {
+          UsernameController.text = value;
+        }
       },
     );
   }

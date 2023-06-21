@@ -1,0 +1,1 @@
+RegExp usernameRegex = RegExp(r'^[0-1a-z._]+$');
