@@ -47,6 +47,7 @@ class firestoreMethods {
     }
     return isok;
   }
+
   Future<bool> postLike(String uid, String postId, List likes) async {
     late bool isok;
 
@@ -69,7 +70,8 @@ class firestoreMethods {
     }
     return isok;
   }
-Future<bool> Uploadcomment(
+
+  Future<bool> Uploadcomment(
     String comment,
     String username,
     String ProfileImage,
@@ -108,5 +110,14 @@ Future<bool> Uploadcomment(
       isok = false;
     }
     return isok;
+  }
+
+  Future<bool> DeletePost(postId) async {
+    try {
+      await _firestore.collection('post').doc(postId).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
