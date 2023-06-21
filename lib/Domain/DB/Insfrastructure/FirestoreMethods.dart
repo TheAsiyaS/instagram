@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
+import 'package:instagram_clone/Domain/DB/Model/comment.dart';
 import 'package:instagram_clone/Domain/DB/Model/post.dart';
 import 'package:uuid/uuid.dart';
 
@@ -68,5 +69,44 @@ class firestoreMethods {
     }
     return isok;
   }
+Future<bool> Uploadcomment(
+    String comment,
+    String username,
+    String ProfileImage,
+    String postId,
+    String uid,
+    String DatePublished,
+  ) async {
+    late bool isok;
 
+    try {
+      if (comment.isNotEmpty) {
+        // if the likes list contains the user uid, we need to remove it
+        final commentId = const Uuid().v1();
+        Comment commentModel = Comment(
+            comment: comment,
+            ProfileImage: ProfileImage,
+            username: username,
+            postId: postId,
+            DatePublished: DatePublished,
+            uid: uid,
+            CommentId: commentId,
+            likes: 1);
+        final decodeJson = commentModel.tojson();
+        _firestore
+            .collection('post')
+            .doc(postId)
+            .collection('comment')
+            .doc(commentId)
+            .set(decodeJson);
+        isok = true;
+      } else {
+        log('some error occured');
+        isok = false;
+      }
+    } catch (e) {
+      isok = false;
+    }
+    return isok;
+  }
 }
