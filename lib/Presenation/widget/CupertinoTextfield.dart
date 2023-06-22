@@ -21,7 +21,7 @@ class Cupertino_textfield extends StatelessWidget {
       required this.suffixWidget,
       required this.keyboardInputTyoe,
       required this.isobscure,
-      required this.backgroundcolour});
+      required this.backgroundcolour, required this.maxlengh});
   final String placeholderText;
   final double borderradiusValue;
   final double borderwidthValue;
@@ -34,9 +34,11 @@ class Cupertino_textfield extends StatelessWidget {
   final TextInputType keyboardInputTyoe;
   final bool isobscure;
   final Color backgroundcolour;
+    final int maxlengh;
   @override
   Widget build(BuildContext context) {
     return CupertinoTextField(
+      maxLength:maxlengh ,
       placeholder: placeholderText,
       placeholderStyle: placeholderStyle,
       prefix: prefixWidget,
@@ -60,7 +62,9 @@ class Cupertino_textfield extends StatelessWidget {
         } else if (textfieldId == 'emailGet') {
           EmailContoller.text = value;
         } else if (textfieldId == 'name_edite_profile') {
-          namecontroller.text = value;
+          controller.text = value;
+        } else if (textfieldId == 'username_edite_profile') {
+          controller.text = value;
         }
       },
       onChanged: (value) async {
@@ -69,12 +73,20 @@ class Cupertino_textfield extends StatelessWidget {
         } else if (textfieldId == 'UsernameGet') {
           UsernameController.text = value;
         } else if (textfieldId == 'emailGet') {
-
           EmailContoller.text = value;
         } else if (textfieldId == 'name_edite_profile') {
-          namecontroller.text = value;
+          controller.text = value;
           await AuthMethod().updateName(name: value, uid: currentuserdata.uid);
           name.value = value;
+        } else if (textfieldId == 'username_edite_profile') {
+          controller.text = value;
+          await AuthMethod()
+              .updateUsername(username: value, uid: currentuserdata.uid);
+          username.value = value;
+        } else if (textfieldId == 'bio_edite_profile') {
+          controller.text = value;
+          await AuthMethod().updateBio(bio: value, uid: currentuserdata.uid);
+          bio.value = value;
         }
       },
     );

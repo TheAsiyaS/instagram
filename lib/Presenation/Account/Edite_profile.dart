@@ -13,7 +13,8 @@ String profile = currentuserdata.photoUrl ??
     'https://selvamtech.edu.in/wp-content/uploads/2014/05/no-user-image.gif';
 
 ValueNotifier<String> name = ValueNotifier(currentuserdata.name ?? "");
-final TextEditingController namecontroller = TextEditingController();
+ValueNotifier<String> username = ValueNotifier(currentuserdata.username);
+ValueNotifier<String> bio = ValueNotifier(currentuserdata.bio);
 
 class Editeprofile extends StatefulWidget {
   const Editeprofile({super.key});
@@ -24,7 +25,7 @@ class Editeprofile extends StatefulWidget {
 
 class _EditeprofileState extends State<Editeprofile> {
   bool? isImage;
-
+  final TextEditingController namecontroller = TextEditingController();
   Uint8List? image;
   Future<void> selectImage() async {
     Uint8List? img = await pickImage(ImageSource.gallery);
@@ -70,6 +71,7 @@ class _EditeprofileState extends State<Editeprofile> {
             ),
           ),
           Cupertino_textfield(
+            maxlengh: 20,
               placeholderText: currentuserdata.name ?? '',
               borderradiusValue: 0,
               borderwidthValue: 0,
@@ -95,6 +97,7 @@ class _EditeprofileState extends State<Editeprofile> {
             ),
           ),
           Cupertino_textfield(
+               maxlengh: 20,
               placeholderText: currentuserdata.username,
               borderradiusValue: 0,
               borderwidthValue: 0,
@@ -120,6 +123,7 @@ class _EditeprofileState extends State<Editeprofile> {
             ),
           ),
           Cupertino_textfield(
+               maxlengh: 120,
               placeholderText: currentuserdata.bio,
               borderradiusValue: 0,
               borderwidthValue: 0,

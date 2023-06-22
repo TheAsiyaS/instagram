@@ -20,6 +20,7 @@ class SearchScreen extends StatelessWidget {
             SizedBox(
               height: size.height/17, 
               child: Cupertino_textfield(
+                   maxlengh: 20,
                   backgroundcolour: ktransaparentGrey,
                   placeholderText: 'Search',
                   borderradiusValue: 10,

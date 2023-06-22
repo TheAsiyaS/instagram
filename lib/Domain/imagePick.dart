@@ -6,6 +6,7 @@ import 'dart:io';
 
 Future<Uint8List?> pickImage(ImageSource source) async {
   final picker = ImagePicker();
+
   final pickedImage = await picker.pickImage(source: source);
 
   if (pickedImage != null) {

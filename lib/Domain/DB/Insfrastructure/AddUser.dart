@@ -78,22 +78,44 @@ class AuthMethod {
     return '';
   }
 
-  Future<String> updateName({required String name, uid}) async {
+  Future<void> updateName({required String name, uid}) async {
     try {
       if (name.isNotEmpty) {
         final docuser =
             FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
-        log('Uid----$G_uid');
 
         docuser.update({'name': name});
-        log('Photo Url -----$name');
-        return name;
       }
     } catch (e) {
       log(e.toString());
-      return e.toString();
     }
-    return '';
+  }
+
+  Future<void> updateUsername({required String username, uid}) async {
+    try {
+      if (username.isNotEmpty) {
+        final docuser =
+            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
+
+        docuser.update({'username': username});
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return;
+  }
+  Future<void> updateBio({required String bio, uid}) async {
+    try {
+      if (bio.isNotEmpty) {
+        final docuser =
+            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
+
+        docuser.update({'bio': bio});
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return;
   }
 
   Future<bool> loginUser(

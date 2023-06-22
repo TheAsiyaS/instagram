@@ -1,12 +1,15 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instagram_clone/Domain/imagePick.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 
 final photoPickList = ['Gallery', 'Camera', 'WatsApp image', 'Facebook image'];
 
 ValueNotifier<String> dropInitValue = ValueNotifier('Gallery');
-Uint8List? _file;
+
+ValueNotifier<Uint8List?> _file = ValueNotifier(null);
 
 class AddpostScreen extends StatelessWidget {
   const AddpostScreen({super.key});
@@ -20,9 +23,7 @@ class AddpostScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => editePost(
-                //           imagePath: _file!,
-                //         )));
+                //     builder: (context) => ImageGalleryScreen()));
               },
               icon: const Icon(Icons.arrow_forward))
         ],
@@ -32,34 +33,39 @@ class AddpostScreen extends StatelessWidget {
         children: [
           Expanded(
               flex: 2,
-              child: Stack(children: [
-                _file != null
-                    ? Container(
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          image: DecorationImage(
-                              image: MemoryImage(_file!), fit: BoxFit.cover),
-                        ),
-                      )
-                    : Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.transparent,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://thumbs.dreamstime.com/b/scenic-view-moraine-lake-mountain-range-sunset-landscape-canadian-rocky-mountains-49666349.jpg'),
-                              fit: BoxFit.cover),
-                        ),
-                      ),
-                Positioned(
-                    top: MediaQuery.of(context).size.height / 3.5,
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.expand_circle_down,
-                          size: 50,
-                          color: kGrey,
-                        )))
-              ])),
+              child: ValueListenableBuilder(
+                  valueListenable: _file,
+                  builder: (context, snapshot, _) {
+                    return Stack(children: [
+                      _file.value != null
+                          ? Container(
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                    image: MemoryImage(_file.value!),
+                                    fit: BoxFit.cover),
+                              ),
+                            )
+                          : Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://thumbs.dreamstime.com/b/scenic-view-moraine-lake-mountain-range-sunset-landscape-canadian-rocky-mountains-49666349.jpg'),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                      Positioned(
+                          top: MediaQuery.of(context).size.height / 3.5,
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.expand_circle_down,
+                                size: 50,
+                                color: kGrey,
+                              )))
+                    ]);
+                  })),
           Expanded(
               flex: 2,
               child: Stack(children: [
@@ -82,7 +88,7 @@ class AddpostScreen extends StatelessWidget {
                     top: MediaQuery.of(context).size.height / 4.2,
                     left: MediaQuery.of(context).size.width / 2,
                     child: Card(
-                      color: ktransaparentGrey,
+                      color: ktransaparent,
                       child: Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2,
@@ -123,14 +129,12 @@ class AddpostScreen extends StatelessWidget {
   }
 }
 
-class DropdownImagePick extends StatefulWidget {
+// ignore: must_be_immutable
+class DropdownImagePick extends StatelessWidget {
   DropdownImagePick({super.key, required this.id});
   String id;
-  @override
-  State<DropdownImagePick> createState() => _DropdownImagePickState();
-}
+  
 
-class _DropdownImagePickState extends State<DropdownImagePick> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -144,9 +148,7 @@ class _DropdownImagePickState extends State<DropdownImagePick> {
               return DropdownButton(
                 value: dropInitValue.value,
                 icon: const Icon(Icons.keyboard_arrow_down),
-                onTap: () {
-                  // log(dropdownvalue.toString());
-                },
+                onTap: () {},
                 items: photoPickList.map((String items) {
                   return DropdownMenuItem(
                     value: items,
@@ -155,55 +157,25 @@ class _DropdownImagePickState extends State<DropdownImagePick> {
                 }).toList(),
                 onChanged: (String? newValue) async {
                   dropInitValue.value = newValue!;
-                  // if (newValue == 'Gallery') {
-                  //   log('0');
-                  //   final postFile = await pickImage(ImageSource.gallery);
-                  //   if (widget.id == 'AddStory') {
-                  //     setState(() {
-                  //       storyImage = postFile;
-                  //     });
-                  //   } else if (widget.id == 'AddPost') {
-                  //     setState(() {
-                  //       _file = postFile;
-                  //     });
-                  //   }
-                  // } else if (newValue == 'Camera') {
-                  //   log('1');
-                  //   final postFile = await pickImage(ImageSource.camera);
-                  //   if (widget.id == 'AddStory') {
-                  //     setState(() {
-                  //       storyImage = postFile;
-                  //     });
-                  //   } else if (widget.id == 'AddPost') {
-                  //     setState(() {
-                  //       _file = postFile;
-                  //     });
-                  //   }
-                  // } else if (newValue == 'WatsApp image') {
-                  //   log('2');
-                  //   final postFile = await pickImage(ImageSource.gallery);
-                  //   if (widget.id == 'AddStory') {
-                  //     setState(() {
-                  //       storyImage = postFile;
-                  //     });
-                  //   } else if (widget.id == 'AddPost') {
-                  //     setState(() {
-                  //       _file = postFile;
-                  //     });
-                  //   }
-                  // } else if (newValue == 'Stibnite image') {
-                  //   log('3');
-                  //   final postFile = await pickImage(ImageSource.gallery);
-                  //   if (widget.id == 'AddStory') {
-                  //     setState(() {
-                  //       storyImage = postFile;
-                  //     });
-                  //   } else if (widget.id == 'AddPost') {
-                  //     setState(() {
-                  //       _file = postFile;
-                  //     });
-                  //   }
-                  // }
+                  if (newValue == 'Gallery') {
+                    final postFile = await pickImage(ImageSource.gallery);
+
+                    _file.value = postFile;
+
+                    // }
+                  } else if (newValue == 'Camera') {
+                    final postFile = await pickImage(ImageSource.camera);
+
+                    _file.value = postFile;
+                  } else if (newValue == 'WatsApp image') {
+                    final postFile = await pickImage(ImageSource.gallery);
+
+                    _file.value = postFile;
+                  } else if (newValue == 'Stibnite image') {
+                    final postFile = await pickImage(ImageSource.gallery);
+
+                    _file.value = postFile;
+                  }
                 },
               );
             },

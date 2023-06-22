@@ -36,6 +36,7 @@ class passwordGet extends StatelessWidget {
             SizedBox(
               height: 50,
               child: Cupertino_textfield(
+                   maxlengh: 30,
                   backgroundcolour: ktransaparent,
                   placeholderText: 'Password..',
                   borderradiusValue: 10,

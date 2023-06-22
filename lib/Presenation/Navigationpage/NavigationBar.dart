@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
-import 'package:instagram_clone/Presenation/AddPost/Addpost_screen.dart';
+import 'package:instagram_clone/Presenation/AddPost/NewPost.dart';
 import 'package:instagram_clone/Presenation/Home/Home_screen.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/webMainpage.dart';
 import 'package:instagram_clone/Presenation/Notification/Notification_screen.dart';

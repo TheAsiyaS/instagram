@@ -34,7 +34,6 @@ class LoginScreen extends StatelessWidget {
               flex: 2,
               child: Container(),
             ),
-            //Instagram Logo Img
             Text('Instagram',
                 style: GoogleFonts.grandHotel(
                   fontSize: 45,
@@ -45,6 +44,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 50,
               child: Cupertino_textfield(
+                  maxlengh: 30,
                   placeholderText: 'Enter your E-mail adress',
                   borderradiusValue: 5,
                   borderwidthValue: 0,
@@ -64,6 +64,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 50,
               child: Cupertino_textfield(
+                  maxlengh: 30,
                   placeholderText: 'Enter your Password',
                   borderradiusValue: 5,
                   borderwidthValue: 0,
@@ -80,7 +81,6 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-
             SizedBox(
               width: double.infinity,
               height: 45,
@@ -97,8 +97,8 @@ class LoginScreen extends StatelessWidget {
                             icon: Icons.remove,
                             message: 'Something error occured !!!')));
                   } else {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) => const NavigationPage()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => const NavigationPage()));
                   }
                 },
                 child: const Text(

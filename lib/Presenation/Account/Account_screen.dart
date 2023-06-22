@@ -19,10 +19,15 @@ class AccountScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: h10,
-          title: Text(
-            currentuserdata.username,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
-          ),
+          title: ValueListenableBuilder(
+              valueListenable: username,
+              builder: (context, snapshot, _) {
+                return Text(
+                  username.value,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 23),
+                );
+              }),
         ),
         endDrawer: Drawer(
           child: ListView.separated(
@@ -93,20 +98,27 @@ class AccountScreen extends StatelessWidget {
                         ],
                       ),
                       ValueListenableBuilder(
-                        valueListenable: name,
-                        builder: (context, snapshot,_) {
-                          return Text(name.value);
-                        }
-                      ),
+                          valueListenable: name,
+                          builder: (context, snapshot, _) {
+                            return Text(
+                              name.value,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            );
+                          }),
                       SizedBox(
                         height: size.height / 12,
                         width: size.width / 1.4,
-                        child: Text(
-                          currentuserdata.bio,
-                          maxLines: 3,
-                          style: const TextStyle(fontSize: 15),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        child: ValueListenableBuilder(
+                            valueListenable: bio,
+                            builder: (context, snapshot, _) {
+                              return Text(
+                                bio.value,
+                                maxLines: 3,
+                                style: const TextStyle(fontSize: 15),
+                                overflow: TextOverflow.ellipsis,
+                              );
+                            }),
                       )
                     ],
                   ),
