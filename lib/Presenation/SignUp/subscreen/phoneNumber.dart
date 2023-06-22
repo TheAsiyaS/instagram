@@ -6,6 +6,8 @@ import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+ValueNotifier<String> gphonenumber = ValueNotifier('');
+
 class phoneNumberGet extends StatelessWidget {
   const phoneNumberGet({Key? key}) : super(key: key);
 
@@ -17,19 +19,26 @@ class phoneNumberGet extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           h30,
-          IntlPhoneField(
-            //controller: phonNoController,
-            decoration: const InputDecoration(
-                hintText: 'Phone Number',
-                border: OutlineInputBorder(),
-                fillColor: Color.fromARGB(255, 90, 88, 88),
-                filled: true),
-            onSubmitted: (PhoneNumber) {
-              log("PhoneNumber-----$PhoneNumber");
-              if (PhoneNumber.isEmpty) {
-                return;
-              } else {}
-            },
+         ValueListenableBuilder(
+            valueListenable: gphonenumber,
+            builder: (context, snapshot,_) {
+              return IntlPhoneField(
+                //controller: phonNoController,
+                decoration: const InputDecoration(
+                    hintText: 'Phone Number',
+                    border: OutlineInputBorder(),
+                    fillColor: Color.fromARGB(255, 90, 88, 88),
+                    filled: true),
+                onSubmitted: (phoneNumber) {
+                  log("PhoneNumber-----$phoneNumber");
+                  if (phoneNumber.isEmpty || phoneNumber.length < 10) {
+                    gphonenumber.value = 'Incorrect Phone number';
+                  } else {
+                    gphonenumber.value = phoneNumber;
+                  }
+                },
+              );
+            }
           ),
           const Text(
             'You may recieve SMS Notification from us for security and login purposes',

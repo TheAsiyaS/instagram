@@ -8,6 +8,7 @@ import 'package:instagram_clone/utenslis/variables.dart';
 
   final TextEditingController UsernameController = TextEditingController();
 
+// ignore: must_be_immutable
 class UsernameGet extends StatelessWidget {
   UsernameGet({Key? key}) : super(key: key);
 ValueNotifier<String> message = ValueNotifier('');
@@ -74,7 +75,7 @@ ValueNotifier<String> message = ValueNotifier('');
                           message.value = 'Maximum letters can be 20';
                         } else {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: ((context) => passwordGet())));
+                              builder: ((context) => passwordGet(username: UsernameController.text))));
                         }
                       },
                       child: const Text(

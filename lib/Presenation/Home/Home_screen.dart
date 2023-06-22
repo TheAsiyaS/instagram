@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
@@ -47,14 +48,20 @@ class HomeScreen extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             children: List.generate(
                                 10,
-                                (index) => const Column(
+                                (index) => Column(
                                       children: [
-                                        CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: NetworkImage(
-                                              'https://i0.wp.com/blog.apilayer.com/wp-content/uploads/2022/11/pexels-photo-574073.jpeg?resize=1132%2C694&ssl=1'),
+                                        GestureDetector(
+                                          onTap: () {
+                                            print(
+                                                'username : ${currentuserdata.username}');
+                                          },
+                                          child: const CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: NetworkImage(
+                                                'https://i0.wp.com/blog.apilayer.com/wp-content/uploads/2022/11/pexels-photo-574073.jpeg?resize=1132%2C694&ssl=1'),
+                                          ),
                                         ),
-                                        Text('Username')
+                                        const Text('Username')
                                       ],
                                     )),
                           ),

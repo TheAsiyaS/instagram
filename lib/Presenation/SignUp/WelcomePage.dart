@@ -1,12 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/AddUser.dart';
+import 'package:instagram_clone/Presenation/SignUp/AddFacebookfriends.dart';
+import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
+import 'package:instagram_clone/Presenation/SignUp/subscreen/phoneNumber.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/Presenation/widget/TextButton.dart';
 
-class welcome extends StatelessWidget {
-  const welcome({Key? key}) : super(key: key);
+ValueNotifier<String> welcomepagemessage = ValueNotifier('');
 
+class welcome extends StatelessWidget {
+  const welcome({Key? key, required this.username, required this.password})
+      : super(key: key);
+  final String username;
+  final String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +41,33 @@ class welcome extends StatelessWidget {
               style: TextStyle(color: kGrey),
             ),
             h30,
-            Elevated_button(
-                elevatedbutttonwidget: const Text('Complete Sign-Up'),
-                elevatedbutttonid: 'SignUp_complete',
-                elevatedbuttonstyle: ElevatedButton.styleFrom()),
-            h10,                      
+            ElevatedButton(
+                onPressed: () async {
+                  log('username: $username password $password');
+                  if (gphonenumber.value == 'Incorrect Phone number' ||
+                      gphonenumber.value == '') {
+                    log('ph');
+                  } else if (gemail.value == 'Incorrect email' &&
+                          gemail.value == 'email adress is empty' ||
+                      gemail.value == '') {
+                    log('em');
+                  } else if (username.isEmpty || password.isEmpty) {
+                    log('u,p, emp');
+                  } else {
+                    await AuthMethod().signUp(
+                      bio: '',
+                      email: EmailContoller.text,
+                      istory: false,
+                      password: password,
+                      PhNo: gphonenumber.value,
+                      username: username,
+                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: ((context) => const AddFacebookFreinds())));
+                  }
+                },
+                child: const Text('Complete Sign-Up')),
+            h10,
             Textbutton(
                 textbuttonwidget:
                     const Text('Add new Phone Number or Email Addrress'),

@@ -5,8 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Domain/DB/Model/Usermodel.dart';
 
-
-late final G_uid;
+String? G_uid;
 
 //create a classs for signUp user [with firebase]
 class AuthMethod {
@@ -33,7 +32,6 @@ class AuthMethod {
     required String username,
     required String bio,
     required bool istory,
-   
   }) async {
     //Register App
     try {
@@ -44,7 +42,6 @@ class AuthMethod {
       G_uid = cred.user!.uid;
       final docUser = _firestore.collection('user').doc(cred.user!.uid);
       final data = UserData(
-       
           highLight: false,
           PhoneNumber: PhNo,
           IsStory: istory,
@@ -62,22 +59,41 @@ class AuthMethod {
     }
   }
 
-  Future<void> addProfilePic({
-    required Uint8List file,
-  }) async {
+  Future<String> addProfilePic({required Uint8List file, uid}) async {
     try {
-      if (file != null) {
-        final DocUser =
-            FirebaseFirestore.instance.collection('user').doc(G_uid);
+      if (file.isNotEmpty) {
+        final docuser =
+            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
         log('Uid----$G_uid');
         String photoUrl = await storageMethords()
             .uploadImageToStorage('profilePics', file, false);
-        DocUser.update({'photoUrl': photoUrl});
+        docuser.update({'photoUrl': photoUrl});
         log('Photo Url -----$photoUrl');
+        return photoUrl;
       }
     } catch (e) {
       log(e.toString());
+      return e.toString();
     }
+    return '';
+  }
+
+  Future<String> updateName({required String name, uid}) async {
+    try {
+      if (name.isNotEmpty) {
+        final docuser =
+            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
+        log('Uid----$G_uid');
+
+        docuser.update({'name': name});
+        log('Photo Url -----$name');
+        return name;
+      }
+    } catch (e) {
+      log(e.toString());
+      return e.toString();
+    }
+    return '';
   }
 
   Future<bool> loginUser(

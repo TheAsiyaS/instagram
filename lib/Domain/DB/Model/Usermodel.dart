@@ -12,7 +12,7 @@ class UserData {
   final String bio;
   final bool IsStory;
   final bool highLight;
-
+  String? name;
   UserData(
       {required this.PhoneNumber,
       this.uid,
@@ -24,7 +24,8 @@ class UserData {
       required this.bio,
       required this.follower,
       required this.following,
-      required this.highLight});
+      required this.highLight,
+      this.name});
 
   Map<String, dynamic> tojson() => {
         'PhoneNumber': PhoneNumber,
@@ -38,6 +39,7 @@ class UserData {
         'bio': bio,
         'IsStory': IsStory,
         'highLight': highLight,
+        'name': name,
       };
 
   static UserData fromSnap(DocumentSnapshot snap) {
@@ -56,6 +58,7 @@ class UserData {
       following: snapshot['following'],
       photoUrl: snapshot['photoUrl'],
       uid: snapshot['uid'],
+      name: snapshot['name'],
     );
   }
 }

@@ -6,12 +6,14 @@ import 'package:instagram_clone/utenslis/Sizes.dart';
 
 final TextEditingController passwordController = TextEditingController();
 
+// ignore: camel_case_types, must_be_immutable
 class passwordExtraWidget extends StatelessWidget {
-  const passwordExtraWidget({
+  passwordExtraWidget({
     Key? key,
     required this.Screentitle,
     required this.screenSubTitle,
     this.screenIcon,
+   required this.username,
     this.ScreenextraText,
     this.textButton,
   }) : super(key: key);
@@ -21,6 +23,7 @@ class passwordExtraWidget extends StatelessWidget {
   final Icon? screenIcon;
   final String? ScreenextraText;
   final TextButton? textButton;
+  final String username;
   @override
   Widget build(BuildContext context) {
     ValueNotifier<bool> isTouch = ValueNotifier(false);
@@ -45,7 +48,7 @@ class passwordExtraWidget extends StatelessWidget {
           SizedBox(
             height: 50,
             child: Cupertino_textfield(
-               backgroundcolour: ktransaparent,
+                backgroundcolour: ktransaparent,
                 placeholderText: 'Password..',
                 borderradiusValue: 10,
                 borderwidthValue: 1,
@@ -80,9 +83,12 @@ class passwordExtraWidget extends StatelessWidget {
             ],
           ),
           Elevated_button(
-              elevatedbuttonstyle: ElevatedButton.styleFrom(),
-              elevatedbutttonwidget: const Text('Next'),
-              elevatedbutttonid: 'PasswordGet'),
+            elevatedbuttonstyle: ElevatedButton.styleFrom(),
+            elevatedbutttonwidget: const Text('Next'),
+            elevatedbutttonid: 'PasswordGet',
+            password: passwordController.text,
+            username: username,
+          ),
         ],
       ),
     );

@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/AddUser.dart';
+import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
 import 'package:instagram_clone/Presenation/SignUp/Username_get.dart';
 import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
+import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 
 class Cupertino_textfield extends StatelessWidget {
@@ -53,13 +57,24 @@ class Cupertino_textfield extends StatelessWidget {
           passwordController.text = value;
         } else if (textfieldId == 'UsernameGet') {
           UsernameController.text = value;
+        } else if (textfieldId == 'emailGet') {
+          EmailContoller.text = value;
+        } else if (textfieldId == 'name_edite_profile') {
+          namecontroller.text = value;
         }
       },
-      onChanged: (value) {
+      onChanged: (value) async {
         if (textfieldId == 'PasswordGet') {
           passwordController.text = value;
         } else if (textfieldId == 'UsernameGet') {
           UsernameController.text = value;
+        } else if (textfieldId == 'emailGet') {
+
+          EmailContoller.text = value;
+        } else if (textfieldId == 'name_edite_profile') {
+          namecontroller.text = value;
+          await AuthMethod().updateName(name: value, uid: currentuserdata.uid);
+          name.value = value;
         }
       },
     );

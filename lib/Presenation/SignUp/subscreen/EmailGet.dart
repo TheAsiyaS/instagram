@@ -5,6 +5,7 @@ import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
 final TextEditingController EmailContoller = TextEditingController();
+ValueNotifier<String> gemail = ValueNotifier('');
 
 class EmailGet extends StatelessWidget {
   const EmailGet({Key? key}) : super(key: key);
@@ -19,11 +20,11 @@ class EmailGet extends StatelessWidget {
           SizedBox(
             height: 50,
             child: Cupertino_textfield(
-              backgroundcolour: ktransaparent,
+              backgroundcolour: ktransaparentGrey,
                 placeholderText: 'E-mail adress...',
                 borderradiusValue: 10,
                 borderwidthValue: 2,
-                borderColor: kGrey,
+                borderColor: ktransaparent,
                 controller: EmailContoller,
                 textfieldId: 'emailGet',
                 placeholderStyle: const TextStyle(color: kGrey),

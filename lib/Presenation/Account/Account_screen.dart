@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
@@ -17,9 +19,9 @@ class AccountScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: h10,
-          title: const Text(
-            'username',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+          title: Text(
+            currentuserdata.username,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
           ),
         ),
         endDrawer: Drawer(
@@ -50,16 +52,16 @@ class AccountScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       h10,
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           CircleAvatar(
                             radius: 50,
                             backgroundImage: NetworkImage(
-                              'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+                              profile,
                             ),
                           ),
-                          Column(
+                          const Column(
                             children: [
                               Text('000',
                                   style:
@@ -71,32 +73,38 @@ class AccountScreen extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                '000',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                currentuserdata.follower.length.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                               h10,
-                              Text('Followers'),
+                              const Text('Followers'),
                             ],
                           ),
                           Column(
                             children: [
-                              Text('000',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text(currentuserdata.following.length.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
                               h10,
-                              Text('Following'),
+                              const Text('Following'),
                             ],
                           ),
                         ],
                       ),
-                      h10,
+                      ValueListenableBuilder(
+                        valueListenable: name,
+                        builder: (context, snapshot,_) {
+                          return Text(name.value);
+                        }
+                      ),
                       SizedBox(
                         height: size.height / 12,
                         width: size.width / 1.4,
-                        child: const Text(
-                          'To set the three texts "posts", "following", and "followers" just below the texts "000", "000", and "000" in the provided code, you can modify the Column widget as follows:you to stack multiple widgets vertically. ',
+                        child: Text(
+                          currentuserdata.bio,
                           maxLines: 3,
-                          style: TextStyle(fontSize: 15),
+                          style: const TextStyle(fontSize: 15),
                           overflow: TextOverflow.ellipsis,
                         ),
                       )

@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/AddUser.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/Presenation/SignUp/Username_get.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
+import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
@@ -83,19 +87,19 @@ class LoginScreen extends StatelessWidget {
               child: ElevatedButton(
                 focusNode: FocusNode(),
                 onPressed: () async {
-                  // final res = await AuthMethod().loginUser(
-                  //     Email: emailAddress.text, Password: Password.text);
-                  // log(res.toString());
-                  // if (res == false) {
-                  //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  //       backgroundColor: Colors.red,
-                  //       content: SnackbarWidget(
-                  //           icon: Icons.remove,
-                  //           message: 'Something error occured !!!')));
-                  // } else {
+                  final res = await AuthMethod().loginUser(
+                      Email: emailAddress.text, Password: password.text);
+                  log(res.toString());
+                  if (res == false) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: SnackbarWidget(
+                            icon: Icons.remove,
+                            message: 'Something error occured !!!')));
+                  } else {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (ctx) => const NavigationPage()));
-                  // }
+                  }
                 },
                 child: const Text(
                   'Login',
