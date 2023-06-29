@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
@@ -18,9 +18,9 @@ class SearchScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: size.height/17, 
+              height: size.height / 17,
               child: Cupertino_textfield(
-                   maxlengh: 20,
+                  maxlengh: 20,
                   backgroundcolour: ktransaparentGrey,
                   placeholderText: 'Search',
                   borderradiusValue: 10,
@@ -40,37 +40,61 @@ class SearchScreen extends StatelessWidget {
                   isobscure: false),
             ),
             Expanded(
-              child: SizedBox(
-                height: size.height / 1.5,
-                child: GridView.custom(
-                    gridDelegate: SliverQuiltedGridDelegate(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 3,
-                      crossAxisSpacing: 3,
-                      repeatPattern: QuiltedGridRepeatPattern.inverted,
-                      pattern: [
-                        const QuiltedGridTile(1, 1),
-                        const QuiltedGridTile(1, 1),
-                        const QuiltedGridTile(2, 1),
-                        const QuiltedGridTile(1, 1),
-                        const QuiltedGridTile(1, 1),
-                        const QuiltedGridTile(1, 1),
-                        const QuiltedGridTile(1, 1),
-                        const QuiltedGridTile(1, 1),
-                      ],
-                    ),
-                    childrenDelegate: SliverChildBuilderDelegate(childCount: 30,
-                        (context, index) {
-                      return Container(
-                        decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 48, 48, 48),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://www.vieribottazzini.com/wp-content/uploads/X1DII1_00190_slide.jpg'),
-                                fit: BoxFit.cover)),
+              child: StreamBuilder(
+                  stream:
+                      FirebaseFirestore.instance.collection('post').snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: kwhite,
+                        ),
                       );
-                    })),
-              ),
+                    }
+                    if (snapshot.hasError) {
+                      return const Center(child: Text('Some Error occured'));
+                    }
+                    return SizedBox(
+                      height: size.height / 1.5,
+                      child: GridView.custom(
+                          gridDelegate: SliverQuiltedGridDelegate(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 3,
+                            crossAxisSpacing: 3,
+                            repeatPattern: QuiltedGridRepeatPattern.inverted,
+                            pattern: [
+                              const QuiltedGridTile(1, 1),
+                              const QuiltedGridTile(1, 1),
+                              const QuiltedGridTile(2, 1),
+                              const QuiltedGridTile(1, 1),
+                              const QuiltedGridTile(1, 1),
+                              const QuiltedGridTile(1, 1),
+                              const QuiltedGridTile(1, 1),
+                              const QuiltedGridTile(1, 1),
+                            ],
+                          ),
+                          childrenDelegate: SliverChildBuilderDelegate(
+                              childCount: snapshot.data!.docs.length,
+                              (context, index) {
+                            final data = snapshot.data!.docs[index];
+                            String colorString = data['filtercolor'];
+                            String extractedCode = colorString.substring(
+                                6, colorString.length - 1);
+                            final parscode = int.parse(extractedCode);
+                            return Container(
+                              decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 48, 48, 48),
+                                  image: DecorationImage(
+                                      image: NetworkImage(data['postUrl']),
+                                      fit: BoxFit.cover)),
+                              child: Container(
+                                color: Color(parscode),
+                              ),
+                            );
+                          })),
+                    );
+                  }),
             )
           ],
         ),

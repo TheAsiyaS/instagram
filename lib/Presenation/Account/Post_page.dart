@@ -1,25 +1,71 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Presenation/Account/PostListPage.dart';
+
+import '../../utenslis/Colors.dart';
 
 class Postpage extends StatelessWidget {
-  const Postpage({super.key});
-
+  const Postpage({super.key, required this.uid});
+  final String uid;
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 3,
-      childAspectRatio: 1 / 1,
-      mainAxisSpacing: 3,
-      crossAxisSpacing: 3,
-      children: List.generate(
-          45,
-          (index) => Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(
-                          'https://imagekit.io/blog/content/images/2019/12/image-optimization.jpg',
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('post')
+            .where('uid', isEqualTo: uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: kwhite,
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text('Some Error occurred'),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Text('No post yet!!');
+          } else {
+            return GridView.count(
+                crossAxisCount: 3,
+                childAspectRatio: 1 / 1,
+                mainAxisSpacing: 3,
+                crossAxisSpacing: 3,
+                children: List.generate(snapshot.data!.docs.length, (index) {
+                  final data = snapshot.data!.docs[index];
+                  String colorString = data['filtercolor'];
+                  String extractedCode =
+                      colorString.substring(6, colorString.length - 1);
+                  final parscode = int.parse(extractedCode);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostListPage(
+                            posts: snapshot.data!.docs,
+                            initialPostIndex: index,
+                          ),
                         ),
-                        fit: BoxFit.cover)),
-              )),
-    );
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                data['postUrl'],
+                              ),
+                              fit: BoxFit.cover)),
+                      child: Container(
+                        color: Color(parscode),
+                      ),
+                    ),
+                  );
+                }));
+          }
+        });
   }
 }

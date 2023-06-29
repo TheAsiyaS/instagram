@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:instagram_clone/Domain/DB/Insfrastructure/AddUser.dart';
-import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
+import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
 import 'package:instagram_clone/Presenation/SignUp/Username_get.dart';
 import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
+import 'package:instagram_clone/utenslis/variables.dart';
 
 class Cupertino_textfield extends StatelessWidget {
   const Cupertino_textfield(
@@ -21,7 +20,8 @@ class Cupertino_textfield extends StatelessWidget {
       required this.suffixWidget,
       required this.keyboardInputTyoe,
       required this.isobscure,
-      required this.backgroundcolour, required this.maxlengh});
+      required this.backgroundcolour,
+      required this.maxlengh});
   final String placeholderText;
   final double borderradiusValue;
   final double borderwidthValue;
@@ -34,11 +34,11 @@ class Cupertino_textfield extends StatelessWidget {
   final TextInputType keyboardInputTyoe;
   final bool isobscure;
   final Color backgroundcolour;
-    final int maxlengh;
+  final int maxlengh;
   @override
   Widget build(BuildContext context) {
     return CupertinoTextField(
-      maxLength:maxlengh ,
+      maxLength: maxlengh,
       placeholder: placeholderText,
       placeholderStyle: placeholderStyle,
       prefix: prefixWidget,
@@ -62,9 +62,17 @@ class Cupertino_textfield extends StatelessWidget {
         } else if (textfieldId == 'emailGet') {
           EmailContoller.text = value;
         } else if (textfieldId == 'name_edite_profile') {
-          controller.text = value;
+          name.value = value;
         } else if (textfieldId == 'username_edite_profile') {
-          controller.text = value;
+          editeusername.value = value;
+        }else if (textfieldId == 'bio_edite_profile') {
+          bio.value = value;
+          
+          bio.value = value;
+        }  else if (textfieldId == 'getEmailadressLogin') {
+          emailAddress.text = value;
+        } else if (textfieldId == 'getpasswordLogin') {
+          password.text = value;
         }
       },
       onChanged: (value) async {
@@ -76,19 +84,21 @@ class Cupertino_textfield extends StatelessWidget {
           EmailContoller.text = value;
         } else if (textfieldId == 'name_edite_profile') {
           controller.text = value;
-          await AuthMethod().updateName(name: value, uid: currentuserdata.uid);
+
           name.value = value;
         } else if (textfieldId == 'username_edite_profile') {
           controller.text = value;
-          await AuthMethod()
-              .updateUsername(username: value, uid: currentuserdata.uid);
-          username.value = value;
+          editeusername.value = value;
         } else if (textfieldId == 'bio_edite_profile') {
-          controller.text = value;
-          await AuthMethod().updateBio(bio: value, uid: currentuserdata.uid);
           bio.value = value;
+       
+          bio.value = value;
+        } else if (textfieldId == 'getEmailadressLogin') {
+          emailAddress.text = value;
+        } else if (textfieldId == 'getpasswordLogin') {
+          password.text = value;
         }
       },
     );
-  }
+  }//bio_edite_profile
 }

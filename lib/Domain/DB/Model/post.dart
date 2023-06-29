@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class post {
+class PostModel {
   final String description;
   final String username;
   final String ProfileImage;
@@ -11,7 +11,8 @@ class post {
   final likes;
   final String Location;
   final String music;
-  post({
+  final String filtercolor;
+  PostModel({
     required this.Location,
     required this.music,
     required this.description,
@@ -22,6 +23,7 @@ class post {
     required this.postId,
     required this.datePublish,
     required this.postUrl,
+    required this.filtercolor
   });
 
   Map<String, dynamic> tojson() => {
@@ -35,13 +37,14 @@ class post {
         'likes': likes,
         'Location': Location,
         'music': music,
+        'filtercolor':filtercolor
       };
 
-  static post fromSnap(DocumentSnapshot snap) {
+  static PostModel fromSnap(DocumentSnapshot snap) {
     //convert user snapshot to userdataObj
     var snapshot = snap.data()
         as Map<String, dynamic>; //declare userdata as Map<string , dynamic>
-    return post(
+    return PostModel(
       music: snap['music'],
       Location: snap['Location'],
       description: snapshot['description'],
@@ -52,6 +55,7 @@ class post {
       ProfileImage: snapshot['ProfileImage'],
       likes: snapshot['likes'],
       uid: snapshot['uid'],
+      filtercolor:snapshot['filtercolor'],
     );
   }
 }

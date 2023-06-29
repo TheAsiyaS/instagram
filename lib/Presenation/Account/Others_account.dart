@@ -1,0 +1,253 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:instagram_clone/Presenation/Account/Post_page.dart';
+import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
+import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
+import 'package:instagram_clone/main.dart';
+import 'package:instagram_clone/utenslis/Colors.dart';
+import 'package:instagram_clone/utenslis/Icons.dart';
+import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:instagram_clone/utenslis/variables.dart';
+
+class OthersProfile extends StatelessWidget {
+  const OthersProfile({super.key, required this.uid});
+  final String uid;
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return DefaultTabController(
+      length: 2,
+      child: FutureBuilder<DocumentSnapshot>(
+          future: FirebaseFirestore.instance.collection('user').doc(uid).get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: kwhite,
+                  strokeWidth: 2,
+                ),
+              );
+            } else if (!snapshot.hasData || snapshot.hasError) {
+              return const Text('No user found!!!');
+            } else {
+              var userData = snapshot.data!.data() as Map<String, dynamic>;
+              return Scaffold(
+                appBar: AppBar(
+                  leading: h10,
+                  title: Text(
+                    userData['username'],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 23),
+                  ),
+                ),
+                body: SafeArea(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: size.height / 3.7,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              h10,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: NetworkImage(
+                                      userData['photoUrl'],
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('post')
+                                              .where('uid', isEqualTo: uid)
+                                              .snapshots(),
+                                          builder: (context, snapshot) {
+                                            if (!snapshot.hasData ||
+                                                snapshot.data!.docs.isEmpty) {
+                                              return const Text('0');
+                                            } else {
+                                              return Text(
+                                                  "${snapshot.data!.docs.length}",
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold));
+                                            }
+                                          }),
+                                      h10,
+                                      const Text('Posts'),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        currentuserdata.follower.length
+                                            .toString(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      h10,
+                                      const Text('Followers'),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                          currentuserdata.following.length
+                                              .toString(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      h10,
+                                      const Text('Following'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              h10,
+                              Text(
+                                userData['name'],
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              h5,
+                              SizedBox(  
+                                height: size.height / 12,
+                                width: size.width / 1.4,
+                                child: ValueListenableBuilder(
+                                    valueListenable: newbio,
+                                    builder: (context, snapshot, _) {
+                                      return Text(
+                                        userData['bio'],
+                                        maxLines: 3,
+                                        style: const TextStyle(fontSize: 15),
+                                        overflow: TextOverflow.ellipsis,
+                                      );
+                                    }),
+                              )
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                              width: size.width / 2.6,
+                              child: Elevated_button(
+                                  elevatedbutttonwidget: const Text('Follow'),
+                                  elevatedbutttonid: 'follow_inaccount',
+                                  elevatedbuttonstyle: ElevatedButton.styleFrom(
+                                      backgroundColor: kblue)),
+                            ),
+                            SizedBox(
+                              width: size.width / 2.6,
+                              child: Elevated_button(
+                                  elevatedbutttonwidget: const Text('Message'),
+                                  elevatedbutttonid: 'message_inaccount',
+                                  elevatedbuttonstyle: ElevatedButton.styleFrom(
+                                      backgroundColor: kgreydarktrans)),
+                            ),
+                          ],
+                        ),
+                        h10,
+                        const Text(
+                          'Story Highlights',
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        h10,
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                        Border.all(color: kwhite, width: 1.5),
+                                  ),
+                                  child: const Icon(
+                                    kadd,
+                                    size: 35,
+                                  ),
+                                ),
+                                h10,
+                                const Text('New')
+                              ],
+                            ),
+                            SizedBox(
+                              width: size.width / 1.3,
+                              height: size.height / 7,
+                              child: GridView.count(
+                                scrollDirection: Axis.horizontal,
+                                crossAxisCount: 1,
+                                children: List.generate(
+                                  1,
+                                  (index) => Column(
+                                    children: [
+                                      const CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(
+                                            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg'),
+                                      ),
+                                      h10,
+                                      Text('New$index')
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        TabBar(
+                          isScrollable: true,
+                          labelColor: kwhite,
+                          unselectedLabelColor: kGrey,
+                          indicatorColor: kGrey,
+                          indicatorPadding:
+                              const EdgeInsets.symmetric(horizontal: 30),
+                          tabs: [
+                            Tab(
+                              child: SizedBox(
+                                  height: 50,
+                                  width: size.width / 3,
+                                  // color: kred,
+                                  child: const Align(
+                                      alignment: Alignment.center,
+                                      child: Icon(kgrid))),
+                            ),
+                            Tab(
+                              child: SizedBox(
+                                  height: 50,
+                                  width: size.width / 3,
+                                  // color: kred,
+                                  child: const Align(
+                                      alignment: Alignment.center,
+                                      child: Icon(kaddAccount))),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                            height: size.height / 1.5,
+                            child: TabBarView(children: [
+                              Postpage(uid: uid),
+                              const Tagpage()
+                            ]))
+                      ],
+                    ),
+                  ),
+                )),
+              );
+            }
+          }),
+    );
+  }
+}

@@ -2,19 +2,18 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone/Domain/DB/Insfrastructure/AddUser.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Domain/imagePick.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
+import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
+import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
-String profile = currentuserdata.photoUrl ??
-    'https://selvamtech.edu.in/wp-content/uploads/2014/05/no-user-image.gif';
+import '../../utenslis/variables.dart';
 
-ValueNotifier<String> name = ValueNotifier(currentuserdata.name ?? "");
-ValueNotifier<String> username = ValueNotifier(currentuserdata.username);
-ValueNotifier<String> bio = ValueNotifier(currentuserdata.bio);
+
 
 class Editeprofile extends StatefulWidget {
   const Editeprofile({super.key});
@@ -24,7 +23,8 @@ class Editeprofile extends StatefulWidget {
 }
 
 class _EditeprofileState extends State<Editeprofile> {
-  bool? isImage;
+  bool isImage = false;
+  bool isLoading = false;
   final TextEditingController namecontroller = TextEditingController();
   Uint8List? image;
   Future<void> selectImage() async {
@@ -40,10 +40,22 @@ class _EditeprofileState extends State<Editeprofile> {
     });
   }
 
+  final String isImageget = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          Iconbuttons(
+              icon: const Icon(
+                kcheck,
+                color: kblue,
+                size: 30,
+              ),
+              iconId: 'check_in_edite',
+              style: IconButton.styleFrom())
+        ],
+      ),
       body: SafeArea(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -51,16 +63,28 @@ class _EditeprofileState extends State<Editeprofile> {
         children: [
           GestureDetector(
             onTap: () async {
+              setState(() {
+                isLoading = true;
+              });
               await selectImage();
               final url = await AuthMethod()
                   .addProfilePic(file: image!, uid: currentuserdata.uid);
               setState(() {
-                profile = url;
+                profile.value = url;
+              });
+              setState(() {
+                isLoading = false;
               });
             },
             child: CircleAvatar(
               radius: 60,
-              backgroundImage: NetworkImage(profile),
+              backgroundImage: NetworkImage(profile.value),
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: kwhite,
+                    )
+                  : h10,
             ),
           ),
           const Align(
@@ -71,8 +95,8 @@ class _EditeprofileState extends State<Editeprofile> {
             ),
           ),
           Cupertino_textfield(
-            maxlengh: 20,
-              placeholderText: currentuserdata.name ?? '',
+              maxlengh: 20,
+              placeholderText: newname.value,
               borderradiusValue: 0,
               borderwidthValue: 0,
               borderColor: ktransaparent,
@@ -97,8 +121,8 @@ class _EditeprofileState extends State<Editeprofile> {
             ),
           ),
           Cupertino_textfield(
-               maxlengh: 20,
-              placeholderText: currentuserdata.username,
+              maxlengh: 20,
+              placeholderText: editeusername.value,
               borderradiusValue: 0,
               borderwidthValue: 0,
               borderColor: ktransaparent,
@@ -123,8 +147,8 @@ class _EditeprofileState extends State<Editeprofile> {
             ),
           ),
           Cupertino_textfield(
-               maxlengh: 120,
-              placeholderText: currentuserdata.bio,
+              maxlengh: 120,
+              placeholderText: bio.value,
               borderradiusValue: 0,
               borderwidthValue: 0,
               borderColor: ktransaparent,

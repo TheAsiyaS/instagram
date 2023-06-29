@@ -3,13 +3,14 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/Domain/imagePick.dart';
+import 'package:instagram_clone/Presenation/AddPost/EditePost.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 
 final photoPickList = ['Gallery', 'Camera', 'WatsApp image', 'Facebook image'];
 
 ValueNotifier<String> dropInitValue = ValueNotifier('Gallery');
 
-ValueNotifier<Uint8List?> _file = ValueNotifier(null);
+ValueNotifier<Uint8List?> file = ValueNotifier(null);
 
 class AddpostScreen extends StatelessWidget {
   const AddpostScreen({super.key});
@@ -22,8 +23,12 @@ class AddpostScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => ImageGalleryScreen()));
+                if (file.value != null) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => EditePost(imagePath: file.value!)));
+                } else {
+                  print('No data found');
+                }
               },
               icon: const Icon(Icons.arrow_forward))
         ],
@@ -34,15 +39,15 @@ class AddpostScreen extends StatelessWidget {
           Expanded(
               flex: 2,
               child: ValueListenableBuilder(
-                  valueListenable: _file,
+                  valueListenable: file,
                   builder: (context, snapshot, _) {
                     return Stack(children: [
-                      _file.value != null
+                      file.value != null
                           ? Container(
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 image: DecorationImage(
-                                    image: MemoryImage(_file.value!),
+                                    image: MemoryImage(file.value!),
                                     fit: BoxFit.cover),
                               ),
                             )
@@ -133,7 +138,6 @@ class AddpostScreen extends StatelessWidget {
 class DropdownImagePick extends StatelessWidget {
   DropdownImagePick({super.key, required this.id});
   String id;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -160,21 +164,21 @@ class DropdownImagePick extends StatelessWidget {
                   if (newValue == 'Gallery') {
                     final postFile = await pickImage(ImageSource.gallery);
 
-                    _file.value = postFile;
+                    file.value = postFile;
 
                     // }
                   } else if (newValue == 'Camera') {
                     final postFile = await pickImage(ImageSource.camera);
 
-                    _file.value = postFile;
+                    file.value = postFile;
                   } else if (newValue == 'WatsApp image') {
                     final postFile = await pickImage(ImageSource.gallery);
 
-                    _file.value = postFile;
+                    file.value = postFile;
                   } else if (newValue == 'Stibnite image') {
                     final postFile = await pickImage(ImageSource.gallery);
 
-                    _file.value = postFile;
+                    file.value = postFile;
                   }
                 },
               );

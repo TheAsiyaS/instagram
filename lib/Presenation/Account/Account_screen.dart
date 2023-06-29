@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
+import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:instagram_clone/utenslis/variables.dart';
+
+
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -20,10 +23,10 @@ class AccountScreen extends StatelessWidget {
         appBar: AppBar(
           leading: h10,
           title: ValueListenableBuilder(
-              valueListenable: username,
+              valueListenable: newusername,
               builder: (context, snapshot, _) {
                 return Text(
-                  username.value,
+                  newusername.value,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 23),
                 );
@@ -52,7 +55,7 @@ class AccountScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: size.height / 4,
+                  height: size.height / 3.7,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -60,19 +63,37 @@ class AccountScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(
-                              profile,
-                            ),
-                          ),
-                          const Column(
+                          ValueListenableBuilder(
+                              valueListenable: profile,
+                              builder: (context, snapshot, _) {
+                                return CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: NetworkImage(
+                                    profile.value,
+                                  ),
+                                );
+                              }),
+                          Column(
                             children: [
-                              Text('000',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('post')
+                                      .where('uid',
+                                          isEqualTo: currentuserdata.uid)
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData ||
+                                        snapshot.data!.docs.isEmpty) {
+                                      return const Text('0');
+                                    } else {
+                                      return Text(
+                                          "${snapshot.data!.docs.length}",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold));
+                                    }
+                                  }),
                               h10,
-                              Text('Posts'),
+                              const Text('Posts'),
                             ],
                           ),
                           Column(
@@ -97,23 +118,25 @@ class AccountScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      h10,
                       ValueListenableBuilder(
-                          valueListenable: name,
+                          valueListenable: newname,
                           builder: (context, snapshot, _) {
                             return Text(
-                              name.value,
+                              newname.value,
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             );
                           }),
+                      h5,
                       SizedBox(
                         height: size.height / 12,
                         width: size.width / 1.4,
                         child: ValueListenableBuilder(
-                            valueListenable: bio,
+                            valueListenable: newbio,
                             builder: (context, snapshot, _) {
                               return Text(
-                                bio.value,
+                                newbio.value,
                                 maxLines: 3,
                                 style: const TextStyle(fontSize: 15),
                                 overflow: TextOverflow.ellipsis,
@@ -172,9 +195,16 @@ class AccountScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: kwhite, width: 1.5),
                           ),
-                          child: const Icon(
-                            kadd,
-                            size: 35,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const OthersProfile(
+                                      uid: 'nJBWucQnNsfK7dJO89uKIy9cXMB2')));
+                            },
+                            child: const Icon(
+                              kadd,
+                              size: 35,
+                            ),
                           ),
                         ),
                         h10,
@@ -188,7 +218,7 @@ class AccountScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         crossAxisCount: 1,
                         children: List.generate(
-                          10,
+                          1,
                           (index) => Column(
                             children: [
                               const CircleAvatar(
@@ -233,7 +263,10 @@ class AccountScreen extends StatelessWidget {
                 ),
                 SizedBox(
                     height: size.height / 1.5,
-                    child: TabBarView(children: [Postpage(), Tagpage()]))
+                    child: TabBarView(children: [
+                      Postpage(uid: currentuserdata.uid!),
+                      const Tagpage()
+                    ]))
               ],
             ),
           ),
@@ -242,4 +275,4 @@ class AccountScreen extends StatelessWidget {
     );
   }
 }
-//bio max 3 
+//bio max 3

@@ -6,7 +6,6 @@ import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/Presenation/widget/Title_subtitle.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
-  final TextEditingController UsernameController = TextEditingController();
 
 // ignore: must_be_immutable
 class UsernameGet extends StatelessWidget {
