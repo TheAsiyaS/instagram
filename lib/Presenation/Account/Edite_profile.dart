@@ -6,6 +6,7 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Domain/imagePick.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';

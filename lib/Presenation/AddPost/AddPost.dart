@@ -8,6 +8,7 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Presenation/AddPost/NewPost.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/utenslis/variables.dart';

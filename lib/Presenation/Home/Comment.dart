@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/utenslis/variables.dart';

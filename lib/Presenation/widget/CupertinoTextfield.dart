@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
-import 'package:instagram_clone/Presenation/SignUp/Username_get.dart';
 import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';

@@ -1,21 +1,22 @@
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-
+import 'package:instagram_clone/Domain/DB/Model/Usermodel.dart';
 
 import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/utenslis/variables.dart';
 
 import 'Domain/DB/Insfrastructure/Userfunctions.dart';
 
+late UserData currentuserdata;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
-  currentuserdata = await AuthMethod().getUserDetail();
+currentuserdata  = await AuthMethod().getUserDetail();
+  //log("data : ${data}");
 }
 
 class MyApp extends StatelessWidget {

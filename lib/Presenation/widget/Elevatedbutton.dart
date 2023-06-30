@@ -69,7 +69,7 @@ class Elevated_button extends StatelessWidget {
             await AuthMethod().signUp(
               bio: 'Flutter Dev..',
               email: EmailContoller.text,
-              isStory: false,
+            
               password: password!,
               phoneNo: gphonenumber.value,
               username: username!,

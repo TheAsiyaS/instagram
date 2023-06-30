@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';

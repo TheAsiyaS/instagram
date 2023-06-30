@@ -57,7 +57,7 @@ class welcome extends StatelessWidget {
                     await AuthMethod().signUp(
                       bio: '',
                       email: EmailContoller.text,
-                      isStory: false,
+                     
                       password: password,
                       phoneNo: gphonenumber.value,
                       username: username,

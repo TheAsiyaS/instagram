@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
-import 'package:instagram_clone/utenslis/variables.dart';
 import 'package:intl/intl.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,7 +21,11 @@ class HomeScreen extends StatelessWidget {
     final ValueNotifier<int> itemCount = ValueNotifier(1);
     final ValueNotifier<List> likes = ValueNotifier([]);
     final ValueNotifier<int> commentLength = ValueNotifier(0);
-
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      currentuserdata = await AuthMethod().getUserDetail();
+      print(
+          '----------------${currentuserdata.bio}----------------------------------');
+    });
     return Scaffold(
       body: ValueListenableBuilder(
         valueListenable: _direction,
@@ -56,7 +61,11 @@ class HomeScreen extends StatelessWidget {
                               (index) => Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () async {
+                                      final data =
+                                          await AuthMethod().getUserDetail();
+                                      print('-----------${data.bio}');
+                                    },
                                     child: const CircleAvatar(
                                       radius: 50,
                                       backgroundImage: NetworkImage(
@@ -161,7 +170,7 @@ class HomeScreen extends StatelessWidget {
                                               postid: data['postId'],
                                               date: formattedDate.value,
                                               description: data['description'],
-                                              profileimg: data['ProfileImage'], 
+                                              profileimg: data['ProfileImage'],
                                               uid: data['uid'],
                                               username: data['username'],
                                               style: IconButton.styleFrom(),
@@ -326,5 +335,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-

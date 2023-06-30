@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Domain/DB/Model/Usermodel.dart';
+import 'package:instagram_clone/utenslis/variables.dart';
 
 String? gUid;
 
@@ -14,11 +15,16 @@ class AuthMethod {
 
   Future<UserData> getUserDetail() async {
     User? currentUser = _auth.currentUser;
-    DocumentSnapshot snapshot = await _firestore
-        .collection('user')
-        .doc(currentUser!.uid)
-        .get();
-    return UserData.fromSnap(snapshot);
+    log('current user uid ${currentUser!.uid}');
+    DocumentSnapshot snapshot =
+        await _firestore.collection('user').doc(currentUser.uid).get();
+    log('current user snapshot ${snapshot.data()}');
+
+    if (snapshot.exists) {
+      return UserData.fromSnap(snapshot);
+    } else {
+      throw Exception("User document does not exist");
+    }
   }
 
   Future<void> signUp({
@@ -27,7 +33,7 @@ class AuthMethod {
     required String phoneNo,
     required String username,
     required String bio,
-    required bool isStory,
+    
   }) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
@@ -37,9 +43,9 @@ class AuthMethod {
       gUid = credential.user!.uid;
       final docUser = _firestore.collection('user').doc(credential.user!.uid);
       final data = UserData(
-        highlight: false,
+        changeUsername: 0,
         phoneNumber: phoneNo,
-        isStory: isStory,
+        dateJoin: DateTime.now().toString(),
         username: username,
         email: email,
         password: password,
@@ -47,6 +53,11 @@ class AuthMethod {
         follower: [],
         following: [],
         uid: credential.user!.uid,
+        posts: [],
+        savePosts: [],
+        acLocation: '',
+        name: '',
+        photoUrl: noimg,
       );
       final decodedJsonObj = data.toJson();
       await docUser.set(decodedJsonObj);
@@ -61,8 +72,8 @@ class AuthMethod {
         final docUser =
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
         log('Uid----$gUid');
-        String photoUrl =
-            await StorageMethods().uploadImageToStorage('profilePics', file, false);
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
         docUser.update({'photoUrl': photoUrl});
         log('Photo Url -----$photoUrl');
         return photoUrl;
@@ -73,6 +84,35 @@ class AuthMethod {
     }
     return '';
   }
+
+
+  Future<bool> loginUser(
+      {required String email, required String password}) async {
+    if (email.isEmpty || password.isEmpty) {
+      return false;
+    } else {
+      try {
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+      } catch (e) {
+        log(e.toString());
+        return false;
+      }
+      log('user can login success');
+      return true;
+    }
+  }
+
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
+
+
+
+  
+
+/*---------------------------------------------update-----------------------------------*/
+
 
   Future<void> updateName({required String name, uid}) async {
     try {
@@ -110,22 +150,15 @@ class AuthMethod {
     }
   }
 
-  Future<bool> loginUser({required String email, required String password}) async {
-    if (email.isEmpty || password.isEmpty) {
-      return false;
-    } else {
-      try {
-        await _auth.signInWithEmailAndPassword(email: email, password: password);
-      } catch (e) {
-        log(e.toString());
-        return false;
+  Future<void> updatepots({required String postuid, uid}) async {
+    try {
+      if (postuid.isNotEmpty) {
+        final docUser =
+            FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
+        docUser.update({'posts': postuid});
       }
-      log('user can login success');
-      return true;
+    } catch (e) {
+      log(e.toString());
     }
-  }
-
-  Future<void> logout() async {
-    await _auth.signOut();
   }
 }
