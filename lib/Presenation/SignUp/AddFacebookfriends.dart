@@ -31,17 +31,17 @@ class AddFacebookFreinds extends StatelessWidget {
               'You choose who to follow ,and we\'ll never post to facebook without your permission',
               style: TextStyle(color: kGrey),
             ),
-            h50,
+            sizedBoxHeight50,
             Elevated_button(
                 elevatedbutttonwidget: const Text('Find Firends'),
                 elevatedbutttonid: '',
                 elevatedbuttonstyle: ElevatedButton.styleFrom()),
-            h20,
+            sizedBoxHeight20,
             const Text(
               '----and 20 other friends using Instagram',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            h20,
+            sizedBoxHeight20,
             TextButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(

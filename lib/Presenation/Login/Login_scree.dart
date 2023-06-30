@@ -43,40 +43,40 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 50,
-              child: Cupertino_textfield(
-                  maxlengh: 30,
+              child: CupertinotextField(
+                  maxLength: 30,
                   placeholderText: 'Enter your E-mail adress',
-                  borderradiusValue: 5,
-                  borderwidthValue: 0,
-                  borderColor: ktransaparent,
+                  borderRadiusValue: 5,
+                  borderWidthValue: 0,
+                  borderColor: kTransparent,
                   controller: emailAddress,
                   textfieldId: 'getEmailadressLogin',
                   placeholderStyle: const TextStyle(color: kGrey),
-                  prefixWidget: w2,
-                  suffixWidget: w2,
-                  keyboardInputTyoe: TextInputType.emailAddress,
-                  isobscure: false,
-                  backgroundcolour: ktransaparentGrey),
+                  prefixWidget: sizedBoxWidth2,
+                  suffixWidget: sizedBoxWidth2,
+                  keyboardInputType: TextInputType.emailAddress,
+                  isObscure: false,
+                  backgroundColour: kTransparentGrey),
             ),
             const SizedBox(
               height: 24,
             ),
             SizedBox(
               height: 50,
-              child: Cupertino_textfield(
-                  maxlengh: 30,
+              child: CupertinotextField(
+                  maxLength: 30,
                   placeholderText: 'Enter your Password',
-                  borderradiusValue: 5,
-                  borderwidthValue: 0,
-                  borderColor: ktransaparent,
+                  borderRadiusValue: 5,
+                  borderWidthValue: 0,
+                  borderColor: kTransparent,
                   controller: emailAddress,
                   textfieldId: 'getpasswordLogin',
                   placeholderStyle: const TextStyle(color: kGrey),
-                  prefixWidget: w2,
-                  suffixWidget: w2,
-                  keyboardInputTyoe: TextInputType.name,
-                  isobscure: false,
-                  backgroundcolour: ktransaparentGrey),
+                  prefixWidget: sizedBoxWidth2,
+                  suffixWidget: sizedBoxWidth2,
+                  keyboardInputType: TextInputType.name,
+                  isObscure: false,
+                  backgroundColour: kTransparentGrey),
             ),
             const SizedBox( 
               height: 12,
@@ -88,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                 focusNode: FocusNode(),
                 onPressed: () async {
                   final res = await AuthMethod().loginUser(
-                      Email: emailAddress.text, Password: password.text);
+                      email: emailAddress.text, password: password.text);
                   log(res.toString());
                   if (res == false) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                     child: const Text(
                       'Get help with Logging in.',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, color: kwhite),
+                          TextStyle(fontWeight: FontWeight.bold, color: kWhite),
                     )),
               ],
             ),
@@ -148,7 +148,7 @@ class LoginScreen extends StatelessWidget {
                     child: const Text(
                       'Sign Up',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, color: kwhite),
+                          TextStyle(fontWeight: FontWeight.bold, color: kWhite),
                     ))
               ],
             )

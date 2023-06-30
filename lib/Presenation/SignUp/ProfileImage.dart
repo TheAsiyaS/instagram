@@ -63,7 +63,7 @@ class _addProfilePicState extends State<addProfilePic> {
               'Add a profile photo \nso that your friends can konw\'s it\'s you',
               style: TextStyle(color: kGrey),
             ),
-            h20,
+            sizedBoxHeight20,
             ElevatedButton(
                 onPressed: () async {
                   await selectImage();
@@ -75,7 +75,7 @@ class _addProfilePicState extends State<addProfilePic> {
                       (route) => false);
                 },
                 child: const Text('Add Photo')),
-            h10,
+            sizedBoxHeight10,
             Textbutton(
                 textbuttonwidget: const Text('Skip'),
                 textbuttonid: '',

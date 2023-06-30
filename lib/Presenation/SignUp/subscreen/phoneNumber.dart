@@ -18,7 +18,7 @@ class phoneNumberGet extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          h30,
+          sizedBoxHeight30,
          ValueListenableBuilder(
             valueListenable: gphonenumber,
             builder: (context, snapshot,_) {
@@ -44,7 +44,7 @@ class phoneNumberGet extends StatelessWidget {
             'You may recieve SMS Notification from us for security and login purposes',
             style: TextStyle(color: kGrey),
           ),
-          h20,
+          sizedBoxHeight20,
           Elevated_button(
               elevatedbutttonwidget: const Text('Next'),
               elevatedbutttonid: 'PhoneNumberGet',

@@ -6,7 +6,6 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart'
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
-import '../../main.dart';
 
 final TextEditingController commentController = TextEditingController();
 
@@ -66,7 +65,7 @@ class commentScreen extends StatelessWidget {
                         ),
                       ),
                       const Divider(
-                        color: kwhite,
+                        color: kWhite,
                       ),
                       Expanded(
                         flex: 10,
@@ -84,7 +83,7 @@ class commentScreen extends StatelessWidget {
                                   ConnectionState.waiting) {
                                 return const Center(
                                   child: CircularProgressIndicator(
-                                    color: kwhite,
+                                    color: kWhite,
                                     strokeWidth: 2,
                                   ),
                                 );
@@ -119,7 +118,7 @@ class commentScreen extends StatelessWidget {
                                     );
                                   },
                                   separatorBuilder: (context, index) {
-                                    return h50;
+                                    return sizedBoxHeight50;
                                   },
                                   itemCount: snapshot.data!.docs.length);
                             }),
@@ -156,7 +155,7 @@ class addComment extends StatelessWidget {
               currentuserdata.photoUrl ?? noimg,
             ),
           ),
-          w10,
+          sizedBoxWidth20,
           Expanded(
             child: TextFormField(
               controller: commentController,
@@ -165,13 +164,13 @@ class addComment extends StatelessWidget {
           ),
           TextButton(
               onPressed: () async {
-                final res = await firestoreMethods().Uploadcomment(
-                  commentController.text,
-                  currentuserdata.username,
-                  currentuserdata.photoUrl ?? noimg,
-                  postId,
-                  currentuserdata.uid!,
-                  date,
+                final res = await FirestoreMethods().uploadComment(
+                  comment: commentController.text,
+                  datePublished: date,
+                  postId: postId,
+                  profileImage: currentuserdata.photoUrl ?? noimg,
+                  uid: currentuserdata.uid!,
+                  username: currentuserdata.username,
                 );
 
                 if (res == true) {
@@ -219,7 +218,7 @@ class commets extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,  
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CircleAvatar(
               backgroundImage: NetworkImage(
@@ -227,10 +226,10 @@ class commets extends StatelessWidget {
               ),
               radius: 25,
             ),
-            w10, 
+            sizedBoxWidth10,
             Expanded(
               child: RichText(
-                maxLines: 3, 
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
                   style: DefaultTextStyle.of(context).style,
@@ -261,12 +260,12 @@ class commets extends StatelessWidget {
                 style: const TextStyle(color: kGrey),
               ),
             ),
-            w10,
+            sizedBoxWidth10,
             Text(
               "$NoOflikes $likeText",
               style: const TextStyle(color: kGrey),
             ),
-            w10,
+            sizedBoxWidth10,
             Text(
               suffixtext,
               style: const TextStyle(color: kGrey),
@@ -279,13 +278,7 @@ class commets extends StatelessWidget {
     );
   }
 }
-/*
-1.make Model for comment
-2.Func for storing comment
 
-Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the RenderFlex to fit within the available space instead of being sized to their natural size.
-This is considered an error condition because it indicates that there is content that cannot be seen. If the content is legitimately bigger than the available space, consider clipping it with a ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex, like a ListView.
- */
 
 
 

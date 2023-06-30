@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
@@ -23,7 +22,7 @@ class OthersProfile extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: kwhite,
+                  color: kWhite,
                   strokeWidth: 2,
                 ),
               );
@@ -33,7 +32,7 @@ class OthersProfile extends StatelessWidget {
               var userData = snapshot.data!.data() as Map<String, dynamic>;
               return Scaffold(
                 appBar: AppBar(
-                  leading: h10,
+                  leading: sizedBoxHeight10,
                   title: Text(
                     userData['username'],
                     style: const TextStyle(
@@ -52,7 +51,7 @@ class OthersProfile extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              h10,
+                              sizedBoxHeight10,
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -82,7 +81,7 @@ class OthersProfile extends StatelessWidget {
                                                           FontWeight.bold));
                                             }
                                           }),
-                                      h10,
+                                      sizedBoxHeight10,
                                       const Text('Posts'),
                                     ],
                                   ),
@@ -94,7 +93,7 @@ class OthersProfile extends StatelessWidget {
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      h10,
+                                      sizedBoxHeight10,
                                       const Text('Followers'),
                                     ],
                                   ),
@@ -105,19 +104,19 @@ class OthersProfile extends StatelessWidget {
                                               .toString(),
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
-                                      h10,
+                                      sizedBoxHeight10,
                                       const Text('Following'),
                                     ],
                                   ),
                                 ],
                               ),
-                              h10,
+                              sizedBoxHeight10,
                               Text(
                                 userData['name'],
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
-                              h5,
+                              sizedBoxHeight5,
                               SizedBox(  
                                 height: size.height / 12,
                                 width: size.width / 1.4,
@@ -144,7 +143,7 @@ class OthersProfile extends StatelessWidget {
                                   elevatedbutttonwidget: const Text('Follow'),
                                   elevatedbutttonid: 'follow_inaccount',
                                   elevatedbuttonstyle: ElevatedButton.styleFrom(
-                                      backgroundColor: kblue)),
+                                      backgroundColor: kBlue)),
                             ),
                             SizedBox(
                               width: size.width / 2.6,
@@ -152,16 +151,16 @@ class OthersProfile extends StatelessWidget {
                                   elevatedbutttonwidget: const Text('Message'),
                                   elevatedbutttonid: 'message_inaccount',
                                   elevatedbuttonstyle: ElevatedButton.styleFrom(
-                                      backgroundColor: kgreydarktrans)),
+                                      backgroundColor: kGreyDarkTrans)),
                             ),
                           ],
                         ),
-                        h10,
+                        sizedBoxHeight10,
                         const Text(
                           'Story Highlights',
                           style: TextStyle(fontSize: 17),
                         ),
-                        h10,
+                        sizedBoxHeight10,
                         Row(
                           children: [
                             Column(
@@ -172,14 +171,14 @@ class OthersProfile extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border:
-                                        Border.all(color: kwhite, width: 1.5),
+                                        Border.all(color: kWhite, width: 1.5),
                                   ),
                                   child: const Icon(
                                     kadd,
                                     size: 35,
                                   ),
                                 ),
-                                h10,
+                                sizedBoxHeight10,
                                 const Text('New')
                               ],
                             ),
@@ -198,7 +197,7 @@ class OthersProfile extends StatelessWidget {
                                         backgroundImage: NetworkImage(
                                             'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg'),
                                       ),
-                                      h10,
+                                      sizedBoxHeight10,
                                       Text('New$index')
                                     ],
                                   ),
@@ -209,7 +208,7 @@ class OthersProfile extends StatelessWidget {
                         ),
                         TabBar(
                           isScrollable: true,
-                          labelColor: kwhite,
+                          labelColor: kWhite,
                           unselectedLabelColor: kGrey,
                           indicatorColor: kGrey,
                           indicatorPadding:

@@ -32,7 +32,7 @@ class Elevated_button extends StatelessWidget {
         if (elevatedbutttonid == 'PasswordGet') {
           if (passwordController.text.length < 6) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                backgroundColor: kred,
+                backgroundColor: kRed,
                 content: SnackbarWidget(
                     icon: Icons.add, message: 'Password must be 6 character')));
           } else {
@@ -69,9 +69,9 @@ class Elevated_button extends StatelessWidget {
             await AuthMethod().signUp(
               bio: 'Flutter Dev..',
               email: EmailContoller.text,
-              istory: false,
+              isStory: false,
               password: password!,
-              PhNo: gphonenumber.value,
+              phoneNo: gphonenumber.value,
               username: username!,
             );
             Navigator.of(context).push(MaterialPageRoute(
@@ -85,7 +85,7 @@ class Elevated_button extends StatelessWidget {
           }
         } else if (elevatedbutttonid == 'editprofile_inaccount') {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: ((context) => const Editeprofile())));
+              MaterialPageRoute(builder: ((context) => const EditProfile())));
         }
       },
       style: elevatedbuttonstyle,

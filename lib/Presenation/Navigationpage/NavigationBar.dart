@@ -32,8 +32,8 @@ class NavigationPage extends StatelessWidget {
         builder: (context, value, child) {
           return Scaffold(
             bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: kblack,
-                selectedItemColor: kwhite,
+                backgroundColor: kBlack,
+                selectedItemColor: kWhite,
                 unselectedItemColor: kGrey,
                 currentIndex: value,
                 onTap: (newindex) {

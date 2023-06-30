@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                                   return const Center(
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      color: kwhite,
+                                      color: kWhite,
                                     ),
                                   );
                                 } else if (snapshot.hasError) {
@@ -142,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                                                   ? const Icon(
                                                       kfavorite,
                                                       size: 29,
-                                                      color: kred,
+                                                      color: kRed,
                                                     )
                                                   : const Icon(
                                                       kfavorite_outline,
@@ -235,7 +235,7 @@ class HomeScreen extends StatelessWidget {
                                                 child:
                                                     CircularProgressIndicator(
                                                   strokeWidth: 2,
-                                                  color: kwhite,
+                                                  color: kWhite,
                                                 ),
                                               );
                                             } else if (snapshot.hasError) {
@@ -287,7 +287,7 @@ class HomeScreen extends StatelessWidget {
                   _direction.value
                       ? AnimatedContainer(
                           duration: const Duration(microseconds: 500),
-                          color: kblack,
+                          color: kBlack,
                           child: Row(
                             children: [
                               Text(
@@ -316,7 +316,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                         )
-                      : h10,
+                      : sizedBoxHeight10,
                 ],
               ),
             ),

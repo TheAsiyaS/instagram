@@ -108,7 +108,7 @@ class _PostListPageState extends State<PostListPage> {
                           ? const Icon(
                               kfavorite,
                               size: 29,
-                              color: kred,
+                              color: kRed,
                             )
                           : const Icon(
                               kfavorite_outline,
@@ -196,7 +196,7 @@ class _PostListPageState extends State<PostListPage> {
                       return const Center(
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: kwhite,
+                          color: kWhite,
                         ),
                       );
                     } else if (snapshot.hasError) {

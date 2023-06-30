@@ -16,25 +16,25 @@ class EmailGet extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 17),
       child: Column(
         children: [
-          h10,
+          sizedBoxHeight10,
           SizedBox(
             height: 50,
-            child: Cupertino_textfield(
-                 maxlengh: 30,
-              backgroundcolour: ktransaparentGrey,
+            child: CupertinotextField(
+                 maxLength: 30,
+              backgroundColour: kTransparentGrey,
                 placeholderText: 'E-mail adress...',
-                borderradiusValue: 10,
-                borderwidthValue: 2,
-                borderColor: ktransaparent,
+                borderRadiusValue: 10,
+                borderWidthValue: 2,
+                borderColor: kTransparent,
                 controller: EmailContoller,
                 textfieldId: 'emailGet',
                 placeholderStyle: const TextStyle(color: kGrey),
-                prefixWidget: h10,
-                suffixWidget: w2,
-                keyboardInputTyoe: TextInputType.emailAddress,
-                isobscure: false),
+                prefixWidget: sizedBoxHeight10,
+                suffixWidget: sizedBoxWidth2,
+                keyboardInputType: TextInputType.emailAddress,
+                isObscure: false),
           ),
-          h20,
+          sizedBoxHeight20,
           Elevated_button(
               elevatedbutttonwidget: const Text('Next'),
               elevatedbutttonid: 'NextEmailGet',

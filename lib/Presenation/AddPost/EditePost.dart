@@ -25,7 +25,7 @@ class EditePost extends StatelessWidget {
       'Nashville', //zyan
     ];
     const filters = [
-      ktransaparent,
+      kTransparent,
       Color.fromARGB(87, 34, 137, 221),
       Color.fromARGB(87, 17, 167, 125),
       Color.fromARGB(86, 124, 141, 16),
@@ -87,7 +87,7 @@ class EditePost extends StatelessWidget {
                         color: kGrey,
                       ))),
             ]),
-            h50,
+            sizedBoxHeight50,
             SizedBox(
               height: MediaQuery.of(context).size.height / 4.6,
               width: double.infinity,
@@ -131,7 +131,7 @@ class EditePost extends StatelessWidget {
                     onPressed: () {},
                     child: const Text(
                       'Fliter',
-                      style: TextStyle(fontSize: 20, color: kwhite),
+                      style: TextStyle(fontSize: 20, color: kWhite),
                     )),
                 TextButton(
                     onPressed: () {},

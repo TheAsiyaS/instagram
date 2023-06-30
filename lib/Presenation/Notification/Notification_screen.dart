@@ -60,7 +60,7 @@ class NotificationScreen extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (context, index) {
-                    return h20;
+                    return sizedBoxHeight10;
                   },
                   itemCount: 20),
             )

@@ -15,7 +15,7 @@ class Titlesubtitle extends StatelessWidget {
           title,
           style: titlestyle,
         ),
-        h10,
+        sizedBoxHeight10,
         Text(
           subtitle,
           style: subtitlestyle,

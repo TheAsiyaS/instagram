@@ -6,7 +6,6 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Domain/imagePick.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
@@ -14,158 +13,154 @@ import 'package:instagram_clone/utenslis/Sizes.dart';
 import '../../utenslis/variables.dart';
 
 
-
-class Editeprofile extends StatefulWidget {
-  const Editeprofile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({Key? key}) : super(key: key);
 
   @override
-  State<Editeprofile> createState() => _EditeprofileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _EditeprofileState extends State<Editeprofile> {
+class _EditProfileState extends State<EditProfile> {
   bool isImage = false;
   bool isLoading = false;
-  final TextEditingController namecontroller = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   Uint8List? image;
+
   Future<void> selectImage() async {
     Uint8List? img = await pickImage(ImageSource.gallery);
 
     setState(() {
       image = img;
-      if (img != null) {
-        isImage = true;
-      } else {
-        isImage = false;
-      }
+      isImage = img != null;
     });
   }
 
-  final String isImageget = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Iconbuttons(
+        appBar: AppBar(
+          actions: [
+            Iconbuttons(
               icon: const Icon(
                 kcheck,
-                color: kblue,
+                color: kBlue,
                 size: 30,
               ),
-              iconId: 'check_in_edite',
-              style: IconButton.styleFrom())
-        ],
-      ),
-      body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () async {
-              setState(() {
-                isLoading = true;
-              });
-              await selectImage();
-              final url = await AuthMethod()
-                  .addProfilePic(file: image!, uid: currentuserdata.uid);
-              setState(() {
-                profile.value = url;
-              });
-              setState(() {
-                isLoading = false;
-              });
-            },
-            child: CircleAvatar(
-              radius: 60,
-              backgroundImage: NetworkImage(profile.value),
-              child: isLoading
-                  ? const CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: kwhite,
-                    )
-                  : h10,
+              iconId: 'check_in_edit',
+              style: IconButton.styleFrom(),
             ),
-          ),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Name',
-              style: TextStyle(color: kGrey),
-            ),
-          ),
-          Cupertino_textfield(
-              maxlengh: 20,
-              placeholderText: newname.value,
-              borderradiusValue: 0,
-              borderwidthValue: 0,
-              borderColor: ktransaparent,
-              controller: namecontroller,
-              textfieldId: 'name_edite_profile',
-              placeholderStyle: const TextStyle(color: kwhite),
-              prefixWidget: h10,
-              suffixWidget: w2,
-              keyboardInputTyoe: TextInputType.name,
-              isobscure: false,
-              backgroundcolour: ktransaparent),
-          const Divider(
-            thickness: 1,
-            color: klightwhite,
-          ),
-          h20,
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Username',
-              style: TextStyle(color: kGrey),
-            ),
-          ),
-          Cupertino_textfield(
-              maxlengh: 20,
-              placeholderText: editeusername.value,
-              borderradiusValue: 0,
-              borderwidthValue: 0,
-              borderColor: ktransaparent,
-              controller: namecontroller,
-              textfieldId: 'username_edite_profile',
-              placeholderStyle: const TextStyle(color: kwhite),
-              prefixWidget: h10,
-              suffixWidget: w2,
-              keyboardInputTyoe: TextInputType.name,
-              isobscure: false,
-              backgroundcolour: ktransaparent),
-          const Divider(
-            thickness: 1,
-            color: klightwhite,
-          ),
-          h20,
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Bio',
-              style: TextStyle(color: kGrey),
-            ),
-          ),
-          Cupertino_textfield(
-              maxlengh: 120,
-              placeholderText: bio.value,
-              borderradiusValue: 0,
-              borderwidthValue: 0,
-              borderColor: ktransaparent,
-              controller: namecontroller,
-              textfieldId: 'bio_edite_profile',
-              placeholderStyle: const TextStyle(color: kwhite),
-              prefixWidget: h10,
-              suffixWidget: w2,
-              keyboardInputTyoe: TextInputType.name,
-              isobscure: false,
-              backgroundcolour: ktransaparent),
-          const Divider(
-            thickness: 1,
-            color: klightwhite,
-          ),
-        ],
-      )),
-    );
+          ],
+        ),
+        body: SafeArea(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              GestureDetector(
+                onTap: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  await selectImage();
+
+                  final url = await AuthMethod().addProfilePic(
+                    file: image!,
+                    uid: currentuserdata.uid,
+                  );
+
+                  setState(() {
+                    profile.value = url;
+                    isLoading = false;
+                  });
+                },
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundImage: NetworkImage(profile.value),
+                  child: isLoading
+                      ? const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: kWhite,
+                        )
+                      : sizedBoxHeight10,
+                ),
+              ),
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Name',
+                  style: TextStyle(color: kGrey),
+                ),
+              ),
+              CupertinotextField(
+                maxLength: 20,
+                placeholderText: newname.value,
+                borderRadiusValue: 0,
+                borderWidthValue: 0,
+                borderColor: kTransparent,
+                controller: nameController,
+                textfieldId: 'name_edit_profile',
+                placeholderStyle: const TextStyle(color: kWhite),
+                prefixWidget: sizedBoxHeight10,
+                suffixWidget: sizedBoxWidth2,
+                keyboardInputType: TextInputType.name,
+                isObscure: false,
+                backgroundColour: kTransparent,
+              ),
+              const Divider(
+                thickness: 1,
+                color: kLightWhite,
+              ),
+              sizedBoxHeight20,
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Username',
+                  style: TextStyle(color: kGrey),
+                ),
+              ),
+              CupertinotextField(
+                maxLength: 20,
+                placeholderText: editeusername.value,
+                borderRadiusValue: 0,
+                borderWidthValue: 0,
+                borderColor: kTransparent,
+                controller: nameController,
+                textfieldId: 'username_edit_profile',
+                placeholderStyle: const TextStyle(color: kWhite),
+                prefixWidget: sizedBoxHeight10,
+                suffixWidget: sizedBoxWidth2,
+                keyboardInputType: TextInputType.name,
+                isObscure: false,
+                backgroundColour: kTransparent,
+              ),
+              const Divider(
+                thickness: 1,
+                color: kLightWhite,
+              ),
+              sizedBoxHeight20,
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Bio',
+                  style: TextStyle(color: kGrey),
+                ),
+              ),
+              CupertinotextField(
+                maxLength: 120,
+                placeholderText: bio.value,
+                borderRadiusValue: 0,
+                borderWidthValue: 0,
+                borderColor: kTransparent,
+                controller: nameController,
+                textfieldId: 'bio_edit_profile',
+                placeholderStyle: const TextStyle(color: kWhite),
+                prefixWidget: sizedBoxHeight10,
+                suffixWidget: sizedBoxWidth2,
+                keyboardInputType: TextInputType.name,
+                isObscure: false,
+                backgroundColour: kTransparent,
+              )
+            ])));
   }
 }

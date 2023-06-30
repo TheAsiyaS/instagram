@@ -19,25 +19,25 @@ class SearchScreen extends StatelessWidget {
           children: [
             SizedBox(
               height: size.height / 17,
-              child: Cupertino_textfield(
-                  maxlengh: 20,
-                  backgroundcolour: ktransaparentGrey,
+              child: CupertinotextField(
+                  maxLength: 20,
+                  backgroundColour: kTransparentGrey,
                   placeholderText: 'Search',
-                  borderradiusValue: 10,
-                  borderwidthValue: 0,
+                  borderRadiusValue: 10,
+                  borderWidthValue: 0,
                   borderColor: kGrey,
                   controller: searchController,
                   textfieldId: 'Searchscreen_top',
                   placeholderStyle: const TextStyle(color: kGrey),
                   prefixWidget: const Row(
                     children: [
-                      w10,
+                      sizedBoxWidth10,
                       Icon(ksearchicon, color: kGrey),
                     ],
                   ),
-                  suffixWidget: h10,
-                  keyboardInputTyoe: TextInputType.name,
-                  isobscure: false),
+                  suffixWidget: sizedBoxHeight10,
+                  keyboardInputType: TextInputType.name,
+                  isObscure: false),
             ),
             Expanded(
               child: StreamBuilder(
@@ -48,7 +48,7 @@ class SearchScreen extends StatelessWidget {
                       return const Center(
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: kwhite,
+                          color: kWhite,
                         ),
                       );
                     }

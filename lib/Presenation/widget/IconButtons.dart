@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Presenation/Home/Comment.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
 // ignore: must_be_immutable
@@ -38,7 +37,7 @@ class Iconbuttons extends StatelessWidget {
         if (iconId == "fav_out_in_post") {
           if (postid!.isNotEmpty) {
             print('object');
-            firestoreMethods().postLike(currentuserdata.uid!, postid!, likes!);
+            FirestoreMethods().postLike(currentuserdata.uid!, postid!, likes!);
           } else {
             print('empty');
           }

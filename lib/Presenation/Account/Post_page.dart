@@ -19,7 +19,7 @@ class Postpage extends StatelessWidget {
             return const Center(
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: kwhite,
+                color: kWhite,
               ),
             );
           } else if (snapshot.hasError) {

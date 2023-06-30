@@ -35,12 +35,12 @@ class welcome extends StatelessWidget {
               'Welcome to Instagram,\nUsername',
               style: TextStyle(fontSize: 30),
             ),
-            h10,
+            sizedBoxHeight10,
             const Text(
               'we\'ll add the email address and phone number from ExtendedUser to Username.You can update this info at any time in your setting or enter new info now.',
               style: TextStyle(color: kGrey),
             ),
-            h30,
+            sizedBoxHeight30,
             ElevatedButton(
                 onPressed: () async {
                   log('username: $username password $password');
@@ -57,9 +57,9 @@ class welcome extends StatelessWidget {
                     await AuthMethod().signUp(
                       bio: '',
                       email: EmailContoller.text,
-                      istory: false,
+                      isStory: false,
                       password: password,
-                      PhNo: gphonenumber.value,
+                      phoneNo: gphonenumber.value,
                       username: username,
                     );
                     Navigator.of(context).push(MaterialPageRoute(
@@ -67,7 +67,7 @@ class welcome extends StatelessWidget {
                   }
                 },
                 child: const Text('Complete Sign-Up')),
-            h10,
+            sizedBoxHeight10,
             Textbutton(
                 textbuttonwidget:
                     const Text('Add new Phone Number or Email Addrress'),
@@ -85,23 +85,23 @@ class welcome extends StatelessWidget {
                     textbuttonwidget: const Text('Terms'),
                     textbuttonid: 'terms',
                     textbuttonstyle:
-                        TextButton.styleFrom(foregroundColor: kwhite)),
+                        TextButton.styleFrom(foregroundColor: kWhite)),
                 Textbutton(
                     textbuttonwidget: const Text('Privacy'),
                     textbuttonid: 'privacy',
                     textbuttonstyle:
-                        TextButton.styleFrom(foregroundColor: kwhite)),
+                        TextButton.styleFrom(foregroundColor: kWhite)),
                 Textbutton(
                     textbuttonwidget: const Text('Policy'),
                     textbuttonid: 'policy',
                     textbuttonstyle:
-                        TextButton.styleFrom(foregroundColor: kwhite)),
+                        TextButton.styleFrom(foregroundColor: kWhite)),
                 const Text('and'),
                 Textbutton(
                     textbuttonwidget: const Text('Cookie Policy'),
                     textbuttonid: 'cookie_policy',
                     textbuttonstyle:
-                        TextButton.styleFrom(foregroundColor: kwhite)),
+                        TextButton.styleFrom(foregroundColor: kWhite)),
               ],
             ),
           ],

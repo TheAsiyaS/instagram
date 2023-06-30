@@ -8,7 +8,6 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Presenation/AddPost/NewPost.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
@@ -88,12 +87,12 @@ class PostAdd extends StatelessWidget {
                   location = items.value[1];
                 }
 
-                final String postUrl = await storageMethords()
+                final String postUrl = await StorageMethods()
                     .uploadImageToStorage('Posts', imagepath, true);
 
                 if (postUrl.isNotEmpty) {
                   isloading.value = true;
-                  final isOk = await firestoreMethods().uploadPost(
+                  final isOk = await FirestoreMethods().uploadPost(
                       description: descriptionController.text,
                       imagePath: postUrl,
                       username: currentuserdata.username,
@@ -101,11 +100,11 @@ class PostAdd extends StatelessWidget {
                       uid: currentuserdata.uid!,
                       location: location ?? '',
                       music: music ?? '',
-                      filtercolor: filtercolor.toString());
+                      filterColor: filtercolor.toString());
 
                   if (isOk == true) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: kwhite,
+                        backgroundColor: kWhite,
                         content: SnackbarWidget(
                             icon: Icons.favorite,
                             message: 'Sucessfully Posted !')));
@@ -147,7 +146,7 @@ class PostAdd extends StatelessWidget {
                   children: [
                     isloading.value
                         ? const LinearProgressIndicator(
-                            color: kwhite,
+                            color: kWhite,
                           )
                         : Container(),
                     Padding(
@@ -157,7 +156,8 @@ class PostAdd extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 25,
-                            backgroundColor: ktransaparentGrey,
+                            backgroundColor: kTransparentGrey
+                            ,
                             backgroundImage:
                                 NetworkImage(currentuserdata.photoUrl ?? noimg),
                           ),
@@ -190,7 +190,7 @@ class PostAdd extends StatelessWidget {
                           onPressed: () {},
                           child: const Text(
                             'Tag People',
-                            style: TextStyle(color: kwhite, fontSize: 20),
+                            style: TextStyle(color: kWhite, fontSize: 20),
                           )),
                     ),
                     const Text('Add Location', style: TextStyle(fontSize: 20)),
@@ -209,7 +209,7 @@ class PostAdd extends StatelessWidget {
                                   });
                             },
                             separatorBuilder: (context, index) {
-                              return w20;
+                              return sizedBoxWidth20;
                             },
                             itemCount: CountryName.length)),
                     const Padding(
@@ -234,7 +234,7 @@ class PostAdd extends StatelessWidget {
                                   });
                             },
                             separatorBuilder: (context, index) {
-                              return w20;
+                              return sizedBoxWidth20;
                             },
                             itemCount: musicName.length)),
                     const Padding(
@@ -262,7 +262,7 @@ class PostAdd extends StatelessWidget {
                                 });
                           },
                         ),
-                        w20,
+                        sizedBoxWidth20,
                       ],
                     ),
                     Row(
@@ -285,10 +285,10 @@ class PostAdd extends StatelessWidget {
                                 });
                           },
                         ),
-                        w20,
+                        sizedBoxWidth20,
                       ],
                     ),
-                    h20,
+                    sizedBoxHeight20,
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: Text(
@@ -328,7 +328,7 @@ class PostAdd extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         children: [
-                          h10,
+                          sizedBoxHeight10,
                           const Text(
                             'Twitter',
                             style: TextStyle(
@@ -346,7 +346,7 @@ class PostAdd extends StatelessWidget {
                                   });
                             },
                           ),
-                          w20,
+                          sizedBoxWidth20,
                         ],
                       ),
                     )

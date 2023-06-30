@@ -93,7 +93,7 @@ class AddpostScreen extends StatelessWidget {
                     top: MediaQuery.of(context).size.height / 4.2,
                     left: MediaQuery.of(context).size.width / 2,
                     child: Card(
-                      color: ktransaparent,
+                      color: kTransparent,
                       child: Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2,
@@ -142,7 +142,7 @@ class DropdownImagePick extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kblackshade,
+      color: kBlackShade,
       height: MediaQuery.of(context).size.height / 13,
       width: double.infinity,
       child: Row(

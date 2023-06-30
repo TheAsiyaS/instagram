@@ -27,30 +27,30 @@ class passwordGet extends StatelessWidget {
               'Create Password',
               style: TextStyle(fontSize: 30),
             ),
-            h10,
+            sizedBoxHeight10,
             const Text(
               'For security, your password must be six \ncharacters or more',
               style: TextStyle(color: kGrey),
             ),
-            h10,
+            sizedBoxHeight10,
             SizedBox(
               height: 50,
-              child: Cupertino_textfield(
-                   maxlengh: 30,
-                  backgroundcolour: ktransaparent,
+              child: CupertinotextField(
+                   maxLength: 30,
+                  backgroundColour: kTransparent,
                   placeholderText: 'Password..',
-                  borderradiusValue: 10,
-                  borderwidthValue: 1,
+                  borderRadiusValue: 10,
+                  borderWidthValue: 1,
                   borderColor: kGrey,
                   controller: passwordController,
                   textfieldId: 'PasswordGet',
                   placeholderStyle: const TextStyle(color: kGrey),
-                  prefixWidget: w2,
-                  suffixWidget: w2,
-                  keyboardInputTyoe: TextInputType.name,
-                  isobscure: false),
+                  prefixWidget: sizedBoxWidth2,
+                  suffixWidget: sizedBoxWidth2,
+                  keyboardInputType: TextInputType.name,
+                  isObscure: false),
             ),
-            h10,
+            sizedBoxHeight10,
             Row(
               children: [
                 ValueListenableBuilder(
@@ -66,7 +66,7 @@ class passwordGet extends StatelessWidget {
                           isTouch.value
                               ? Icons.check_box_outline_blank
                               : Icons.check_box,
-                          color: isTouch.value ? kwhite : kblue,
+                          color: isTouch.value ? kWhite : kBlue,
                         ));
                   },
                 ),
