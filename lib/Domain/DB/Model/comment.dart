@@ -3,47 +3,46 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Comment {
   final String comment;
   final String username;
-  final String ProfileImage;
-  final String CommentId;
-  String? uid;
-  String DatePublished;
-  final likes;
+  final String profileImage;
+  String? commentId;
+  final String? uid;
+  final dynamic likes;
   final String postId;
+  final String datePublished;
+
   Comment({
     required this.comment,
     required this.likes,
     this.uid,
-    required this.ProfileImage,
+    required this.profileImage,
     required this.username,
     required this.postId,
-    required this.DatePublished,
-    required this.CommentId,
+    required this.datePublished,
+    this.commentId,
   });
 
-  Map<String, dynamic> tojson() => {
+  Map<String, dynamic> toJson() => {
         'comment': comment,
         'username': username,
         'postId': postId,
-        'CommentId': CommentId,
-        'ProfileImage': ProfileImage,
+        'commentId': commentId,
+        'profileImage': profileImage,
         'uid': uid,
         'likes': likes,
-        'datePublished': DatePublished,
+        'datePublished': datePublished,
       };
 
-  static Comment fromSnap(DocumentSnapshot snap) {
-    //convert user snapshot to userdataObj
-    var snapshot = snap.data()
-        as Map<String, dynamic>; //declare userdata as Map<string , dynamic>
+  static Comment fromSnap(DocumentSnapshot<Map<String, dynamic>> snap) {
+    final snapshot = snap.data();
     return Comment(
-      comment: snapshot['comment'],
+      comment: snapshot!['comment'],
       postId: snapshot['postId'],
-      CommentId: snapshot['CommentId'],
+      commentId: snapshot['commentId'],
       username: snapshot['username'],
-      ProfileImage: snapshot['ProfileImage'],
+      profileImage: snapshot['profileImage'],
       likes: snapshot['likes'],
       uid: snapshot['uid'],
-      DatePublished: snapshot['datePublished'],
+      datePublished: snapshot['datePublished'],
     );
   }
 }

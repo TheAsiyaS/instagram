@@ -1,59 +1,55 @@
 import 'dart:developer';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Domain/DB/Model/Usermodel.dart';
 
-String? G_uid;
+String? gUid;
 
-//create a classs for signUp user [with firebase]
 class AuthMethod {
-  //Intialise auth & firestore
-  //for register app
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //for add data to firebase
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-//get user details for stateManagement
+
   Future<UserData> getUserDetail() async {
     User? currentUser = _auth.currentUser;
     DocumentSnapshot snapshot = await _firestore
         .collection('user')
         .doc(currentUser!.uid)
-        .get(); //get current user's data
+        .get();
     return UserData.fromSnap(snapshot);
   }
 
-  //Method for signUp user
   Future<void> signUp({
     required String email,
     required String password,
-    required String PhNo,
+    required String phoneNo,
     required String username,
     required String bio,
-    required bool istory,
+    required bool isStory,
   }) async {
-    //Register App
     try {
-      UserCredential cred = await _auth.createUserWithEmailAndPassword(
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      G_uid = cred.user!.uid;
-      final docUser = _firestore.collection('user').doc(cred.user!.uid);
+      gUid = credential.user!.uid;
+      final docUser = _firestore.collection('user').doc(credential.user!.uid);
       final data = UserData(
-          highLight: false,
-          PhoneNumber: PhNo,
-          IsStory: istory,
-          username: username,
-          email: email,
-          password: password,
-          bio: bio,
-          follower: [],
-          following: [],
-          uid: cred.user!.uid);
-      final decodJsonObj = data.tojson();
-      await docUser.set(decodJsonObj);
+        highlight: false,
+        phoneNumber: phoneNo,
+        isStory: isStory,
+        username: username,
+        email: email,
+        password: password,
+        bio: bio,
+        follower: [],
+        following: [],
+        uid: credential.user!.uid,
+      );
+      final decodedJsonObj = data.toJson();
+      await docUser.set(decodedJsonObj);
     } catch (e) {
       log('=====!!!!!=$e=!!!!!!======');
     }
@@ -62,12 +58,12 @@ class AuthMethod {
   Future<String> addProfilePic({required Uint8List file, uid}) async {
     try {
       if (file.isNotEmpty) {
-        final docuser =
-            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
-        log('Uid----$G_uid');
-        String photoUrl = await storageMethords()
-            .uploadImageToStorage('profilePics', file, false);
-        docuser.update({'photoUrl': photoUrl});
+        final docUser =
+            FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
+        log('Uid----$gUid');
+        String photoUrl =
+            await StorageMethods().uploadImageToStorage('profilePics', file, false);
+        docUser.update({'photoUrl': photoUrl});
         log('Photo Url -----$photoUrl');
         return photoUrl;
       }
@@ -81,10 +77,9 @@ class AuthMethod {
   Future<void> updateName({required String name, uid}) async {
     try {
       if (name.isNotEmpty) {
-        final docuser =
-            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
-
-        docuser.update({'name': name});
+        final docUser =
+            FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
+        docUser.update({'name': name});
       }
     } catch (e) {
       log(e.toString());
@@ -94,48 +89,43 @@ class AuthMethod {
   Future<void> updateUsername({required String username, uid}) async {
     try {
       if (username.isNotEmpty) {
-        final docuser =
-            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
-
-        docuser.update({'username': username});
+        final docUser =
+            FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
+        docUser.update({'username': username});
       }
     } catch (e) {
       log(e.toString());
     }
-    return;
   }
+
   Future<void> updateBio({required String bio, uid}) async {
     try {
       if (bio.isNotEmpty) {
-        final docuser =
-            FirebaseFirestore.instance.collection('user').doc(G_uid ?? uid);
-
-        docuser.update({'bio': bio});
+        final docUser =
+            FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
+        docUser.update({'bio': bio});
       }
     } catch (e) {
       log(e.toString());
     }
-    return;
   }
 
-  Future<bool> loginUser(
-      {required String Email, required String Password}) async {
-    if (Email.isEmpty || Password.isEmpty) {
+  Future<bool> loginUser({required String email, required String password}) async {
+    if (email.isEmpty || password.isEmpty) {
       return false;
     } else {
       try {
-        await _auth.signInWithEmailAndPassword(
-            email: Email, password: Password);
+        await _auth.signInWithEmailAndPassword(email: email, password: password);
       } catch (e) {
         log(e.toString());
         return false;
       }
-      log('user can login sucess');
+      log('user can login success');
       return true;
     }
   }
 
-  Future<void> Logout() async {
+  Future<void> logout() async {
     await _auth.signOut();
   }
 }

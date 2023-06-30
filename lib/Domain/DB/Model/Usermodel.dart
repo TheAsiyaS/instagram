@@ -1,34 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserData {
-  final String PhoneNumber;
+  final String phoneNumber;
   final String username;
   String? photoUrl;
   final String email;
   final String password;
   String? uid;
-  final List follower;
-  final List following;
+  final List<dynamic> follower;
+  final List<dynamic> following;
   final String bio;
-  final bool IsStory;
-  final bool highLight;
+  final bool isStory;
+  final bool highlight;
   String? name;
-  UserData(
-      {required this.PhoneNumber,
-      this.uid,
-      required this.IsStory,
-      this.photoUrl,
-      required this.username,
-      required this.email,
-      required this.password,
-      required this.bio,
-      required this.follower,
-      required this.following,
-      required this.highLight,
-      this.name});
 
-  Map<String, dynamic> tojson() => {
-        'PhoneNumber': PhoneNumber,
+  UserData({
+    required this.phoneNumber,
+    this.uid,
+    required this.isStory,
+    this.photoUrl,
+    required this.username,
+    required this.email,
+    required this.password,
+    required this.bio,
+    required this.follower,
+    required this.following,
+    required this.highlight,
+    this.name,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'phoneNumber': phoneNumber,
         'username': username,
         'email': email,
         'password': password,
@@ -37,27 +39,25 @@ class UserData {
         'follower': follower,
         'following': following,
         'bio': bio,
-        'IsStory': IsStory,
-        'highLight': highLight,
+        'isStory': isStory,
+        'highlight': highlight,
         'name': name,
       };
 
   static UserData fromSnap(DocumentSnapshot snap) {
-    //convert user snapshot to userdataObj
-    var snapshot = snap.data()
-        as Map<String, dynamic>; //declare userdata as Map<string , dynamic>
+    var snapshot = snap.data() as Map<String, dynamic>;
     return UserData(
-      highLight: snapshot['highLight'],
-      IsStory: snapshot['IsStory'],
-      PhoneNumber: snapshot['PhoneNumber'],
-      bio: snapshot['bio'],
+      phoneNumber: snapshot['phoneNumber'],
+      username: snapshot['username'],
       email: snapshot['email'],
       password: snapshot['password'],
-      username: snapshot['username'],
-      follower: snapshot['follower'],
-      following: snapshot['following'],
       photoUrl: snapshot['photoUrl'],
       uid: snapshot['uid'],
+      follower: List<dynamic>.from(snapshot['follower']),
+      following: List<dynamic>.from(snapshot['following']),
+      bio: snapshot['bio'],
+      isStory: snapshot['isStory'],
+      highlight: snapshot['highlight'],
       name: snapshot['name'],
     );
   }

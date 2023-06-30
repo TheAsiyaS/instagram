@@ -3,59 +3,58 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PostModel {
   final String description;
   final String username;
-  final String ProfileImage;
+  final String profileImage;
   final String postId;
-  final String datePublish;
-  String? uid;
+  final String datePublished;
+  final String? uid;
   final String? postUrl;
-  final likes;
-  final String Location;
+  final dynamic likes;
+  final String location;
   final String music;
-  final String filtercolor;
+  final String filterColor;
+
   PostModel({
-    required this.Location,
+    required this.location,
     required this.music,
     required this.description,
     required this.likes,
     this.uid,
-    required this.ProfileImage,
+    required this.profileImage,
     required this.username,
     required this.postId,
-    required this.datePublish,
+    required this.datePublished,
     required this.postUrl,
-    required this.filtercolor
+    required this.filterColor,
   });
 
-  Map<String, dynamic> tojson() => {
+  Map<String, dynamic> toJson() => {
         'description': description,
         'username': username,
         'postId': postId,
-        'datePublish': datePublish,
-        'ProfileImage': ProfileImage,
+        'datePublished': datePublished,
+        'profileImage': profileImage,
         'uid': uid,
         'postUrl': postUrl,
         'likes': likes,
-        'Location': Location,
+        'location': location,
         'music': music,
-        'filtercolor':filtercolor
+        'filterColor': filterColor,
       };
 
-  static PostModel fromSnap(DocumentSnapshot snap) {
-    //convert user snapshot to userdataObj
-    var snapshot = snap.data()
-        as Map<String, dynamic>; //declare userdata as Map<string , dynamic>
+  static PostModel fromSnap(DocumentSnapshot<Map<String, dynamic>> snap) {
+    final snapshot = snap.data();
     return PostModel(
-      music: snap['music'],
-      Location: snap['Location'],
+      music: snapshot!['music'],
+      location: snapshot['location'],
       description: snapshot['description'],
       postId: snapshot['postId'],
-      datePublish: snapshot['datePublish'],
+      datePublished: snapshot['datePublished'],
       username: snapshot['username'],
       postUrl: snapshot['postUrl'],
-      ProfileImage: snapshot['ProfileImage'],
+      profileImage: snapshot['profileImage'],
       likes: snapshot['likes'],
       uid: snapshot['uid'],
-      filtercolor:snapshot['filtercolor'],
+      filterColor: snapshot['filterColor'],
     );
   }
 }

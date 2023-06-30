@@ -1,14 +1,13 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instagram_clone/Domain/DB/Model/comment.dart';
-import 'package:instagram_clone/Domain/DB/Model/post.dart';
+import 'package:instagram_clone/domain/db/model/comment.dart';
+import 'package:instagram_clone/domain/db/model/post.dart';
 import 'package:uuid/uuid.dart';
 
-class firestoreMethods {
+class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  //func for post Upload to db
   Future<bool> uploadPost({
     required String description,
     required String imagePath,
@@ -17,32 +16,28 @@ class firestoreMethods {
     required String uid,
     required String location,
     required String music,
-    required String filtercolor,
+    required String filterColor,
   }) async {
     bool isOk = false;
-    try {
-      // Upload image to Firebase storage
-      // final String postUrl =
-      //     await storageMethords().uploadImageToStorage('Posts', file, true);
-      final String postId = const Uuid().v1();
 
-      // Create a post
-      PostModel post = PostModel(
-        Location: location,
+    try {
+      final String postId = const Uuid().v1();
+      final PostModel post = PostModel(
+        location: location,
         music: music,
         likes: [],
         description: description,
         username: username,
         postId: postId,
-        datePublish: DateTime.now().toString(),
+        datePublished: DateTime.now().toString(),
         postUrl: imagePath,
-        uid: uid,
-        ProfileImage: profileUrl,
-        filtercolor: filtercolor,
+        uid: uid,   
+        profileImage: profileUrl,
+        filterColor: filterColor,
       );
 
-      final jsonDecode = post.tojson();
-      await _firestore.collection('post').doc(postId).set(jsonDecode);
+      final jsonData = post.toJson();
+      await _firestore.collection('post').doc(postId).set(jsonData);
       isOk = true;
     } catch (e, stackTrace) {
       isOk = false;
@@ -52,73 +47,73 @@ class firestoreMethods {
     return isOk;
   }
 
-  Future<bool> postLike(String uid, String postId, List likes) async {
-    late bool isok;
+  Future<bool> postLike(String uid, String postId, List<dynamic> likes) async {
+    bool isOk = false;
 
     try {
       if (likes.contains(uid)) {
-        // if the likes list contains the user uid, we need to remove it
-        print('-------------------yes--------------------');
         _firestore.collection('post').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid])
         });
-        isok = false;
+        isOk = false;
       } else {
-        // if the likes list doesn't contains the user uid, we need to add it
-         print('-------------------no--------------------');
         _firestore.collection('post').doc(postId).update({
           'likes': FieldValue.arrayUnion([uid])
         });
-        isok = true;
+        isOk = true;
       }
     } catch (e) {
-      isok = false;
+      isOk = false;
     }
-    return isok;
+
+    return isOk;
   }
 
-  Future<bool> Uploadcomment(
-    String comment,
-    String username,
-    String ProfileImage,
-    String postId,
-    String uid,
-    String DatePublished,
-  ) async {
-    late bool isok;
+  Future<bool> uploadComment({
+    required String comment,
+    required String username,
+    required String profileImage,
+    required String postId,
+    required String uid,
+    required String datePublished,
+  }) async {
+    bool isOk = false;
 
     try {
       if (comment.isNotEmpty) {
-        // if the likes list contains the user uid, we need to remove it
         final commentId = const Uuid().v1();
-        Comment commentModel = Comment(
-            comment: comment,
-            ProfileImage: ProfileImage,
-            username: username,
-            postId: postId,
-            DatePublished: DatePublished,
-            uid: uid,
-            CommentId: commentId,
-            likes: 1);
-        final decodeJson = commentModel.tojson();
-        _firestore
+        final Comment commentModel = Comment(
+          comment: comment,
+        profileImage: profileImage,
+
+          username: username,
+          postId: postId,
+          datePublished: datePublished,
+          uid: uid,
+          commentId: commentId,
+          likes: 1,
+        );
+
+        final jsonData = commentModel.toJson();
+        await _firestore
             .collection('post')
             .doc(postId)
             .collection('comment')
             .doc(commentId)
-            .set(decodeJson);
-        isok = true;
+            .set(jsonData);
+        isOk = true;
       } else {
-        log('some error occured');
-        isok = false;
+        log('Some error occurred');
+        isOk = false;
       }
     } catch (e) {
-      isok = false;
+      isOk = false;
     }
-    return isok;
+
+    return isOk;
   }
 
-  Future<bool> DeletePost(postId) async {
+  Future<bool> deletePost(String postId) async {
     try {
       await _firestore.collection('post').doc(postId).delete();
       return true;
@@ -127,12 +122,12 @@ class firestoreMethods {
     }
   }
 
-  Future<void> followUser(currentUserId, followedUserId) async {
-    DocumentSnapshot<Map<String, dynamic>> snap =
+  Future<void> followUser(String currentUserId, String followedUserId) async {
+    final DocumentSnapshot<Map<String, dynamic>> snap =
         await _firestore.collection('user').doc(currentUserId).get();
-    List follwoing = snap.data()!['following'];
-    if (follwoing.contains(followedUserId)) {
-      //if current user contain follow id(those who want to follow) remove that user from folllow list
+    final List<dynamic> following = snap.data()!['following'];
+
+    if (following.contains(followedUserId)) {
       await _firestore.collection('user').doc(currentUserId).update({
         'following': FieldValue.arrayRemove([followedUserId])
       });
