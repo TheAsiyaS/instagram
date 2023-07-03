@@ -23,8 +23,6 @@ class HomeScreen extends StatelessWidget {
     final ValueNotifier<int> commentLength = ValueNotifier(0);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       currentuserdata = await AuthMethod().getUserDetail();
-      print(
-          '----------------${currentuserdata.bio}----------------------------------');
     });
     return Scaffold(
       body: ValueListenableBuilder(
@@ -61,11 +59,7 @@ class HomeScreen extends StatelessWidget {
                               (index) => Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () async {
-                                      final data =
-                                          await AuthMethod().getUserDetail();
-                                      print('-----------${data.bio}');
-                                    },
+                                    onTap: () async {},
                                     child: const CircleAvatar(
                                       radius: 50,
                                       backgroundImage: NetworkImage(
@@ -100,10 +94,10 @@ class HomeScreen extends StatelessWidget {
                                 } else if (snapshot.hasData) {
                                   final data = snapshot.data!.docs[index];
                                   ValueNotifier<String> formattedDate =
-                                      ValueNotifier(data['datePublish']);
+                                      ValueNotifier(data['datePublished']);
                                   likes.value = data['likes'];
                                   itemCount.value = snapshot.data!.docs.length;
-                                  String? datePublish = data['datePublish'];
+                                  String? datePublish = data['datePublished'];
 
                                   if (datePublish != null) {
                                     DateTime myDate =
@@ -113,11 +107,11 @@ class HomeScreen extends StatelessWidget {
                                   } else {}
                                   final finaldate =
                                       formattedDate.value.split(' ');
-                                  String colorString = data['filtercolor'];
+                                  String colorString = data['filterColor'];
                                   String extractedCode = colorString.substring(
                                       6, colorString.length - 1);
                                   final parscode = int.parse(extractedCode);
-                                  print(data['ProfileImage']);
+
                                   return SizedBox(
                                     height: size.height / 1.39,
                                     child: Column(
@@ -157,6 +151,8 @@ class HomeScreen extends StatelessWidget {
                                                       kfavorite_outline,
                                                       size: 29,
                                                     ),
+                                              postid: data['postId'],
+                                              likes: likes.value,
                                               iconId: 'fav_out_in_post',
                                               style: IconButton.styleFrom(),
                                             ),
@@ -170,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                                               postid: data['postId'],
                                               date: formattedDate.value,
                                               description: data['description'],
-                                              profileimg: data['ProfileImage'],
+                                              profileimg: data['profileImage'],
                                               uid: data['uid'],
                                               username: data['username'],
                                               style: IconButton.styleFrom(),

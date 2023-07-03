@@ -153,7 +153,7 @@ class addComment extends StatelessWidget {
           CircleAvatar(
             radius: 25,
             backgroundImage: NetworkImage(
-              currentuserdata.photoUrl ?? noimg,
+              currentuserdata.photoUrl ,
             ),
           ),
           sizedBoxWidth20,
@@ -169,7 +169,7 @@ class addComment extends StatelessWidget {
                   comment: commentController.text,
                   datePublished: date,
                   postId: postId,
-                  profileImage: currentuserdata.photoUrl ?? noimg,
+                  profileImage: currentuserdata.photoUrl ,
                   uid: currentuserdata.uid!,
                   username: currentuserdata.username,
                 );

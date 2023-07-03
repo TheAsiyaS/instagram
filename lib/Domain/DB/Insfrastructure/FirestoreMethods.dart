@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
+import 'package:instagram_clone/Domain/DB/Model/Search_model.dart';
 import 'package:instagram_clone/domain/db/model/comment.dart';
 import 'package:instagram_clone/domain/db/model/post.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
@@ -31,13 +34,14 @@ class FirestoreMethods {
         postId: postId,
         datePublished: DateTime.now().toString(),
         postUrl: imagePath,
-        uid: uid,   
+        uid: uid,
         profileImage: profileUrl,
         filterColor: filterColor,
       );
 
       final jsonData = post.toJson();
       await _firestore.collection('post').doc(postId).set(jsonData);
+      await AuthMethod().updatepots(postuid: postId, uid: currentuserdata.uid);
       isOk = true;
     } catch (e, stackTrace) {
       isOk = false;
@@ -84,8 +88,7 @@ class FirestoreMethods {
         final commentId = const Uuid().v1();
         final Comment commentModel = Comment(
           comment: comment,
-        profileImage: profileImage,
-
+          profileImage: profileImage,
           username: username,
           postId: postId,
           datePublished: datePublished,
@@ -142,5 +145,47 @@ class FirestoreMethods {
         'follower': FieldValue.arrayUnion([currentUserId])
       });
     }
+  }
+
+  Future<bool> search_add(
+      {required String profileImg,
+      required String username,
+      required String serach_query,
+      required String useruid}) async {
+    bool isOk;
+    try {
+      if (serach_query.isNotEmpty) {
+        final searchUid = const Uuid().v1();
+        final SearchModel searchModel = SearchModel(
+            profileImg: profileImg,
+            username: username,
+            serach_query: serach_query,
+            useruid: useruid,
+            searchUid: searchUid);
+
+        final jsonData = searchModel.toJson();
+        await _firestore.collection('search').doc(searchUid).set(jsonData);
+        isOk = true;
+      }
+
+      isOk = true;
+    } catch (e) {
+      isOk = false;
+    }
+    return isOk;
+  }
+
+  Future<bool> deleteSearch({required uid}) async {
+    bool isok;
+    try {
+      if (uid != null) {
+        await _firestore.collection('search').doc(uid).delete();
+        isok = true;
+      }
+      isok = true;
+    } catch (e) {
+      isok = false;
+    }
+    return isok;
   }
 }

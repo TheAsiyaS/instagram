@@ -23,7 +23,7 @@ class AddpostScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                if (file.value != null) {
+                if (file.value!.isNotEmpty) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => EditePost(imagePath: file.value!)));
                 } else {

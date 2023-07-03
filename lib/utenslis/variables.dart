@@ -9,14 +9,7 @@ const websize = 600;
 
 final List<String> drawerTitle = [''];
 ValueNotifier<String> profile =
-    ValueNotifier(currentuserdata.photoUrl ?? noimg);
-ValueNotifier<String> name = ValueNotifier(currentuserdata.name ?? "");
-ValueNotifier<String> editeusername = ValueNotifier(currentuserdata.username);
-ValueNotifier<String> newusername = ValueNotifier(currentuserdata.username);
-ValueNotifier<String> bio = ValueNotifier(currentuserdata.bio);
-ValueNotifier<String> newname = ValueNotifier(currentuserdata.name ?? "");
-ValueNotifier<String> newbio = ValueNotifier(currentuserdata.bio);
+    ValueNotifier(currentuserdata.photoUrl );
+
 final TextEditingController UsernameController = TextEditingController();
 
-final ValueNotifier<int> profilecommentLength = ValueNotifier(0);
-final ValueNotifier<List> profilelikes = ValueNotifier([]);

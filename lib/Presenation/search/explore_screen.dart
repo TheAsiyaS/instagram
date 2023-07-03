@@ -1,7 +1,8 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
+import 'package:instagram_clone/Presenation/search/search.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
@@ -11,7 +12,6 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = TextEditingController();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -19,26 +19,34 @@ class SearchScreen extends StatelessWidget {
           children: [
             SizedBox(
               height: size.height / 17,
-              child: CupertinotextField(
-                  maxLength: 20,
-                  backgroundColour: kTransparentGrey,
-                  placeholderText: 'Search',
-                  borderRadiusValue: 10,
-                  borderWidthValue: 0,
-                  borderColor: kGrey,
-                  controller: searchController,
-                  textfieldId: 'Searchscreen_top',
-                  placeholderStyle: const TextStyle(color: kGrey),
-                  prefixWidget: const Row(
-                    children: [
-                      sizedBoxWidth10,
-                      Icon(ksearchicon, color: kGrey),
-                    ],
-                  ),
-                  suffixWidget: sizedBoxHeight10,
-                  keyboardInputType: TextInputType.name,
-                  isObscure: false),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Search_history()));
+                  },
+                  child: Container(
+                    height: size.height / 7,
+                    width: size.width,
+                    decoration: BoxDecoration(
+                        color: kTransparentGrey,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const Row(
+                      children: [
+                        sizedBoxWidth20,
+                        Icon(
+                          ksearchicon,
+                          color: kGrey,
+                        ),
+                        sizedBoxWidth20,
+                        Text(
+                          'Search.....',
+                          style: TextStyle(color: kGrey, fontSize: 16),
+                        )
+                      ],
+                    ),
+                  )),
             ),
+            sizedBoxHeight10,
             Expanded(
               child: StreamBuilder(
                   stream:
@@ -78,7 +86,7 @@ class SearchScreen extends StatelessWidget {
                               childCount: snapshot.data!.docs.length,
                               (context, index) {
                             final data = snapshot.data!.docs[index];
-                            String colorString = data['filtercolor'];
+                            String colorString = data['filterColor'];
                             String extractedCode = colorString.substring(
                                 6, colorString.length - 1);
                             final parscode = int.parse(extractedCode);

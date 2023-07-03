@@ -69,7 +69,6 @@ class Elevated_button extends StatelessWidget {
             await AuthMethod().signUp(
               bio: 'Flutter Dev..',
               email: EmailContoller.text,
-            
               password: password!,
               phoneNo: gphonenumber.value,
               username: username!,
@@ -84,6 +83,7 @@ class Elevated_button extends StatelessWidget {
             Navigator.of(context).pop();
           }
         } else if (elevatedbutttonid == 'editprofile_inaccount') {
+          log('message');
           Navigator.of(context).push(
               MaterialPageRoute(builder: ((context) => const EditProfile())));
         }

@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 50,
-              child: CupertinotextField(
+              child: Cupertino_textfield(
                   maxLength: 30,
                   placeholderText: 'Enter your E-mail adress',
                   borderRadiusValue: 5,
@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 50,
-              child: CupertinotextField(
+              child: Cupertino_textfield(
                   maxLength: 30,
                   placeholderText: 'Enter your Password',
                   borderRadiusValue: 5,

@@ -7,7 +7,8 @@ import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
-import 'package:instagram_clone/utenslis/variables.dart';
+
+import 'Edite_profile.dart';
 
 class OthersProfile extends StatelessWidget {
   const OthersProfile({super.key, required this.uid});

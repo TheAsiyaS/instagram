@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
+import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
 import 'package:instagram_clone/Presenation/Home/Comment.dart';
 import 'package:instagram_clone/main.dart';
-import 'package:instagram_clone/utenslis/variables.dart';
 
 // ignore: must_be_immutable
 class Iconbuttons extends StatelessWidget {
@@ -48,12 +49,13 @@ class Iconbuttons extends StatelessWidget {
               builder: (context) => commentScreen(
                     ProfileUrl: profileimg,
                     Username: username,
-                    date: date,
+                    date: date, 
                     description: description,
                     uid: uid,
                     postId: postid,
                   )));
         } else if (iconId == 'check_in_edite') {
+      
           await AuthMethod()
               .updateName(name: name.value, uid: currentuserdata.uid);
           await AuthMethod().updateUsername(
@@ -63,6 +65,7 @@ class Iconbuttons extends StatelessWidget {
           newbio.value = bio.value;
           await AuthMethod()
               .updateBio(bio: bio.value, uid: currentuserdata.uid);
+
           Navigator.of(context).pop();
         } else if (iconId == 'username_edite_profile') {}
       },

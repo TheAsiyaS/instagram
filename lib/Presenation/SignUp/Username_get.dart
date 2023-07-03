@@ -38,7 +38,7 @@ ValueNotifier<String> message = ValueNotifier('');
                   sizedBoxHeight20,
                   SizedBox(
                     height: 50,
-                    child: CupertinotextField(
+                    child: Cupertino_textfield(
                          maxLength: 20,
                       backgroundColour: kTransparent,
                       placeholderText: 'Username....',

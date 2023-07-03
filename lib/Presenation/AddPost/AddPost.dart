@@ -11,7 +11,6 @@ import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
-import 'package:instagram_clone/utenslis/variables.dart';
 
 ValueNotifier<bool> off1 = ValueNotifier(false);
 ValueNotifier<bool> off2 = ValueNotifier(false);
@@ -97,7 +96,7 @@ class PostAdd extends StatelessWidget {
                       description: descriptionController.text,
                       imagePath: postUrl,
                       username: currentuserdata.username,
-                      profileUrl: currentuserdata.photoUrl ?? noimg,
+                      profileUrl: currentuserdata.photoUrl ,
                       uid: currentuserdata.uid!,
                       location: location ?? '',
                       music: music ?? '',
@@ -160,7 +159,7 @@ class PostAdd extends StatelessWidget {
                             backgroundColor: kTransparentGrey
                             ,
                             backgroundImage:
-                                NetworkImage(currentuserdata.photoUrl ?? noimg),
+                                NetworkImage(currentuserdata.photoUrl),
                           ),
                           const SizedBox(
                             width: 20,
@@ -302,7 +301,7 @@ class PostAdd extends StatelessWidget {
                         CircleAvatar(
                           radius: 25,
                           backgroundImage:
-                              NetworkImage(currentuserdata.photoUrl ?? noimg),
+                              NetworkImage(currentuserdata.photoUrl),
                         ),
                         Expanded(
                           child: ListTile(

@@ -15,10 +15,9 @@ class AuthMethod {
 
   Future<UserData> getUserDetail() async {
     User? currentUser = _auth.currentUser;
-    log('current user uid ${currentUser!.uid}');
+
     DocumentSnapshot snapshot =
-        await _firestore.collection('user').doc(currentUser.uid).get();
-    log('current user snapshot ${snapshot.data()}');
+        await _firestore.collection('user').doc(currentUser!.uid).get();
 
     if (snapshot.exists) {
       return UserData.fromSnap(snapshot);
@@ -33,7 +32,6 @@ class AuthMethod {
     required String phoneNo,
     required String username,
     required String bio,
-    
   }) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
@@ -85,7 +83,6 @@ class AuthMethod {
     return '';
   }
 
-
   Future<bool> loginUser(
       {required String email, required String password}) async {
     if (email.isEmpty || password.isEmpty) {
@@ -107,58 +104,71 @@ class AuthMethod {
     await _auth.signOut();
   }
 
-
-
-  
-
 /*---------------------------------------------update-----------------------------------*/
 
-
-  Future<void> updateName({required String name, uid}) async {
+  Future<bool> updateName({required String name, uid}) async {
     try {
       if (name.isNotEmpty) {
         final docUser =
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
         docUser.update({'name': name});
+        return true;
+      } else {
+        log('empty name');
       }
     } catch (e) {
       log(e.toString());
+      return false;
     }
+    return false;
   }
 
-  Future<void> updateUsername({required String username, uid}) async {
+  Future<bool> updateUsername({required String username, uid}) async {
     try {
       if (username.isNotEmpty) {
         final docUser =
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
         docUser.update({'username': username});
+        return true;
+      }else {
+        log('empty username');
       }
     } catch (e) {
       log(e.toString());
+      return false;
     }
+    return false;
   }
 
-  Future<void> updateBio({required String bio, uid}) async {
+  Future<bool> updateBio({required String bio, uid}) async {
     try {
       if (bio.isNotEmpty) {
         final docUser =
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
         docUser.update({'bio': bio});
+        return true;
+      }else {
+        log('empty bio');
       }
     } catch (e) {
       log(e.toString());
+      return false;
     }
+    return false;
   }
 
-  Future<void> updatepots({required String postuid, uid}) async {
+  Future<bool> updatepots({required String postuid, uid}) async {
     try {
       if (postuid.isNotEmpty) {
         final docUser =
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
-        docUser.update({'posts': postuid});
+        docUser.update({'posts': FieldValue.arrayUnion([postuid])});
+        return true;
       }
     } catch (e) {
       log(e.toString());
+      return false;
     }
+    return false;
   }
 }
