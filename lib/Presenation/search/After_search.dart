@@ -14,6 +14,9 @@ class After_search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(querry,style: const TextStyle(color: kGrey,fontSize: 18),),
+      ),
       body: SafeArea(
         child: FutureBuilder(
             future: FirebaseFirestore.instance

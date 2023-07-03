@@ -32,16 +32,25 @@ class OthersProfile extends StatelessWidget {
               return const Text('No user found!!!');
             } else {
               var userData = snapshot.data!.data() as Map<String, dynamic>;
+              ValueNotifier<List> follower =
+                  ValueNotifier(userData['follower']);
+              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+              follower.notifyListeners();
+              ValueNotifier<List> following =
+                  ValueNotifier(userData['following']);
+              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+              follower.notifyListeners();
+
               return Scaffold(
-                appBar: AppBar(
-                  leading: sizedBoxHeight10,
+                appBar: AppBar( 
+                 
                   title: Text(
                     userData['username'],
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 23),
                   ),
-                ),
-                body: SafeArea(
+                ), 
+                body: SafeArea( 
                     child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: SingleChildScrollView(
@@ -90,8 +99,7 @@ class OthersProfile extends StatelessWidget {
                                   Column(
                                     children: [
                                       Text(
-                                        currentuserdata.follower.length
-                                            .toString(),
+                                        follower.value.length.toString(),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -101,9 +109,7 @@ class OthersProfile extends StatelessWidget {
                                   ),
                                   Column(
                                     children: [
-                                      Text(
-                                          currentuserdata.following.length
-                                              .toString(),
+                                      Text(following.value.length.toString(),
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold)),
                                       sizedBoxHeight10,
@@ -119,7 +125,7 @@ class OthersProfile extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               sizedBoxHeight5,
-                              SizedBox(  
+                              SizedBox(
                                 height: size.height / 12,
                                 width: size.width / 1.4,
                                 child: ValueListenableBuilder(
@@ -142,8 +148,12 @@ class OthersProfile extends StatelessWidget {
                             SizedBox(
                               width: size.width / 2.6,
                               child: Elevated_button(
-                                  elevatedbutttonwidget: const Text('Follow'),
+                                  elevatedbutttonwidget: Text(follower.value
+                                          .contains(currentuserdata.uid)
+                                      ? 'Following'
+                                      : 'Follow'),
                                   elevatedbutttonid: 'follow_inaccount',
+                                  uid: uid,
                                   elevatedbuttonstyle: ElevatedButton.styleFrom(
                                       backgroundColor: kBlue)),
                             ),

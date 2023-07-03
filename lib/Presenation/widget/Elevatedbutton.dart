@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
@@ -19,12 +21,13 @@ class Elevated_button extends StatelessWidget {
       required this.elevatedbutttonid,
       required this.elevatedbuttonstyle,
       this.password,
-      this.username});
+      this.username, this.uid});
   final Widget elevatedbutttonwidget;
   final String elevatedbutttonid;
   final ButtonStyle elevatedbuttonstyle;
   String? username;
   String? password;
+  String? uid;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -86,6 +89,10 @@ class Elevated_button extends StatelessWidget {
           log('message');
           Navigator.of(context).push(
               MaterialPageRoute(builder: ((context) => const EditProfile())));
+        } else if (elevatedbutttonid == 'follow_inaccount') {
+          await FirestoreMethods().followUser(
+            FirebaseAuth.instance.currentUser!.uid,uid!
+          );
         }
       },
       style: elevatedbuttonstyle,
