@@ -70,6 +70,7 @@ class Postpage extends StatelessWidget {
                   ),
                   child: Container(
                     color: Color(parsedCode),
+                    
                   ),
                 ),
               );

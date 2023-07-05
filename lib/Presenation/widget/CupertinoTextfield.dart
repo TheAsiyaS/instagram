@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
+import 'package:instagram_clone/Presenation/AddPost/Tag_post.dart';
 import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
 import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
@@ -68,12 +69,12 @@ class Cupertino_textfield extends StatelessWidget {
           editeusername.value = value;
         } else if (textfieldId == 'bio_edite_profile') {
           bio.value = value;
-
-          bio.value = value;
         } else if (textfieldId == 'getEmailadressLogin') {
           emailAddress.text = value;
         } else if (textfieldId == 'getpasswordLogin') {
           password.text = value;
+        } else if (textfieldId == 'tag_page') {
+          searchUser.value = value;
         }
       },
       onChanged: (value) async {
@@ -85,19 +86,18 @@ class Cupertino_textfield extends StatelessWidget {
           EmailContoller.text = value;
         } else if (textfieldId == 'name_edite_profile') {
           controller.text = value;
-
           name.value = value;
         } else if (textfieldId == 'username_edite_profile') {
           controller.text = value;
           editeusername.value = value;
         } else if (textfieldId == 'bio_edite_profile') {
           bio.value = value;
-
-          bio.value = value;
         } else if (textfieldId == 'getEmailadressLogin') {
           emailAddress.text = value;
         } else if (textfieldId == 'getpasswordLogin') {
           password.text = value;
+        } else if (textfieldId == 'tag_page') {
+          searchUser.value = value;
         }
       },
     );

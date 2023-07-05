@@ -135,6 +135,23 @@ class HomeScreen extends StatelessWidget {
                                             height: size.height / 2,
                                             width: size.width,
                                             color: Color(parscode),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Iconbuttons(
+                                                    icon: const Icon(
+                                                      kaccountcircle,
+                                                      color: kBlack,
+                                                    ),
+                                                    taguid: data['tag'],
+                                                    iconId: 'tag_persons',
+                                                    style:
+                                                        IconButton.styleFrom()),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         Row(

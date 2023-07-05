@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Presenation/AddPost/NewPost.dart';
+import 'package:instagram_clone/Presenation/AddPost/Tag_post.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/main.dart';
@@ -58,7 +59,7 @@ class PostAdd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
-
+    final List<String> taguid = [];
     return Scaffold(
       appBar: AppBar(
         title: const Text('NewPost'),
@@ -66,6 +67,12 @@ class PostAdd extends StatelessWidget {
           IconButton(
               onPressed: () async {
                 isloading.value = true;
+
+                for (String uid in tagUsersUid.value) {
+                  if (uid.isNotEmpty) {
+                    taguid.add(uid);
+                  }
+                }
                 String? location;
                 String? music;
                 if (CountryName.contains(items.value[0])) {
@@ -86,6 +93,7 @@ class PostAdd extends StatelessWidget {
 
                   location = items.value[1];
                 }
+                log('uid $taguid');
 
                 final String postUrl = await StorageMethods()
                     .uploadImageToStorage('Posts', imagepath, true);
@@ -93,10 +101,11 @@ class PostAdd extends StatelessWidget {
                 if (postUrl.isNotEmpty) {
                   isloading.value = true;
                   final isOk = await FirestoreMethods().uploadPost(
+                      tag: taguid,
                       description: descriptionController.text,
                       imagePath: postUrl,
                       username: currentuserdata.username,
-                      profileUrl: currentuserdata.photoUrl ,
+                      profileUrl: currentuserdata.photoUrl,
                       uid: currentuserdata.uid!,
                       location: location ?? '',
                       music: music ?? '',
@@ -118,7 +127,7 @@ class PostAdd extends StatelessWidget {
                     isloading.value = false;
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.red,
+                        backgroundColor: kRed,
                         content: SnackbarWidget(
                             icon: Icons.remove,
                             message: 'An error occured !')));
@@ -156,8 +165,7 @@ class PostAdd extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 25,
-                            backgroundColor: kTransparentGrey
-                            ,
+                            backgroundColor: kTransparentGrey,
                             backgroundImage:
                                 NetworkImage(currentuserdata.photoUrl),
                           ),
@@ -184,15 +192,25 @@ class PostAdd extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Tag People',
-                            style: TextStyle(color: kWhite, fontSize: 20),
-                          )),
+                    const Divider(
+                      color: kGreyDarkTrans,
                     ),
+                    sizedBoxHeight20,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Tagpeople(image: imagepath)));
+                      },
+                      child: const Text(
+                        'Tag People',
+                        style: TextStyle(fontSize: 19),
+                      ),
+                    ),
+                    sizedBoxHeight20,
+                    const Divider(
+                      color: kGrey,
+                    ),
+                    sizedBoxHeight20,
                     const Text('Add Location', style: TextStyle(fontSize: 20)),
                     SizedBox(
                         height: 70,

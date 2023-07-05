@@ -20,24 +20,25 @@ class FirestoreMethods {
     required String location,
     required String music,
     required String filterColor,
+    required List<dynamic> tag,
   }) async {
     bool isOk = false;
 
     try {
       final String postId = const Uuid().v1();
       final PostModel post = PostModel(
-        location: location,
-        music: music,
-        likes: [],
-        description: description,
-        username: username,
-        postId: postId,
-        datePublished: DateTime.now().toString(),
-        postUrl: imagePath,
-        uid: uid,
-        profileImage: profileUrl,
-        filterColor: filterColor,
-      );
+          location: location,
+          music: music,
+          likes: [],
+          description: description,
+          username: username,
+          postId: postId,
+          datePublished: DateTime.now().toString(),
+          postUrl: imagePath,
+          uid: uid,
+          profileImage: profileUrl,
+          filterColor: filterColor,
+          tag: tag);
 
       final jsonData = post.toJson();
       await _firestore.collection('post').doc(postId).set(jsonData);

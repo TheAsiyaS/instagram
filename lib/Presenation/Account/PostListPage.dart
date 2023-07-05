@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 final ValueNotifier<int> profilecommentLength = ValueNotifier(0);
 final ValueNotifier<List> profilelikes = ValueNotifier([]);
+
 class PostListPage extends StatefulWidget {
   final List<QueryDocumentSnapshot> posts;
   final int initialPostIndex;
@@ -81,170 +82,174 @@ class _PostListPageState extends State<PostListPage> {
           final parscode = int.parse(extractedCode);
 
           return SizedBox(
-                                    height: size.height / 1.39,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          height: size.height / 2,
-                                          width: size.width,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                post['postUrl'],
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          child: Container(
-                                            height: size.height / 2,
-                                            width: size.width,
-                                            color: Color(parscode),
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Iconbuttons(
-                                              icon: profilelikes.value.contains(
-                                                      currentuserdata.uid)
-                                                  ? const Icon(
-                                                      kfavorite,
-                                                      size: 29,
-                                                      color: kRed,
-                                                    )
-                                                  : const Icon(
-                                                      kfavorite_outline,
-                                                      size: 29,
-                                                    ),
-                                              postid: post['postId'],
-                                              likes: profilelikes.value,
-                                              iconId: 'fav_out_in_post',
-                                              style: IconButton.styleFrom(),
-                                            ),
-                                            Iconbuttons(
-                                              icon: const Icon(
-                                                kcomment,
-                                                size: 28,
-                                              ),
-                                              iconId: 'cmt_out_in_post',
-                                              likes: profilelikes.value,
-                                              postid: post['postId'],
-                                              date: formattedDate.value,
-                                              description: post['description'],
-                                              profileimg: post['profileImage'],
-                                              uid: post['uid'],
-                                              username: post['username'],
-                                              style: IconButton.styleFrom(),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                bottom: 9,
-                                              ),
-                                              child: Iconbuttons(
-                                                icon: Transform.rotate(
-                                                  angle: -20 * pi / 180,
-                                                  child: const Icon(
-                                                    kshare,
-                                                    size: 28,
-                                                  ),
-                                                ),
-                                                iconId: 'snd_in_post',
-                                                style: IconButton.styleFrom(),
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Iconbuttons(
-                                              icon: const Icon(
-                                                ksave,
-                                                size: 28,
-                                              ),
-                                              iconId: 'save_out_in_post',
-                                              style: IconButton.styleFrom(),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          ' ${profilelikes.value.length} likes',
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 19,
-                                          ),
-                                        ),
-                                        RichText(
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          text: TextSpan(
-                                            style: DefaultTextStyle.of(context)
-                                                .style,
-                                            children: [
-                                              TextSpan(
-                                                text: post['username'],
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: " ${post['description']}",
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        StreamBuilder<
-                                            QuerySnapshot<
-                                                Map<String, dynamic>>>(
-                                          stream: FirebaseFirestore.instance
-                                              .collection('post')
-                                              .doc(post['postId'])
-                                              .collection('comment')
-                                              .snapshots(),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                  color: kWhite,
-                                                ),
-                                              );
-                                            } else if (snapshot.hasError) {
-                                              return const Center(
-                                                child:
-                                                    Text('Some Error occurred'),
-                                              );
-                                            } else if (!snapshot.hasData ||
-                                                snapshot.data!.docs.isEmpty) {
-                                              profilecommentLength.value = 0;
-                                            }
+            height: size.height / 1.39,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: size.height / 2,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        post['postUrl'],
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Container(
+                    height: size.height / 2,
+                    width: size.width,
+                    color: Color(parscode),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start, 
+                      children: [
+                        Iconbuttons(
+                            icon: const Icon(
+                              kaccountcircle,
+                              color: kBlack,
+                            ),
+                            taguid: post['tag'],
+                            iconId: 'tag_persons',
+                            style: IconButton.styleFrom()),
+                      ],
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Iconbuttons(
+                      icon: profilelikes.value.contains(currentuserdata.uid)
+                          ? const Icon(
+                              kfavorite,
+                              size: 29,
+                              color: kRed,
+                            )
+                          : const Icon(
+                              kfavorite_outline,
+                              size: 29,
+                            ),
+                      postid: post['postId'],
+                      likes: profilelikes.value,
+                      iconId: 'fav_out_in_post',
+                      style: IconButton.styleFrom(),
+                    ),
+                    Iconbuttons(
+                      icon: const Icon(
+                        kcomment,
+                        size: 28,
+                      ),
+                      iconId: 'cmt_out_in_post',
+                      likes: profilelikes.value,
+                      postid: post['postId'],
+                      date: formattedDate.value,
+                      description: post['description'],
+                      profileimg: post['profileImage'],
+                      uid: post['uid'],
+                      username: post['username'],
+                      style: IconButton.styleFrom(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 9,
+                      ),
+                      child: Iconbuttons(
+                        icon: Transform.rotate(
+                          angle: -20 * pi / 180,
+                          child: const Icon(
+                            kshare,
+                            size: 28,
+                          ),
+                        ),
+                        iconId: 'snd_in_post',
+                        style: IconButton.styleFrom(),
+                      ),
+                    ),
+                    const Spacer(),
+                    Iconbuttons(
+                      icon: const Icon(
+                        ksave,
+                        size: 28,
+                      ),
+                      iconId: 'save_out_in_post',
+                      style: IconButton.styleFrom(),
+                    ),
+                  ],
+                ),
+                Text(
+                  ' ${profilelikes.value.length} likes',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 19,
+                  ),
+                ),
+                RichText(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: [
+                      TextSpan(
+                        text: post['username'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " ${post['description']}",
+                      ),
+                    ],
+                  ),
+                ),
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: FirebaseFirestore.instance
+                      .collection('post')
+                      .doc(post['postId'])
+                      .collection('comment')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: kWhite,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Text('Some Error occurred'),
+                      );
+                    } else if (!snapshot.hasData ||
+                        snapshot.data!.docs.isEmpty) {
+                      profilecommentLength.value = 0;
+                    }
 
-                                            profilecommentLength.value =
-                                                snapshot.data!.docs.length;
+                    profilecommentLength.value = snapshot.data!.docs.length;
 
-                                            return Text(
-                                              'View all ${profilecommentLength.value} comments',
-                                              style: const TextStyle(
-                                                color: kGrey,
-                                                fontSize: 17,
-                                              ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            );
-                                          },
-                                        ),
-                                        Text(
-                                          ' ${finaldate[0]}',
-                                          style: const TextStyle(
-                                            color: kGrey,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                    return Text(
+                      'View all ${profilecommentLength.value} comments',
+                      style: const TextStyle(
+                        color: kGrey,
+                        fontSize: 17,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  },
+                ),
+                Text(
+                  ' ${finaldate[0]}',
+                  style: const TextStyle(
+                    color: kGrey,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          );
         },
         separatorBuilder: (context, index) {
           return const Divider(

@@ -15,7 +15,10 @@ class After_search extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(querry,style: const TextStyle(color: kGrey,fontSize: 18),),
+        title: Text(
+          querry,
+          style: const TextStyle(color: kGrey, fontSize: 18),
+        ),
       ),
       body: SafeArea(
         child: FutureBuilder(
