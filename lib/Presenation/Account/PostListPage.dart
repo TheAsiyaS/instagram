@@ -8,9 +8,6 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:intl/intl.dart';
 
-final ValueNotifier<int> profilecommentLength = ValueNotifier(0);
-final ValueNotifier<List> profilelikes = ValueNotifier([]);
-
 class PostListPage extends StatefulWidget {
   final List<QueryDocumentSnapshot> posts;
   final int initialPostIndex;
@@ -57,6 +54,9 @@ class _PostListPageState extends State<PostListPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    final ValueNotifier<int> profilecommentLength = ValueNotifier(0);
+    final ValueNotifier<List> profilelikes = ValueNotifier([]);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
@@ -68,7 +68,7 @@ class _PostListPageState extends State<PostListPage> {
           ValueNotifier<String> formattedDate =
               ValueNotifier(post['datePublished']);
           String? datePublish = post['datePublished'];
-
+          profilelikes.value = post['likes'];
           if (datePublish != null) {
             DateTime myDate = DateTime.parse(datePublish);
             formattedDate.value = DateFormat('dd-MM-yyyy').format(myDate);
@@ -104,7 +104,7 @@ class _PostListPageState extends State<PostListPage> {
                     color: Color(parscode),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start, 
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Iconbuttons(
                             icon: const Icon(

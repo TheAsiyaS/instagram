@@ -59,9 +59,7 @@ class HomeScreen extends StatelessWidget {
                               (index) => Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () async {
-                                      
-                                    },
+                                    onTap: () async {},
                                     child: const CircleAvatar(
                                       radius: 50,
                                       backgroundImage: NetworkImage(
@@ -147,6 +145,7 @@ class HomeScreen extends StatelessWidget {
                                                     icon: const Icon(
                                                       kaccountcircle,
                                                       color: kBlack,
+                                                      size: 32,
                                                     ),
                                                     taguid: data['tag'],
                                                     iconId: 'tag_persons',

@@ -1,7 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:instagram_clone/Presenation/Account/PostListPage.dart';
 import 'package:instagram_clone/Presenation/search/search.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
@@ -90,14 +90,23 @@ class SearchScreen extends StatelessWidget {
                             String extractedCode = colorString.substring(
                                 6, colorString.length - 1);
                             final parscode = int.parse(extractedCode);
-                            return Container(
-                              decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 48, 48, 48),
-                                  image: DecorationImage(
-                                      image: NetworkImage(data['postUrl']),
-                                      fit: BoxFit.cover)),
+                            return GestureDetector( 
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => PostListPage(
+                                        posts: snapshot.data!.docs,
+                                        initialPostIndex: index)));
+                              },
                               child: Container(
-                                color: Color(parscode),
+                                decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromARGB(255, 48, 48, 48),
+                                    image: DecorationImage(
+                                        image: NetworkImage(data['postUrl']),
+                                        fit: BoxFit.cover)),
+                                child: Container(
+                                  color: Color(parscode),
+                                ),
                               ),
                             );
                           })),

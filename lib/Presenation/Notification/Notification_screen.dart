@@ -20,7 +20,7 @@ class NotificationScreen extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('post')
-            .where('uid', isEqualTo: '4z1oO4mSa2dYyIKjZN18rldUsMx1')
+            .where('uid', isEqualTo: currentuserdata.uid)
             .snapshots(),
         builder: (context, snapshots) {
           if (snapshots.hasError) {
@@ -42,7 +42,7 @@ class NotificationScreen extends StatelessWidget {
                 allLikes.addAll(likes);
               }
             });
-            log('data length ${allLikes}');
+        
             return allLikes.isEmpty
                 ? const Center(child: Text('No activity'))
                 : FutureBuilder(

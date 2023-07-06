@@ -10,7 +10,7 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 import 'Domain/DB/Insfrastructure/Userfunctions.dart';
 
 late UserData currentuserdata;
-//1993 
+//edite in => search , profile ,
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
