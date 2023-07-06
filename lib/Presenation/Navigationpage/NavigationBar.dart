@@ -31,23 +31,34 @@ class NavigationPage extends StatelessWidget {
         valueListenable: Bottomindex,
         builder: (context, value, child) {
           return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: kBlack,
-                selectedItemColor: kWhite,
-                unselectedItemColor: kGrey,
-                currentIndex: value,
-                onTap: (newindex) {
-                  Bottomindex.value = newindex;
-                },
-                items: const [
-                  BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-                  BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.add_box_outlined), label: ''),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.favorite), label: ''),
-                  BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-                ]),
+            bottomNavigationBar: Theme(
+              data: Theme.of(context).copyWith(canvasColor: kBlack),
+              child: BottomNavigationBar(
+                  selectedItemColor: kWhite,
+                  unselectedItemColor: kGrey,
+                  currentIndex: value,
+                  onTap: (newindex) {
+                    Bottomindex.value = newindex;
+                  },
+                  items: [
+                    const BottomNavigationBarItem(
+                        icon: Icon(Icons.home), label: ''),
+                    const BottomNavigationBarItem(
+                        icon: Icon(Icons.search), label: ''),
+                    const BottomNavigationBarItem(
+                        icon: Icon(Icons.add_box_outlined), label: ''),
+                    const BottomNavigationBarItem(
+                        icon: Icon(Icons.favorite), label: ''),
+                    BottomNavigationBarItem(
+                        icon: CircleAvatar(
+                          radius: 17,
+                          backgroundImage: NetworkImage(
+                            currentuserdata.photoUrl,
+                          ),
+                        ),
+                        label: ''),
+                  ]),
+            ),
             body: bottomscreens[value],
           );
         });

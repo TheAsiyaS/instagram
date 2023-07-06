@@ -108,7 +108,7 @@ class commentScreen extends StatelessWidget {
                                       child: commets(
                                           likeText: 'Like',
                                           size: size,
-                                          ProfileUrl: data['ProfileImage'],
+                                          ProfileUrl: data['profileImage'],
                                           Username: data['username'],
                                           description: data['comment'],
                                           date: data['datePublished'],

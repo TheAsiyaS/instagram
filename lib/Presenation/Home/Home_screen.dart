@@ -59,7 +59,9 @@ class HomeScreen extends StatelessWidget {
                               (index) => Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () async {},
+                                    onTap: () async {
+                                      
+                                    },
                                     child: const CircleAvatar(
                                       radius: 50,
                                       backgroundImage: NetworkImage(

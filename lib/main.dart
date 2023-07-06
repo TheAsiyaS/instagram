@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 // ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:instagram_clone/Domain/DB/Model/Usermodel.dart';
-
 import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
@@ -11,16 +10,16 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 import 'Domain/DB/Insfrastructure/Userfunctions.dart';
 
 late UserData currentuserdata;
-//1993
+//1993 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  currentuserdata = await AuthMethod().getUserDetail();
+ currentuserdata = await AuthMethod().getUserDetail();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key); 
 
   @override
   Widget build(BuildContext context) {
