@@ -166,7 +166,7 @@ class Listtitlenoimage extends StatelessWidget {
     return ListTile(
       title: Text(
         title,
-        style: const TextStyle(fontSize: 19),
+        style: const TextStyle(fontSize: 17),
       ),
       subtitle: Text(
         Subtitle,
@@ -177,7 +177,7 @@ class Listtitlenoimage extends StatelessWidget {
               await FirestoreMethods().deleteSearch(uid: deleteid);
             }
           },
-          child: Icon(trailicon)),
+          child: Icon(trailicon,size: 20,)),
     );
   }
 }

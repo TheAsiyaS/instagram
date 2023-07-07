@@ -26,3 +26,4 @@ const ksave = CupertinoIcons.bookmark;
 const kgrid = Icons.grid_on_outlined;
 const kcheck = Icons.check;
 const kaccountcircle = Icons.account_circle_rounded;
+const kTagperson = CupertinoIcons.person_crop_square_fill;

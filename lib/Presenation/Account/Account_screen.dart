@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
@@ -17,6 +18,28 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final Drawertitle = [
+      'Settings',
+      'Privacy',
+      'Your activity',
+      'Archive',
+      'QR code',
+      'Saved',
+      'Closed friends',
+      'Favourites',
+      'Sign out'
+    ];
+    final Drawericons = [
+      Icons.settings,
+      Icons.security,
+      Icons.history_toggle_off_rounded,
+      Icons.history,
+      Icons.qr_code_scanner_sharp,
+      ksave,
+      Icons.menu,
+      Icons.star_border_outlined,
+      Icons.logout
+    ];
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -36,15 +59,20 @@ class AccountScreen extends StatelessWidget {
         endDrawer: Drawer(
           child: ListView.separated(
             itemBuilder: (context, index) {
-              return const ListTile(
-                leading: Icon(kcomment),
-                title: Text('Title'),
+              return ListTile(
+                leading: Icon(Drawericons[index]),
+                title: Text(Drawertitle[index]),
+                onTap: () async {
+                  if (index == 8) {
+                    await AuthMethod().logout();
+                  }
+                },
               );
             },
             separatorBuilder: (context, index) {
               return const Divider(color: kGrey);
             },
-            itemCount: 10,
+            itemCount: Drawertitle.length,
           ),
         ),
         body: SafeArea(
@@ -256,7 +284,7 @@ class AccountScreen extends StatelessWidget {
                           width: size.width / 3,
                           child: const Align(
                             alignment: Alignment.center,
-                            child: Icon(kaddAccount),
+                            child: Icon(kTagperson),
                           ),
                         ),
                       ),
@@ -267,7 +295,7 @@ class AccountScreen extends StatelessWidget {
                     child: TabBarView(
                       children: [
                         Postpage(uid: currentuserdata.uid!),
-                        const Tagpage(),
+                        Tagpage(uid: currentuserdata.uid!),
                       ],
                     ),
                   ),

@@ -1,20 +1,17 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/Account/PostListPage.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 
 class Tagpage extends StatelessWidget {
-  const Tagpage({super.key});
-
+  const Tagpage({super.key, required this.uid});
+  final String uid;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('post')
-            .where('tag', arrayContains: currentuserdata.uid)
+            .where('tag', arrayContains:uid)
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

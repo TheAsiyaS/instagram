@@ -250,7 +250,7 @@ class OthersProfile extends StatelessWidget {
                             height: size.height / 1.5,
                             child: TabBarView(children: [
                               Postpage(uid: uid),
-                              const Tagpage()
+                               Tagpage(uid:uid ,)
                             ]))
                       ],
                     ),
