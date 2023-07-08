@@ -1,21 +1,21 @@
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/main.dart';
-// import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
 class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({Key? key});
+  const NotificationScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     ValueNotifier<List<DocumentSnapshot>> documents = ValueNotifier([]);
     return Scaffold(
       appBar: AppBar(
-        title:const Text('Activity'),
+        title: const Text('Activity'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -42,7 +42,7 @@ class NotificationScreen extends StatelessWidget {
                 allLikes.addAll(likes);
               }
             });
-        
+
             return allLikes.isEmpty
                 ? const Center(child: Text('No activity'))
                 : FutureBuilder(
@@ -58,7 +58,7 @@ class NotificationScreen extends StatelessWidget {
                         return const Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: kWhite,
                           ),
                         );
                       } else {
@@ -67,8 +67,7 @@ class NotificationScreen extends StatelessWidget {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             final data = snapshot.data![index];
-                            final postdata = snapshots.data!.docs[index];
-                            log(documents.value[index]['username']);
+
                             return Column(
                               children: [
                                 sizedBoxHeight10,
@@ -97,16 +96,8 @@ class NotificationScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  trailing: Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                              postdata['postUrl'],
-                                            ),
-                                            fit: BoxFit.cover)),
-                                  ),
+                                  trailing: TraillingPost(
+                                      uids: allLikes, index: index),
                                 ),
                                 sizedBoxHeight10,
                               ],
@@ -136,6 +127,70 @@ class NotificationScreen extends StatelessWidget {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('user')
           .where('uid', isEqualTo: uid)
+          .get();
+
+      documents.addAll(snapshot.docs);
+    }
+
+    return documents;
+  }
+}
+
+class TraillingPost extends StatelessWidget {
+  const TraillingPost({
+    super.key,
+    required this.uids,
+    required this.index,
+  });
+  final List uids;
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    ValueNotifier<List<DocumentSnapshot>> documents = ValueNotifier([]);
+
+    return FutureBuilder(
+        future: fecthPostdatafromFirebase(uids),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              height: 50,
+              width: 50,
+              color: kTransparentGrey,
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const CircularProgressIndicator(
+              color: kWhite,
+              strokeWidth: 2,
+            );
+          } else {
+            documents.value.addAll(snapshot.data!);
+            final data = snapshot.data![index];
+            return GestureDetector(
+              child: Container(
+                height: 50,
+                width: 50, 
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                          data['postUrl'],
+                        ),
+                        fit: BoxFit.cover)),
+              ),
+            );
+          }
+        });
+  }
+
+  Future<List<DocumentSnapshot>> fecthPostdatafromFirebase(
+      List<dynamic> dataList) async {
+    List<DocumentSnapshot> documents = [];
+
+    // Fetch data from Firebase based on the UIDs in the list
+    for (String uid in dataList) {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('post')
+          .where('uid', isEqualTo: currentuserdata.uid)
+          .where('likes', arrayContains: uid)
           .get();
 
       documents.addAll(snapshot.docs);

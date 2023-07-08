@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Domain/DB/Model/Usermodel.dart';
+import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
 String? gUid;
@@ -130,7 +131,7 @@ class AuthMethod {
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
         docUser.update({'username': username});
         return true;
-      }else {
+      } else {
         log('empty username');
       }
     } catch (e) {
@@ -147,7 +148,7 @@ class AuthMethod {
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
         docUser.update({'bio': bio});
         return true;
-      }else {
+      } else {
         log('empty bio');
       }
     } catch (e) {
@@ -162,7 +163,9 @@ class AuthMethod {
       if (postuid.isNotEmpty) {
         final docUser =
             FirebaseFirestore.instance.collection('user').doc(gUid ?? uid);
-        docUser.update({'posts': FieldValue.arrayUnion([postuid])});
+        docUser.update({
+          'posts': FieldValue.arrayUnion([postuid])
+        });
         return true;
       }
     } catch (e) {
@@ -170,5 +173,30 @@ class AuthMethod {
       return false;
     }
     return false;
+  }
+
+  Future<bool> updateSavepots(
+  { required String uid,
+    required String postId,}
+  ) async {
+    bool isOk = false;
+
+    try {
+      if (currentuserdata.savePosts.contains(postId)) {
+        _firestore.collection('user').doc(uid).update({
+          'savePosts': FieldValue.arrayRemove([postId])
+        });
+        isOk = false;
+      } else {
+        _firestore.collection('user').doc(uid).update({
+          'savePosts': FieldValue.arrayUnion([postId])
+        });
+        isOk = true;
+      }
+    } catch (e) {
+      isOk = false;
+    }
+
+    return isOk;
   }
 }

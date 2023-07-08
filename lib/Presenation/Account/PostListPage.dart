@@ -2,10 +2,13 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
+import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:intl/intl.dart';
 
 class PostListPage extends StatefulWidget {
@@ -56,13 +59,17 @@ class _PostListPageState extends State<PostListPage> {
 
     final ValueNotifier<int> profilecommentLength = ValueNotifier(0);
     final ValueNotifier<List> profilelikes = ValueNotifier([]);
-
+    final ValueNotifier<List> savepost =
+        ValueNotifier(currentuserdata.savePosts);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      savepost.value = currentuserdata.savePosts;
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
       ),
       body: ListView.separated(
-        controller: _scrollController,
+        controller: _scrollController, 
         itemBuilder: (context, index) {
           final post = widget.posts[index];
           ValueNotifier<String> formattedDate =
@@ -80,13 +87,59 @@ class _PostListPageState extends State<PostListPage> {
           String extractedCode =
               colorString.substring(6, colorString.length - 1);
           final parscode = int.parse(extractedCode);
-
+          final ValueNotifier<bool> issave =
+              ValueNotifier(currentuserdata.savePosts.contains(post['postId']));
           return SizedBox(
-            height: size.height / 1.39,
+            height: size.height / 1.24,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                SizedBox(
+                  height: size.height / 12,
+                  width: size.width,
+                  //color: kRed,
+                  child: Row(
+                    children: [
+                      sizedBoxWidth10,
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundImage: NetworkImage(post['profileImage']),
+                      ),
+                      sizedBoxWidth10,
+                      Text(
+                        post['username'],
+                        style: const TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(),
+                      PopupMenuButton<String>(
+                        itemBuilder: (BuildContext context) {
+                          return <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: '1',
+                              child: Text('Edite'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: '2',
+                              child: Text('Delete'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: '3',
+                              child: Text('Archive'),
+                            ),
+                          ];
+                        },
+                        onSelected: (String value) async {
+                          if (value == '1') {
+                          } else if (value == '2') {
+                            await FirestoreMethods().deletePost(post['postId']);
+                          } else if (value == '3') {}
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
                   height: size.height / 2,
                   width: size.width,
@@ -110,6 +163,7 @@ class _PostListPageState extends State<PostListPage> {
                             icon: const Icon(
                               kaccountcircle,
                               color: kBlack,
+                              size: 32,
                             ),
                             taguid: post['tag'],
                             iconId: 'tag_persons',
@@ -168,14 +222,33 @@ class _PostListPageState extends State<PostListPage> {
                       ),
                     ),
                     const Spacer(),
-                    Iconbuttons(
-                      icon: const Icon(
-                        ksave,
-                        size: 28,
-                      ),
-                      iconId: 'save_out_in_post',
-                      style: IconButton.styleFrom(),
-                    ),
+                    ValueListenableBuilder(
+                        valueListenable: issave,
+                        builder: (context, value, _) {
+                          return IconButton(
+                            onPressed: () async {
+                              if (currentuserdata.savePosts
+                                  .contains(post['postId'])) {
+                                savepost.value.remove(post['postId']);
+                                issave.value = false;
+                                savepost.notifyListeners();
+                              } else {
+                                issave.value = true;
+                                savepost.value.add(post['postId']);
+                                savepost.notifyListeners();
+                              }
+
+                              await AuthMethod().updateSavepots(
+                                  postId: post['postId']!,
+                                  uid: currentuserdata.uid!);
+                              print('${issave.value}');
+                            },
+                            icon: Icon(
+                              issave.value ? ksaved : ksave,
+                              size: 28,
+                            ),
+                          );
+                        })
                   ],
                 ),
                 Text(

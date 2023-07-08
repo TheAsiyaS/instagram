@@ -19,27 +19,30 @@ class phoneNumberGet extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           sizedBoxHeight30,
-         ValueListenableBuilder(
-            valueListenable: gphonenumber,
-            builder: (context, snapshot,_) {
-              return IntlPhoneField(
-                //controller: phonNoController,
-                decoration: const InputDecoration(
-                    hintText: 'Phone Number',
-                    border: OutlineInputBorder(),
-                    fillColor: Color.fromARGB(255, 90, 88, 88),
-                    filled: true),
-                onSubmitted: (phoneNumber) {
-                  log("PhoneNumber-----$phoneNumber");
-                  if (phoneNumber.isEmpty || phoneNumber.length < 10) {
-                    gphonenumber.value = 'Incorrect Phone number';
-                  } else {
-                    gphonenumber.value = phoneNumber;
-                  }
-                },
-              );
-            }
-          ),
+          ValueListenableBuilder(
+              valueListenable: gphonenumber,
+              builder: (context, snapshot, _) {
+                return IntlPhoneField(
+                  //controller: phonNoController,
+                  decoration: const InputDecoration(
+                      hintText: 'Phone Number',
+                      border: OutlineInputBorder(),
+                      fillColor: Color.fromARGB(255, 90, 88, 88),
+                      filled: true),
+                  onSubmitted: (phoneNumber) {
+                    log("PhoneNumber-----$phoneNumber");
+                    if (phoneNumber.isEmpty || phoneNumber.length < 10) {
+                      gphonenumber.value = 'Incorrect Phone number';
+                    } else {
+                      gphonenumber.value = phoneNumber;
+                    }
+                  },
+                  onChanged: (value) {
+                    log(value.number);
+                    gphonenumber.value = value.number;
+                  },
+                );
+              }),
           const Text(
             'You may recieve SMS Notification from us for security and login purposes',
             style: TextStyle(color: kGrey),

@@ -49,8 +49,6 @@ class _TagpeopleState extends State<Tagpeople> {
             isObscure: false,
           ),
         ),
-       
-      
       ),
       body: SafeArea(
         child: Column(
@@ -271,6 +269,10 @@ class _DraggableWidgetState extends State<DraggableWidget> {
                   color: Colors.white,
                   onPressed: () {
                     widget.onRemove();
+                    setState(() {
+                      tagUsersUid.value.removeAt(widget.index);
+                      tagUsers.value.removeAt(widget.index);
+                    });
                   },
                 ),
               ),

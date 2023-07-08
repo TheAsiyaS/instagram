@@ -14,12 +14,12 @@ late UserData currentuserdata;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
- currentuserdata = await AuthMethod().getUserDetail();
+  currentuserdata = await AuthMethod().getUserDetail();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key); 
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

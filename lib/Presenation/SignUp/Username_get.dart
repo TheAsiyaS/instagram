@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/SignUp/Password.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
@@ -6,11 +7,10 @@ import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/Presenation/widget/Title_subtitle.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
-
 // ignore: must_be_immutable
 class UsernameGet extends StatelessWidget {
   UsernameGet({Key? key}) : super(key: key);
-ValueNotifier<String> message = ValueNotifier('');
+  ValueNotifier<String> message = ValueNotifier('');
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ ValueNotifier<String> message = ValueNotifier('');
                   SizedBox(
                     height: 50,
                     child: Cupertino_textfield(
-                         maxLength: 20,
+                      maxLength: 20,
                       backgroundColour: kTransparent,
                       placeholderText: 'Username....',
                       borderRadiusValue: 10,
@@ -64,18 +64,34 @@ ValueNotifier<String> message = ValueNotifier('');
                     height: 45,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (UsernameController.text.isEmpty) {
-                          message.value = 'Entered username empty ';
+                          message.value = 'Entered username is empty.';
                         } else if (!usernameRegex
                             .hasMatch(UsernameController.text)) {
                           message.value =
-                              'Username can only include letters, numbers, underscores and full stops.';
+                              'Username can only include letters, numbers, underscores, and full stops.';
                         } else if (UsernameController.text.length > 20) {
-                          message.value = 'Maximum letters can be 20';
+                          message.value =
+                              'Maximum length of username is 20 characters.';
                         } else {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: ((context) => passwordGet(username: UsernameController.text))));
+                          final snapshot = await FirebaseFirestore.instance
+                              .collection('user')
+                              .where('username',
+                                  isEqualTo: UsernameController.text)
+                              .limit(1)
+                              .get();
+
+                          if (snapshot.docs.isNotEmpty) {
+                            // Username exists
+                            message.value = 'Username already exists.';
+                          } else {
+                            // Username does not exist, navigate to the next screen
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => passwordGet(
+                                  username: UsernameController.text),
+                            ));
+                          }
                         }
                       },
                       child: const Text(

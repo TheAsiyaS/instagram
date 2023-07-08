@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -11,8 +10,6 @@ import 'package:instagram_clone/Presenation/widget/TextButton.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
- 
-bool? isProfile;
 
 class addProfilePic extends StatefulWidget {
   const addProfilePic({Key? key}) : super(key: key);
@@ -22,6 +19,7 @@ class addProfilePic extends StatefulWidget {
 }
 
 class _addProfilePicState extends State<addProfilePic> {
+  bool? isProfile;
   Uint8List? im;
   Future<void> selectImage() async {
     Uint8List? img = await pickImage(ImageSource.gallery);
@@ -38,7 +36,6 @@ class _addProfilePicState extends State<addProfilePic> {
 
   @override
   Widget build(BuildContext context) {
-    log('-------$im---------');
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -58,7 +55,12 @@ class _addProfilePicState extends State<addProfilePic> {
                 : const TwoIcons(
                     baseIcon: Icons.circle_outlined,
                     frondIcon: Icons.camera_enhance_outlined),
-            const Text('Add Profile Photo'),
+            sizedBoxHeight10,
+            const Text(
+              'Add Profile Photo',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            sizedBoxHeight10,
             const Text(
               'Add a profile photo \nso that your friends can konw\'s it\'s you',
               style: TextStyle(color: kGrey),
@@ -69,6 +71,7 @@ class _addProfilePicState extends State<addProfilePic> {
                   await selectImage();
                   await AuthMethod().addProfilePic(file: im!);
                   currentuserdata = await AuthMethod().getUserDetail();
+
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                           builder: (context) => const NavigationPage()),

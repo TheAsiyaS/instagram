@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
+import 'package:instagram_clone/Presenation/Account/DrawerScreens/SavedPosts.dart';
 import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
@@ -63,8 +64,12 @@ class AccountScreen extends StatelessWidget {
                 leading: Icon(Drawericons[index]),
                 title: Text(Drawertitle[index]),
                 onTap: () async {
+                  print(index);
                   if (index == 8) {
                     await AuthMethod().logout();
+                  } else if (index == 5) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SavedPosts()));
                   }
                 },
               );

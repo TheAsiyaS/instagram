@@ -10,15 +10,16 @@ import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
+final TextEditingController emailAddress = TextEditingController();
+final TextEditingController password = TextEditingController();
 
-  final TextEditingController emailAddress = TextEditingController();
-  final TextEditingController password = TextEditingController();
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
           child: Container(
@@ -34,10 +35,15 @@ class LoginScreen extends StatelessWidget {
               flex: 2,
               child: Container(),
             ),
-            Text('Instagram',
-                style: GoogleFonts.grandHotel(
-                  fontSize: 45,
-                )),
+            GestureDetector(
+              onTap: () async {
+               
+              },
+              child: Text('Instagram',
+                  style: GoogleFonts.grandHotel(
+                    fontSize: 45,
+                  )),
+            ),
             const SizedBox(
               height: 34,
             ),
@@ -78,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                   isObscure: false,
                   backgroundColour: kTransparentGrey),
             ),
-            const SizedBox( 
+            const SizedBox(
               height: 12,
             ),
             SizedBox(

@@ -59,7 +59,7 @@ class PostAdd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
-    final List<String> taguid = [];
+    List<String> taguid = [];
     return Scaffold(
       appBar: AppBar(
         title: const Text('NewPost'),
@@ -125,6 +125,24 @@ class PostAdd extends StatelessWidget {
                         (route) => true);
 
                     isloading.value = false;
+                    taguid = [];
+                    tagUsersUid.value = [
+                      'Who is?',
+                      'Who is?',
+                      'Who is?',
+                    ];
+                    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                    tagUsersUid.notifyListeners();
+                    tagUsers.value = [
+                      '',
+                      '',
+                      '',
+                    ];
+                    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                    tagUsers.notifyListeners();
+                    descriptionController.text = '';
+                    location = '';
+                    music = '';
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         backgroundColor: kRed,

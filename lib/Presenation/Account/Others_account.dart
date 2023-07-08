@@ -242,7 +242,7 @@ class OthersProfile extends StatelessWidget {
                                   // color: kred,
                                   child: const Align(
                                       alignment: Alignment.center,
-                                      child: Icon(kaddAccount))),
+                                      child: Icon(kTagperson))),
                             ),
                           ],
                         ),

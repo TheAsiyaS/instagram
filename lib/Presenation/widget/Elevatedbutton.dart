@@ -1,13 +1,14 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
+import 'package:instagram_clone/Presenation/SignUp/Password.dart';
 import 'package:instagram_clone/Presenation/SignUp/WelcomePage.dart';
-import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/phoneNumber.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
@@ -21,7 +22,8 @@ class Elevated_button extends StatelessWidget {
       required this.elevatedbutttonid,
       required this.elevatedbuttonstyle,
       this.password,
-      this.username, this.uid});
+      this.username,
+      this.uid});
   final Widget elevatedbutttonwidget;
   final String elevatedbutttonid;
   final ButtonStyle elevatedbuttonstyle;
@@ -44,7 +46,6 @@ class Elevated_button extends StatelessWidget {
                     welcome(username: username!, password: password!))));
           }
         } else if (elevatedbutttonid == 'NextEmailGet') {
-          //EmailContoller
           if (!EmailContoller.text.contains('@gmail.com')) {
             gemail.value = 'Incorrect email';
             log('Incorrect');
@@ -52,13 +53,24 @@ class Elevated_button extends StatelessWidget {
           } else if (EmailContoller.text.isEmpty) {
             gemail.value = 'email adress is empty';
             log('empty');
-          }
+          } else {
+            final snapshot = await FirebaseFirestore.instance
+                .collection('user')
+                .where('email', isEqualTo: EmailContoller.text)
+                .limit(1)
+                .get();
 
-          //else if(){}
-          else {
-            gemail.value = EmailContoller.text;
-            log(EmailContoller.text);
-            Navigator.of(context).pop();
+            if (snapshot.docs.isNotEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  backgroundColor: kRed,
+                  content: SnackbarWidget(
+                      icon: Icons.add, message: 'Email already excist')));
+            } else {
+              // Username does not exist, navigate to the next screen
+              gemail.value = EmailContoller.text;
+              log(EmailContoller.text);
+              Navigator.of(context).pop();
+            }
           }
         } else if (elevatedbutttonid == 'SignUp_complete') {
           if (gphonenumber.value == 'Incorrect Phone number' ||
@@ -90,9 +102,8 @@ class Elevated_button extends StatelessWidget {
           Navigator.of(context).push(
               MaterialPageRoute(builder: ((context) => const EditProfile())));
         } else if (elevatedbutttonid == 'follow_inaccount') {
-          await FirestoreMethods().followUser(
-            FirebaseAuth.instance.currentUser!.uid,uid!
-          );
+          await FirestoreMethods()
+              .followUser(FirebaseAuth.instance.currentUser!.uid, uid!);
         }
       },
       style: elevatedbuttonstyle,

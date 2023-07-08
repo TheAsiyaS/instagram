@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
 import 'package:instagram_clone/main.dart';
@@ -21,9 +22,12 @@ class HomeScreen extends StatelessWidget {
     final ValueNotifier<int> itemCount = ValueNotifier(1);
     final ValueNotifier<List> likes = ValueNotifier([]);
     final ValueNotifier<int> commentLength = ValueNotifier(0);
+    final ValueNotifier<List> savepost =
+        ValueNotifier(currentuserdata.savePosts);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      currentuserdata = await AuthMethod().getUserDetail();
+      savepost.value = currentuserdata.savePosts;
     });
+
     return Scaffold(
       body: ValueListenableBuilder(
         valueListenable: _direction,
@@ -46,31 +50,6 @@ class HomeScreen extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: SizedBox(
                           height: size.height / 13,
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: size.height / 6,
-                          child: GridView.count(
-                            crossAxisCount: 1,
-                            scrollDirection: Axis.horizontal,
-                            children: List.generate(
-                              10,
-                              (index) => Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {},
-                                    child: const CircleAvatar(
-                                      radius: 50,
-                                      backgroundImage: NetworkImage(
-                                          'https://i0.wp.com/blog.apilayer.com/wp-content/uploads/2022/11/pexels-photo-574073.jpeg?resize=1132%2C694&ssl=1'),
-                                    ),
-                                  ),
-                                  const Text('Username')
-                                ],
-                              ),
-                            ),
-                          ),
                         ),
                       ),
                       SliverList.separated(
@@ -96,9 +75,9 @@ class HomeScreen extends StatelessWidget {
                                   ValueNotifier<String> formattedDate =
                                       ValueNotifier(data['datePublished']);
                                   likes.value = data['likes'];
+                                  savepost.value = currentuserdata.savePosts;
                                   itemCount.value = snapshot.data!.docs.length;
                                   String? datePublish = data['datePublished'];
-
                                   if (datePublish != null) {
                                     DateTime myDate =
                                         DateTime.parse(datePublish);
@@ -111,15 +90,70 @@ class HomeScreen extends StatelessWidget {
                                   String extractedCode = colorString.substring(
                                       6, colorString.length - 1);
                                   final parscode = int.parse(extractedCode);
-
+                                  final ValueNotifier<bool> issave =
+                                      ValueNotifier(currentuserdata.savePosts
+                                          .contains(data['postId']));
                                   return SizedBox(
-                                    height: size.height / 1.39,
+                                    height: size.height / 1.24,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
+                                        SizedBox(
+                                          height: size.height / 12,
+                                          width: size.width,
+                                          //color: kRed,
+                                          child: Row(
+                                            children: [
+                                              sizedBoxWidth10,
+                                              CircleAvatar(
+                                                radius: 25,
+                                                backgroundImage: NetworkImage(
+                                                    data['profileImage']),
+                                              ),
+                                              sizedBoxWidth10,
+                                              Text(
+                                                data['username'],
+                                                style: const TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const Spacer(),
+                                              PopupMenuButton<String>(
+                                                itemBuilder:
+                                                    (BuildContext context) {
+                                                  return <PopupMenuEntry<
+                                                      String>>[
+                                                    const PopupMenuItem<String>(
+                                                      value: '1',
+                                                      child: Text('Edite'),
+                                                    ),
+                                                    const PopupMenuItem<String>(
+                                                      value: '2',
+                                                      child: Text('Delete'),
+                                                    ),
+                                                    const PopupMenuItem<String>(
+                                                      value: '3',
+                                                      child: Text('Archive'),
+                                                    ),
+                                                  ];
+                                                },
+                                                onSelected:
+                                                    (String value) async {
+                                                  if (value == '1') {
+                                                  } else if (value == '2') {
+                                                    await FirestoreMethods()
+                                                        .deletePost(
+                                                            data['postId']);
+                                                  } else if (value == '3') {}
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         Container(
                                           height: size.height / 2,
                                           width: size.width,
@@ -206,14 +240,45 @@ class HomeScreen extends StatelessWidget {
                                               ),
                                             ),
                                             const Spacer(),
-                                            Iconbuttons(
-                                              icon: const Icon(
-                                                ksave,
-                                                size: 28,
-                                              ),
-                                              iconId: 'save_out_in_post',
-                                              style: IconButton.styleFrom(),
-                                            ),
+                                            ValueListenableBuilder(
+                                                valueListenable: issave,
+                                                builder: (context, value, _) {
+                                                  return IconButton(
+                                                    onPressed: () async {
+                                                      if (currentuserdata
+                                                          .savePosts
+                                                          .contains(
+                                                              data['postId'])) {
+                                                        savepost.value.remove(
+                                                            data['postId']);
+                                                        issave.value = false;
+                                                        savepost
+                                                            .notifyListeners();
+                                                      } else {
+                                                        issave.value = true;
+                                                        savepost.value.add(
+                                                            data['postId']);
+                                                        savepost
+                                                            .notifyListeners();
+                                                      }
+
+                                                      await AuthMethod()
+                                                          .updateSavepots(
+                                                              postId: data[
+                                                                  'postId']!,
+                                                              uid:
+                                                                  currentuserdata
+                                                                      .uid!);
+                                                      print('${issave.value}');
+                                                    },
+                                                    icon: Icon(
+                                                      issave.value
+                                                          ? ksaved
+                                                          : ksave,
+                                                      size: 28,
+                                                    ),
+                                                  );
+                                                })
                                           ],
                                         ),
                                         Text(

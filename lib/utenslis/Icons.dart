@@ -23,6 +23,7 @@ const kshare = Icons.send;
 const kcollection = Icons.collections_outlined;
 const kmessage = CupertinoIcons.bolt_horizontal_circle;
 const ksave = CupertinoIcons.bookmark;
+const ksaved = CupertinoIcons.bookmark_fill;
 const kgrid = Icons.grid_on_outlined;
 const kcheck = Icons.check;
 const kaccountcircle = Icons.account_circle_rounded;

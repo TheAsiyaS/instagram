@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/Presenation/Account/PostListPage.dart';
+import 'package:instagram_clone/Presenation/Account/post.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 
 class Tagpage extends StatelessWidget {
@@ -11,7 +11,7 @@ class Tagpage extends StatelessWidget {
     return FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('post')
-            .where('tag', arrayContains:uid)
+            .where('tag', arrayContains: uid)
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -33,27 +33,15 @@ class Tagpage extends StatelessWidget {
               crossAxisSpacing: 3,
               children: List.generate(snapshot.data!.docs.length, (index) {
                 final data = snapshot.data!.docs[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PostListPage(
-                          posts: snapshot.data!.docs,
-                          initialPostIndex: index,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                              data['postUrl'],
-                            ),
-                            fit: BoxFit.cover)),
-                  ),
-                );
+                      String colorString = data['filterColor'];
+                  String extractedCode =
+                      colorString.substring(6, colorString.length - 1);
+                  final parsedCode = int.parse(extractedCode);
+                return Post(
+                    data: data,
+                    parsedCode: parsedCode,
+                    postdata: snapshot.data!.docs,
+                    index: index);
               }),
             );
           }

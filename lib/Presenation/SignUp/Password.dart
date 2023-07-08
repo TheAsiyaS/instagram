@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+
+final TextEditingController passwordController = TextEditingController();
 
 class passwordGet extends StatelessWidget {
   const passwordGet({Key? key, required this.username}) : super(key: key);
@@ -36,7 +37,7 @@ class passwordGet extends StatelessWidget {
             SizedBox(
               height: 50,
               child: Cupertino_textfield(
-                   maxLength: 30,
+                  maxLength: 30,
                   backgroundColour: kTransparent,
                   placeholderText: 'Password..',
                   borderRadiusValue: 10,

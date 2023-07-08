@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/Presenation/Account/PostListPage.dart';
+import 'package:instagram_clone/Presenation/Account/post.dart';
 
 import '../../utenslis/Colors.dart';
 
@@ -47,31 +47,11 @@ class Postpage extends StatelessWidget {
               String extractedCode =
                   colorString.substring(6, colorString.length - 1);
               final parsedCode = int.parse(extractedCode);
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PostListPage(
-                        posts: snapshot.data!.docs,
-                        initialPostIndex: index,
-                      ),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        data['postUrl'],
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Container(
-                    color: Color(parsedCode),
-                  ),
-                ),
+              return Post(
+                data: data,
+                parsedCode: parsedCode,
+                postdata: snapshot.data!.docs,
+                index: index,
               );
             }),
           );

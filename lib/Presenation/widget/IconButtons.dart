@@ -129,7 +129,6 @@ class Iconbuttons extends StatelessWidget {
                                             builder: (context) => OthersProfile(
                                                 uid: data['uid'])));
                                   },
-                                  
                                 );
                               },
                               separatorBuilder: (context, index) {
@@ -145,8 +144,14 @@ class Iconbuttons extends StatelessWidget {
               );
             },
           );
-        } else if (iconId == 'snd_in_post') {}
+        } else if (iconId == 'save_out_in_post') {
+         
+        }
+      
       },
+
+      //more_vert_in_post
+
       icon: icon,
       style: style,
     );

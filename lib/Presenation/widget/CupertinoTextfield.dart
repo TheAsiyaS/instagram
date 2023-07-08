@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
 import 'package:instagram_clone/Presenation/AddPost/Tag_post.dart';
 import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
-import 'package:instagram_clone/Presenation/SignUp/passwordextraWidget.dart';
+import 'package:instagram_clone/Presenation/SignUp/Password.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
@@ -80,6 +80,7 @@ class Cupertino_textfield extends StatelessWidget {
       onChanged: (value) async {
         if (textfieldId == 'PasswordGet') {
           passwordController.text = value;
+          print(value);
         } else if (textfieldId == 'UsernameGet') {
           UsernameController.text = value;
         } else if (textfieldId == 'emailGet') {

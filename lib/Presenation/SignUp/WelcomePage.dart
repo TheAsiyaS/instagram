@@ -5,6 +5,7 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/SignUp/AddFacebookfriends.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/phoneNumber.dart';
+import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/Presenation/widget/TextButton.dart';
@@ -46,18 +47,28 @@ class welcome extends StatelessWidget {
                   log('username: $username password $password');
                   if (gphonenumber.value == 'Incorrect Phone number' ||
                       gphonenumber.value == '') {
-                    log('ph');
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: kWhite,
+                        content: SnackbarWidget(
+                            icon: Icons.favorite,
+                            message: 'Incorrect Phone number')));
                   } else if (gemail.value == 'Incorrect email' &&
                           gemail.value == 'email adress is empty' ||
                       gemail.value == '') {
-                    log('em');
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: kWhite,
+                        content: SnackbarWidget(
+                            icon: Icons.favorite, message: 'Incorrect email')));
                   } else if (username.isEmpty || password.isEmpty) {
-                    log('u,p, emp');
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: kWhite,
+                        content: SnackbarWidget(
+                            icon: Icons.favorite,
+                            message: 'username or password is empty')));
                   } else {
                     await AuthMethod().signUp(
                       bio: '',
                       email: EmailContoller.text,
-                     
                       password: password,
                       phoneNo: gphonenumber.value,
                       username: username,
