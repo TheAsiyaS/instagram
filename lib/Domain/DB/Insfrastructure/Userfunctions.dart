@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/StorageMethods.dart';
 import 'package:instagram_clone/Domain/DB/Model/Usermodel.dart';
+import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
@@ -54,6 +55,7 @@ class AuthMethod {
         uid: credential.user!.uid,
         posts: [],
         savePosts: [],
+        archiveposts: [],
         acLocation: '',
         name: '',
         photoUrl: noimg,
@@ -102,6 +104,12 @@ class AuthMethod {
   }
 
   Future<void> logout() async {
+    name.dispose();
+    editeusername.dispose();
+    newusername.dispose();
+    bio.dispose();
+    newname.dispose();
+    newbio.dispose();
     await _auth.signOut();
   }
 
@@ -175,10 +183,10 @@ class AuthMethod {
     return false;
   }
 
-  Future<bool> updateSavepots(
-  { required String uid,
-    required String postId,}
-  ) async {
+  Future<bool> updateSavepots({
+    required String uid,
+    required String postId,
+  }) async {
     bool isOk = false;
 
     try {
@@ -190,6 +198,31 @@ class AuthMethod {
       } else {
         _firestore.collection('user').doc(uid).update({
           'savePosts': FieldValue.arrayUnion([postId])
+        });
+        isOk = true;
+      }
+    } catch (e) {
+      isOk = false;
+    }
+
+    return isOk;
+  }
+
+  Future<bool> updateArchivePost({
+    required String uid,
+    required String postId,
+  }) async {
+    bool isOk = false;
+
+    try {
+      if (currentuserdata.savePosts.contains(postId)) {
+        _firestore.collection('user').doc(uid).update({
+          'archiveposts': FieldValue.arrayRemove([postId])
+        });
+        isOk = false;
+      } else {
+        _firestore.collection('user').doc(uid).update({
+          'archiveposts': FieldValue.arrayUnion([postId])
         });
         isOk = true;
       }

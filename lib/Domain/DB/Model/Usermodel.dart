@@ -15,12 +15,14 @@ class UserData {
   final String name;
   final List<dynamic> posts;
   String? acLocation;
-   final List<dynamic> savePosts;
-  UserData(
+  final List<dynamic> savePosts;
+    final List<dynamic> archiveposts;
+  UserData( 
       {required this.phoneNumber,
       this.uid,
+      required this.archiveposts,
       required this.dateJoin,
-     required this.photoUrl,
+      required this.photoUrl,
       required this.username,
       required this.email,
       required this.password,
@@ -29,8 +31,8 @@ class UserData {
       required this.following,
       required this.changeUsername,
       required this.posts,
-    required this.savePosts,
-     required this.name,
+      required this.savePosts,
+      required this.name,
       this.acLocation});
 
   Map<String, dynamic> toJson() => {
@@ -48,27 +50,29 @@ class UserData {
         'name': name,
         'posts': posts,
         'acLocation': acLocation,
-        'savePosts':savePosts
+        'savePosts': savePosts,
+        'archiveposts': archiveposts
       };
 
   static UserData fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return UserData(
-        phoneNumber: snapshot['phoneNumber'],
-        username: snapshot['username'],
-        email: snapshot['email'],
-        password: snapshot['password'],
-        photoUrl: snapshot['photoUrl'],
-        uid: snapshot['uid'],
-        follower: List<dynamic>.from(snapshot['follower']),
-        following: List<dynamic>.from(snapshot['following']),
-        bio: snapshot['bio'],
-        dateJoin: snapshot['dateJoin'],
-        changeUsername: snapshot['changeUsername'],
-        name: snapshot['name'],
-        posts: List<dynamic>.from(snapshot['posts']),
-        acLocation: snapshot['acLocation'],
-        savePosts:List<dynamic>.from(snapshot['savePosts']),
-        );
+      archiveposts: snapshot['archiveposts'],
+      phoneNumber: snapshot['phoneNumber'],
+      username: snapshot['username'],
+      email: snapshot['email'],
+      password: snapshot['password'],
+      photoUrl: snapshot['photoUrl'],
+      uid: snapshot['uid'],
+      follower: List<dynamic>.from(snapshot['follower']),
+      following: List<dynamic>.from(snapshot['following']),
+      bio: snapshot['bio'],
+      dateJoin: snapshot['dateJoin'],
+      changeUsername: snapshot['changeUsername'],
+      name: snapshot['name'],
+      posts: List<dynamic>.from(snapshot['posts']),
+      acLocation: snapshot['acLocation'],
+      savePosts: List<dynamic>.from(snapshot['savePosts']),
+    );
   }
 }

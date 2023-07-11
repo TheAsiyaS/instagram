@@ -6,7 +6,7 @@ class Comment {
   final String profileImage;
   String? commentId;
   final String? uid;
-  final dynamic likes;
+  final List<dynamic> likes;
   final String postId;
   final String datePublished;
 

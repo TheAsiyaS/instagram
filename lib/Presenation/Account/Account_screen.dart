@@ -11,8 +11,12 @@ import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
-import 'Edite_profile.dart';
-
+ValueNotifier<String> name = ValueNotifier(currentuserdata.name );
+ValueNotifier<String> editeusername = ValueNotifier(currentuserdata.username);
+ValueNotifier<String> newusername = ValueNotifier(currentuserdata.username);
+ValueNotifier<String> bio = ValueNotifier(currentuserdata.bio);
+ValueNotifier<String> newname = ValueNotifier(currentuserdata.name );
+ValueNotifier<String> newbio = ValueNotifier(currentuserdata.bio);
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key});
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Domain/imagePick.dart';
+import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
 import 'package:instagram_clone/main.dart';
@@ -13,12 +14,7 @@ import 'package:instagram_clone/utenslis/Sizes.dart';
 
 import '../../utenslis/variables.dart';
 
-ValueNotifier<String> name = ValueNotifier(currentuserdata.name );
-ValueNotifier<String> editeusername = ValueNotifier(currentuserdata.username);
-ValueNotifier<String> newusername = ValueNotifier(currentuserdata.username);
-ValueNotifier<String> bio = ValueNotifier(currentuserdata.bio);
-ValueNotifier<String> newname = ValueNotifier(currentuserdata.name );
-ValueNotifier<String> newbio = ValueNotifier(currentuserdata.bio);
+
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 

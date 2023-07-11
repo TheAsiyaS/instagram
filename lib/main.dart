@@ -12,7 +12,7 @@ import 'Domain/DB/Insfrastructure/Userfunctions.dart';
 late UserData currentuserdata;
 //edite in => search , profile ,
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); 
   await Firebase.initializeApp();
   currentuserdata = await AuthMethod().getUserDetail();
   runApp(const MyApp());

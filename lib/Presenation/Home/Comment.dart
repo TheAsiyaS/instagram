@@ -28,7 +28,6 @@ class commentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    log('profile : $ProfileUrl \nusername: $Username \ndescription :  $description \ndate : $date \n post id: $postId \n uid: $uid');
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -49,7 +48,7 @@ class commentScreen extends StatelessWidget {
                   flex: 7,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: size.height / 4.5,
                         child: commets(
                           likeText: '',
@@ -63,6 +62,8 @@ class commentScreen extends StatelessWidget {
                           NoOflikes: '',
                           suffixtext: 'Edited',
                           bottomPadding: 60.0,
+                          commentId: '',
+                          likes: const [],
                         ),
                       ),
                       const Divider(
@@ -91,37 +92,40 @@ class commentScreen extends StatelessWidget {
                               } else if (snapshot.hasError) {
                                 return const Text('Some error occured');
                               } else if (snapshot.data!.docs.isEmpty) {
-                                print(snapshot.data!.docs.length);
                                 return const Center(
                                     child: Text(
                                   'No comment yet!!',
                                   style: TextStyle(color: kGrey, fontSize: 30),
                                 ));
+                              } else {
+                                return ListView.separated(
+                                    itemBuilder: (context, index) {
+                                      final data = snapshot.data!.docs[index];
+                                      final List likelength = data['likes'];
+                                      log('${likelength.length}');
+                                      return SizedBox(
+                                        height: 100,
+                                        width: double.infinity,
+                                        child: commets(
+                                            likes: data['likes'],
+                                            commentId: data['commentId'],
+                                            likeText: ' Like',
+                                            size: size,
+                                            ProfileUrl: data['profileImage'],
+                                            Username: data['username'],
+                                            description: data['comment'],
+                                            date: data['datePublished'],
+                                            postId: data['postId'],
+                                            suffixtext: 'Reply',
+                                            bottomPadding: 0.0,
+                                            NoOflikes: '${likelength.length}'),
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return sizedBoxHeight50;
+                                    },
+                                    itemCount: snapshot.data!.docs.length);
                               }
-                              var data;
-                              return ListView.separated(
-                                  itemBuilder: (context, index) {
-                                    data = snapshot.data!.docs[index];
-                                    return SizedBox(
-                                      height: 100,
-                                      width: double.infinity,
-                                      child: commets(
-                                          likeText: 'Like',
-                                          size: size,
-                                          ProfileUrl: data['profileImage'],
-                                          Username: data['username'],
-                                          description: data['comment'],
-                                          date: data['datePublished'],
-                                          postId: data['postId'],
-                                          suffixtext: 'Reply',
-                                          bottomPadding: 0.0,
-                                          NoOflikes: '0'),
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return sizedBoxHeight50;
-                                  },
-                                  itemCount: snapshot.data!.docs.length);
                             }),
                       )
                     ],
@@ -153,7 +157,7 @@ class addComment extends StatelessWidget {
           CircleAvatar(
             radius: 25,
             backgroundImage: NetworkImage(
-              currentuserdata.photoUrl ,
+              currentuserdata.photoUrl,
             ),
           ),
           sizedBoxWidth20,
@@ -169,7 +173,7 @@ class addComment extends StatelessWidget {
                   comment: commentController.text,
                   datePublished: date,
                   postId: postId,
-                  profileImage: currentuserdata.photoUrl ,
+                  profileImage: currentuserdata.photoUrl,
                   uid: currentuserdata.uid!,
                   username: currentuserdata.username,
                 );
@@ -199,19 +203,23 @@ class commets extends StatelessWidget {
     required this.NoOflikes,
     this.bottomPadding,
     required this.likeText,
+    required this.commentId,
+    required this.likes,
   }) : super(key: key);
 
   final Size size;
   final ProfileUrl;
   final Username;
   final description;
-  final date;
+  final String date;
   final bottomPadiing;
-  final postId;
+  final String postId;
   final String suffixtext;
   final String NoOflikes;
   final bottomPadding;
   final String likeText;
+  final String commentId;
+  final List<dynamic> likes;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -243,7 +251,7 @@ class commets extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: " ${description}",
+                      text: " $description",
                     ),
                   ],
                 ),
@@ -272,15 +280,26 @@ class commets extends StatelessWidget {
               style: const TextStyle(color: kGrey),
             ),
             IconButton(
-                onPressed: () {}, icon: const Icon(Icons.favorite_outline))
+                onPressed: () async {
+                  await FirestoreMethods().updatedCommentLike(
+                      postid: postId,
+                      commentuid: commentId,
+                      uid: currentuserdata.uid!,
+                      likes: likes);
+                },
+                icon: likes.contains(currentuserdata.uid)
+                    ? const Icon(
+                        Icons.favorite,
+                        color: kRed,
+                        size: 20,
+                      )
+                    : const Icon(
+                        Icons.favorite_outline,
+                        size: 20,
+                      ))
           ],
         ),
       ],
     );
   }
 }
-
-
-
-
-

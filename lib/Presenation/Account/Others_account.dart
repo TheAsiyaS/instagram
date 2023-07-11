@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
@@ -8,7 +9,6 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
-import 'Edite_profile.dart';
 
 class OthersProfile extends StatelessWidget {
   const OthersProfile({super.key, required this.uid});

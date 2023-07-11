@@ -58,7 +58,7 @@ class _PostListPageState extends State<PostListPage> {
     final size = MediaQuery.of(context).size;
 
     final ValueNotifier<int> profilecommentLength = ValueNotifier(0);
-    final ValueNotifier<List> profilelikes = ValueNotifier([]);
+
     final ValueNotifier<List> savepost =
         ValueNotifier(currentuserdata.savePosts);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -69,13 +69,16 @@ class _PostListPageState extends State<PostListPage> {
         title: const Text('Posts'),
       ),
       body: ListView.separated(
-        controller: _scrollController, 
+        controller: _scrollController,
         itemBuilder: (context, index) {
           final post = widget.posts[index];
           ValueNotifier<String> formattedDate =
               ValueNotifier(post['datePublished']);
           String? datePublish = post['datePublished'];
-          profilelikes.value = post['likes'];
+          final ValueNotifier<List> profilelikes = ValueNotifier(post['likes']);
+          final List like = post['likes'];
+          final ValueNotifier<bool> isliked =
+              ValueNotifier(like.contains(currentuserdata.uid));
           if (datePublish != null) {
             DateTime myDate = DateTime.parse(datePublish);
             formattedDate.value = DateFormat('dd-MM-yyyy').format(myDate);
@@ -174,22 +177,36 @@ class _PostListPageState extends State<PostListPage> {
                 ),
                 Row(
                   children: [
-                    Iconbuttons(
-                      icon: profilelikes.value.contains(currentuserdata.uid)
-                          ? const Icon(
-                              kfavorite,
-                              size: 29,
-                              color: kRed,
-                            )
-                          : const Icon(
-                              kfavorite_outline,
-                              size: 29,
-                            ),
-                      postid: post['postId'],
-                      likes: profilelikes.value,
-                      iconId: 'fav_out_in_post',
-                      style: IconButton.styleFrom(),
-                    ),
+                    ValueListenableBuilder(
+                        valueListenable: isliked,
+                        builder: (context, value, _) {
+                          return IconButton(
+                            onPressed: () {
+                              if (profilelikes.value
+                                  .contains(currentuserdata.uid)) {
+                                profilelikes.value.remove(currentuserdata.uid);
+                                isliked.value = false;
+                                // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                                profilelikes.notifyListeners();
+                              } else {
+                                isliked.value = true;
+                                profilelikes.value.add(currentuserdata.uid);
+                                // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                                profilelikes.notifyListeners();
+                              }
+                            },
+                            icon: isliked.value
+                                ? const Icon(
+                                    kfavorite,
+                                    size: 29,
+                                    color: kRed,
+                                  )
+                                : const Icon(
+                                    kfavorite_outline,
+                                    size: 29,
+                                  ),
+                          );
+                        }),
                     Iconbuttons(
                       icon: const Icon(
                         kcomment,
@@ -231,10 +248,12 @@ class _PostListPageState extends State<PostListPage> {
                                   .contains(post['postId'])) {
                                 savepost.value.remove(post['postId']);
                                 issave.value = false;
+                                // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                 savepost.notifyListeners();
                               } else {
                                 issave.value = true;
                                 savepost.value.add(post['postId']);
+                                // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                 savepost.notifyListeners();
                               }
 
@@ -251,13 +270,17 @@ class _PostListPageState extends State<PostListPage> {
                         })
                   ],
                 ),
-                Text(
-                  ' ${profilelikes.value.length} likes',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 19,
-                  ),
-                ),
+                ValueListenableBuilder(
+                    valueListenable: profilelikes,
+                    builder: (context, value, _) {
+                      return Text(
+                        ' ${profilelikes.value.length} likes',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                        ),
+                      );
+                    }),
                 RichText(
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -325,10 +348,7 @@ class _PostListPageState extends State<PostListPage> {
           );
         },
         separatorBuilder: (context, index) {
-          return const Divider(
-            height: 1,
-            color: kGrey,
-          );
+            return sizedBoxHeight10;  
         },
         itemCount: widget.posts.length,
       ),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
-import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
+import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Home/Comment.dart';
 import 'package:instagram_clone/main.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
+import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/AddPost/Tag_post.dart';
 import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
 import 'package:instagram_clone/Presenation/SignUp/Password.dart';

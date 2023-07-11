@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
-import 'package:instagram_clone/Presenation/Account/Edite_profile.dart';
+import 'package:instagram_clone/Presenation/Edite/Edite_profile.dart';
 import 'package:instagram_clone/Presenation/Navigationpage/NavigationBar.dart';
 import 'package:instagram_clone/Presenation/SignUp/Password.dart';
 import 'package:instagram_clone/Presenation/SignUp/WelcomePage.dart';

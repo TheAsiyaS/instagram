@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
+import 'package:instagram_clone/Presenation/Account/Others_account.dart';
+import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
@@ -144,6 +146,15 @@ class HomeScreen extends StatelessWidget {
                                                 onSelected:
                                                     (String value) async {
                                                   if (value == '1') {
+                                                    Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    EditingPost(
+                                                                      postdata: snapshot
+                                                                          .data!
+                                                                          .docs[index],
+                                                                    )));
                                                   } else if (value == '2') {
                                                     await FirestoreMethods()
                                                         .deletePost(
@@ -253,12 +264,14 @@ class HomeScreen extends StatelessWidget {
                                                             data['postId']);
                                                         issave.value = false;
                                                         savepost
+                                                            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                                             .notifyListeners();
                                                       } else {
                                                         issave.value = true;
                                                         savepost.value.add(
                                                             data['postId']);
                                                         savepost
+                                                            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                                             .notifyListeners();
                                                       }
 
@@ -269,7 +282,6 @@ class HomeScreen extends StatelessWidget {
                                                               uid:
                                                                   currentuserdata
                                                                       .uid!);
-                                                      print('${issave.value}');
                                                     },
                                                     icon: Icon(
                                                       issave.value
@@ -281,11 +293,128 @@ class HomeScreen extends StatelessWidget {
                                                 })
                                           ],
                                         ),
-                                        Text(
-                                          ' ${likes.value.length} likes',
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 19,
+                                        GestureDetector(
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(40),
+                                                  topRight: Radius.circular(40),
+                                                ),
+                                              ),
+                                              backgroundColor: kTransparentGrey,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return SizedBox(
+                                                  width: size.width,
+                                                  height: size.height / 3,
+                                                  child: likes.value.isEmpty
+                                                      ? const Center(
+                                                          child: Text(
+                                                              'No Likes for this post'))
+                                                      : FutureBuilder<
+                                                          QuerySnapshot>(
+                                                          future:
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'user')
+                                                                  .where(
+                                                                    'uid',
+                                                                    whereIn: likes
+                                                                        .value,
+                                                                  )
+                                                                  .get(),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return const Center(
+                                                                  child: Text(
+                                                                      'Some Error Occurred!'));
+                                                            } else if (!snapshot
+                                                                    .hasData ||
+                                                                snapshot
+                                                                    .data!
+                                                                    .docs
+                                                                    .isEmpty) {
+                                                              return const Center(
+                                                                  child: Text(
+                                                                      'No Likes for this post'));
+                                                            } else if (snapshot
+                                                                    .connectionState ==
+                                                                ConnectionState
+                                                                    .waiting) {
+                                                              return const Center(
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                                  strokeWidth:
+                                                                      2,
+                                                                  color: kWhite,
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              return ListView
+                                                                  .separated(
+                                                                itemBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  final data =
+                                                                      snapshot
+                                                                          .data!
+                                                                          .docs[index];
+
+                                                                  return ListTile(
+                                                                    leading:
+                                                                        CircleAvatar(
+                                                                      radius:
+                                                                          30,
+                                                                      backgroundImage:
+                                                                          NetworkImage(
+                                                                              data['photoUrl']),
+                                                                    ),
+                                                                    title: Text(
+                                                                        data[
+                                                                            'username']),
+                                                                    subtitle:
+                                                                        Text(data[
+                                                                            'name']),
+                                                                    onTap: () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .push(
+                                                                              MaterialPageRoute(builder: (context) => OthersProfile(uid: data['uid'])));
+                                                                    },
+                                                                  );
+                                                                },
+                                                                separatorBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  return const Divider(
+                                                                    color:
+                                                                        kWhite,
+                                                                  );
+                                                                },
+                                                                itemCount:
+                                                                    snapshot
+                                                                        .data!
+                                                                        .docs
+                                                                        .length,
+                                                              );
+                                                            }
+                                                          },
+                                                        ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Text(
+                                            ' ${likes.value.length} likes',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19,
+                                            ),
                                           ),
                                         ),
                                         RichText(
@@ -366,7 +495,7 @@ class HomeScreen extends StatelessWidget {
                               });
                         },
                         separatorBuilder: (context, index) {
-                          return const Divider();
+                          return sizedBoxHeight10;
                         },
                         itemCount: itemCount.value,
                       ),

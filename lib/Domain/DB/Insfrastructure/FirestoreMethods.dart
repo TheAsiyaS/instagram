@@ -95,7 +95,7 @@ class FirestoreMethods {
           datePublished: datePublished,
           uid: uid,
           commentId: commentId,
-          likes: 1,
+          likes: [],
         );
 
         final jsonData = commentModel.toJson();
@@ -188,5 +188,62 @@ class FirestoreMethods {
       isok = false;
     }
     return isok;
+  }
+
+  Future<bool> updateDescription({required String description, uid}) async {
+    try {
+      if (description.isNotEmpty) {
+        final docUser =
+            FirebaseFirestore.instance.collection('post').doc(gUid ?? uid);
+        docUser.update({'description': description});
+        return true;
+      } else {
+        log('empty description');
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+    return false;
+  }
+
+  Future<bool> updatedCommentLike(
+      {required String postid,
+      required String commentuid,
+      required String uid,
+      required List<dynamic> likes}) async {
+    
+
+    try {
+      if (postid.isNotEmpty || commentuid.isNotEmpty) {
+        if (likes.contains(uid)) {
+          _firestore
+              .collection('post')
+              .doc(postid)
+              .collection('comment')
+              .doc(commentuid)
+              .update({
+            'likes': FieldValue.arrayRemove([uid])
+          });
+        } else {
+          _firestore
+              .collection('post')
+              .doc(postid)
+              .collection('comment')
+              .doc(commentuid)
+              .update({
+            'likes': FieldValue.arrayUnion([uid])
+          });
+        }
+
+        return true;
+      } else {
+        log('empty likes');
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+    return false;
   }
 }
