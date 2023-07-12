@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/AddPost/Tag_post.dart';
+import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
 import 'package:instagram_clone/Presenation/Login/Login_scree.dart';
 import 'package:instagram_clone/Presenation/SignUp/Password.dart';
 import 'package:instagram_clone/Presenation/SignUp/subscreen/EmailGet.dart';
@@ -76,6 +77,9 @@ class Cupertino_textfield extends StatelessWidget {
         } else if (textfieldId == 'tag_page') {
           searchUser.value = value;
         }
+        else if (textfieldId == 'edite_decription') {
+          editeDescription.text = value;
+        }
       },
       onChanged: (value) async {
         if (textfieldId == 'PasswordGet') {
@@ -99,6 +103,8 @@ class Cupertino_textfield extends StatelessWidget {
           password.text = value;
         } else if (textfieldId == 'tag_page') {
           searchUser.value = value;
+        } else if (textfieldId == 'edite_decription') {
+          editeDescription.text = value;
         }
       },
     );

@@ -9,6 +9,7 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
+import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
@@ -146,15 +147,28 @@ class HomeScreen extends StatelessWidget {
                                                 onSelected:
                                                     (String value) async {
                                                   if (value == '1') {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    EditingPost(
-                                                                      postdata: snapshot
-                                                                          .data!
-                                                                          .docs[index],
-                                                                    )));
+                                                    if (data['uid'] ==
+                                                        currentuserdata.uid) {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      EditingPost(
+                                                                        postdata: snapshot
+                                                                            .data!
+                                                                            .docs[index],
+                                                                      )));
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(const SnackBar(
+                                                              backgroundColor:
+                                                                  kRed,
+                                                              content: SnackbarWidget(
+                                                                  icon: kremove,
+                                                                  message:
+                                                                      'You can\'t edit this post only user can edit this ')));
+                                                    }
                                                   } else if (value == '2') {
                                                     await FirestoreMethods()
                                                         .deletePost(

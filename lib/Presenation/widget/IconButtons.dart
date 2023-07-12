@@ -42,13 +42,9 @@ class Iconbuttons extends StatelessWidget {
       onPressed: () async {
         if (iconId == "fav_out_in_post") {
           if (postid!.isNotEmpty) {
-            print('object');
             FirestoreMethods().postLike(currentuserdata.uid!, postid!, likes!);
-          } else {
-            print('empty');
-          }
+          } else {}
         } else if (iconId == 'cmt_out_in_post') {
-          print('-------------${postid}-------------');
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => commentScreen(
                     ProfileUrl: profileimg,
@@ -144,14 +140,8 @@ class Iconbuttons extends StatelessWidget {
               );
             },
           );
-        } else if (iconId == 'save_out_in_post') {
-         
-        }
-      
+        } else if (iconId == 'save_out_in_post') {}
       },
-
-      //more_vert_in_post
-
       icon: icon,
       style: style,
     );
