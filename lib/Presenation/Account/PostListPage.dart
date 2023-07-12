@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
+import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
+import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
@@ -135,8 +137,34 @@ class _PostListPageState extends State<PostListPage> {
                         },
                         onSelected: (String value) async {
                           if (value == '1') {
+                            if (post['uid'] == currentuserdata.uid) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => EditingPost(
+                                        postdata: post as QueryDocumentSnapshot<
+                                            Map<String, dynamic>>,
+                                      )));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: kRed,
+                                      content: SnackbarWidget(
+                                          icon: kremove,
+                                          message:
+                                              'You can\'t edit this post only user can edit this ')));
+                            }
                           } else if (value == '2') {
-                            await FirestoreMethods().deletePost(post['postId']);
+                            if (post['uid'] == currentuserdata.uid) {
+                              await FirestoreMethods()
+                                  .deletePost(post['postId']);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: kRed,
+                                      content: SnackbarWidget(
+                                          icon: kremove,
+                                          message:
+                                              'You can\'t delete this post only user can delete  ')));
+                            }
                           } else if (value == '3') {}
                         },
                       ),
@@ -348,7 +376,7 @@ class _PostListPageState extends State<PostListPage> {
           );
         },
         separatorBuilder: (context, index) {
-            return sizedBoxHeight10;  
+          return sizedBoxHeight10;
         },
         itemCount: widget.posts.length,
       ),

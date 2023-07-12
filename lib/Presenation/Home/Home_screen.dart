@@ -167,12 +167,25 @@ class HomeScreen extends StatelessWidget {
                                                               content: SnackbarWidget(
                                                                   icon: kremove,
                                                                   message:
-                                                                      'You can\'t edit this post only user can edit this ')));
+                                                                      'You can\'t edit this post only user can edit ')));
                                                     }
                                                   } else if (value == '2') {
-                                                    await FirestoreMethods()
-                                                        .deletePost(
-                                                            data['postId']);
+                                                    if (data['uid'] ==
+                                                        currentuserdata.uid) {
+                                                      await FirestoreMethods()
+                                                          .deletePost(
+                                                              data['postId']);
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(const SnackBar(
+                                                              backgroundColor:
+                                                                  kRed,
+                                                              content: SnackbarWidget(
+                                                                  icon: kremove,
+                                                                  message:
+                                                                      'You can\'t delete this post only user can delete')));
+                                                    }
                                                   } else if (value == '3') {}
                                                 },
                                               ),
