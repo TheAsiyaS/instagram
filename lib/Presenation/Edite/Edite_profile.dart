@@ -33,6 +33,7 @@ class _EditprofileState extends State<EditProfile> {
     setState(() {
       image = img;
       if (img != null) {
+        print('--------------------------${img.length}-------------------------------');
         isImage = true;
       } else {
         isImage = false;

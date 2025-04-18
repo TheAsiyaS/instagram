@@ -20,7 +20,7 @@ Future<void> main() async {
     appId: '1:19114928418:android:6d2800e7d5585101545d7b',
     messagingSenderId: '19114928418',
     projectId: 'clone-instagram-5ee02',
-    storageBucket: 'clone-instagram-b9yt18.appspot.com',
+    storageBucket: 'gs://clone-instagram-5ee02.appspot.com',
   ));
 
   runApp(const MyApp());
