@@ -110,7 +110,7 @@ class _TagpeopleState extends State<Tagpeople> {
                       ),
                     );
                   } else if (!snapshot.hasData ||
-                      snapshot.data!.docs.length == 0) {
+                      snapshot.data!.docs.isEmpty) {
                     return const Center(child: Text('No User Found!!'));
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
@@ -181,7 +181,7 @@ class DraggableWidget extends StatefulWidget {
   final int index;
   final Function() onRemove;
 
-  const DraggableWidget({
+  const DraggableWidget({super.key, 
     required this.position,
     required this.containerWidth,
     required this.containerHeight,

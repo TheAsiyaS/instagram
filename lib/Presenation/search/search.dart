@@ -59,10 +59,10 @@ class Search_history extends StatelessWidget {
 
                     if (!isAddValue) {
                       await FirestoreMethods().search_add(
-                        profileImg: currentuserdata.photoUrl,
-                        username: currentuserdata.username,
+                        profileImg: currentuserdata!.photoUrl,
+                        username: currentuserdata!.username,
                         serach_query: value,
-                        useruid: currentuserdata.uid!,
+                        useruid:currentuserdata!.uid!,
                       );
                     }
                     isAdd.value = false;
@@ -83,7 +83,7 @@ class Search_history extends StatelessWidget {
                   StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('search')
-                        .where('useruid', isEqualTo: currentuserdata.uid)
+                        .where('useruid', isEqualTo: currentuserdata!.uid)
                         .orderBy('search_query', descending: false)
                         .snapshots(),
                     builder: (context, snapshot) {

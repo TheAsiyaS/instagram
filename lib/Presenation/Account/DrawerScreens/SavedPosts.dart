@@ -17,7 +17,7 @@ class SavedPosts extends StatelessWidget {
           child: FutureBuilder( 
               future: FirebaseFirestore.instance
                   .collection('post')
-                  .where('postId', whereIn: currentuserdata.savePosts)
+                  .where('postId', whereIn: currentuserdata!.savePosts)
                   .get(),
               builder: (context, snapshot) { 
                 if (snapshot.connectionState == ConnectionState.waiting) {

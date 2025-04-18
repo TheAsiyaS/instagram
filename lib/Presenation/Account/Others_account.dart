@@ -149,7 +149,7 @@ class OthersProfile extends StatelessWidget {
                               width: size.width / 2.6,
                               child: Elevated_button(
                                   elevatedbutttonwidget: Text(follower.value
-                                          .contains(currentuserdata.uid)
+                                          .contains(currentuserdata!.uid)
                                       ? 'Following'
                                       : 'Follow'),
                                   elevatedbutttonid: 'follow_inaccount',

@@ -53,7 +53,7 @@ class NavigationPage extends StatelessWidget {
                         icon: CircleAvatar(
                           radius: 17,
                           backgroundImage: NetworkImage(
-                            currentuserdata.photoUrl,
+                           currentuserdata!.photoUrl,
                           ),
                         ),
                         label: ''),

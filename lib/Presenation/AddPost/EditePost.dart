@@ -46,7 +46,7 @@ class EditePost extends StatelessWidget {
                     builder: (context) => PostAdd(
                           imagepath: imagePath,
                          
-                          uid: currentuserdata.uid,
+                          uid: currentuserdata!.uid,
                           filtercolor: filtercolor.value,
                         )));
               },

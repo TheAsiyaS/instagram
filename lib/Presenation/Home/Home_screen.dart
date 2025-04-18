@@ -21,27 +21,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final ValueNotifier<bool> _direction = ValueNotifier(true);
+    final ValueNotifier<bool> direction0 = ValueNotifier(true);
     final ValueNotifier<int> itemCount = ValueNotifier(1);
     final ValueNotifier<List> likes = ValueNotifier([]);
     final ValueNotifier<int> commentLength = ValueNotifier(0);
     final ValueNotifier<List> savepost =
-        ValueNotifier(currentuserdata.savePosts);
+        ValueNotifier(currentuserdata!.savePosts);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      savepost.value = currentuserdata.savePosts;
+      savepost.value = currentuserdata!.savePosts;
     });
 
     return Scaffold(
       body: ValueListenableBuilder(
-        valueListenable: _direction,
+        valueListenable: direction0,
         builder: (context, newDirection, _) {
           return NotificationListener<UserScrollNotification>(
             onNotification: (notification) {
               final ScrollDirection direction = notification.direction;
               if (direction == ScrollDirection.forward) {
-                _direction.value = true;
+                direction0.value = true;
               } else if (direction == ScrollDirection.reverse) {
-                _direction.value = false;
+                direction0.value = false;
               }
               return true;
             },
@@ -78,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                                   ValueNotifier<String> formattedDate =
                                       ValueNotifier(data['datePublished']);
                                   likes.value = data['likes'];
-                                  savepost.value = currentuserdata.savePosts;
+                                  savepost.value = currentuserdata!.savePosts;
                                   itemCount.value = snapshot.data!.docs.length;
                                   String? datePublish = data['datePublished'];
                                   if (datePublish != null) {
@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                                       6, colorString.length - 1);
                                   final parscode = int.parse(extractedCode);
                                   final ValueNotifier<bool> issave =
-                                      ValueNotifier(currentuserdata.savePosts
+                                      ValueNotifier(currentuserdata!.savePosts
                                           .contains(data['postId']));
                                   return SizedBox(
                                     height: size.height / 1.24,
@@ -148,7 +148,7 @@ class HomeScreen extends StatelessWidget {
                                                     (String value) async {
                                                   if (value == '1') {
                                                     if (data['uid'] ==
-                                                        currentuserdata.uid) {
+                                                        currentuserdata!.uid) {
                                                       Navigator.of(context).push(
                                                           MaterialPageRoute(
                                                               builder:
@@ -171,7 +171,7 @@ class HomeScreen extends StatelessWidget {
                                                     }
                                                   } else if (value == '2') {
                                                     if (data['uid'] ==
-                                                        currentuserdata.uid) {
+                                                        currentuserdata!.uid) {
                                                       await FirestoreMethods()
                                                           .deletePost(
                                                               data['postId']);
@@ -231,7 +231,7 @@ class HomeScreen extends StatelessWidget {
                                           children: [
                                             Iconbuttons(
                                               icon: likes.value.contains(
-                                                      currentuserdata.uid)
+                                                      currentuserdata!.uid)
                                                   ? const Icon(
                                                       kfavorite,
                                                       size: 29,
@@ -283,7 +283,7 @@ class HomeScreen extends StatelessWidget {
                                                 builder: (context, value, _) {
                                                   return IconButton(
                                                     onPressed: () async {
-                                                      if (currentuserdata
+                                                      if (currentuserdata!
                                                           .savePosts
                                                           .contains(
                                                               data['postId'])) {
@@ -307,7 +307,7 @@ class HomeScreen extends StatelessWidget {
                                                               postId: data[
                                                                   'postId']!,
                                                               uid:
-                                                                  currentuserdata
+                                                                  currentuserdata!
                                                                       .uid!);
                                                     },
                                                     icon: Icon(
@@ -528,7 +528,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  _direction.value
+                  direction0.value
                       ? AnimatedContainer(
                           duration: const Duration(microseconds: 500),
                           color: kBlack,

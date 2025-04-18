@@ -42,7 +42,7 @@ class Iconbuttons extends StatelessWidget {
       onPressed: () async {
         if (iconId == "fav_out_in_post") {
           if (postid!.isNotEmpty) {
-            FirestoreMethods().postLike(currentuserdata.uid!, postid!, likes!);
+            FirestoreMethods().postLike(currentuserdata!.uid!, postid!, likes!);
           } else {}
         } else if (iconId == 'cmt_out_in_post') {
           Navigator.of(context).push(MaterialPageRoute(
@@ -56,14 +56,14 @@ class Iconbuttons extends StatelessWidget {
                   )));
         } else if (iconId == 'check_in_edite') {
           await AuthMethod()
-              .updateName(name: name.value, uid: currentuserdata.uid);
+              .updateName(name: name.value, uid:currentuserdata!.uid);
           await AuthMethod().updateUsername(
-              username: editeusername.value, uid: currentuserdata.uid);
+              username: editeusername.value, uid: currentuserdata!.uid);
           newusername.value = editeusername.value;
           newname.value = name.value;
           newbio.value = bio.value;
           await AuthMethod()
-              .updateBio(bio: bio.value, uid: currentuserdata.uid);
+              .updateBio(bio: bio.value, uid: currentuserdata!.uid);
 
           Navigator.of(context).pop();
         } else if (iconId == 'tag_persons') {

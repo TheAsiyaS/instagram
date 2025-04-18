@@ -42,7 +42,7 @@ class FirestoreMethods {
 
       final jsonData = post.toJson();
       await _firestore.collection('post').doc(postId).set(jsonData);
-      await AuthMethod().updatepots(postuid: postId, uid: currentuserdata.uid);
+      await AuthMethod().updatepots(postuid: postId, uid: currentuserdata!.uid);
       isOk = true;
     } catch (e, stackTrace) {
       isOk = false;

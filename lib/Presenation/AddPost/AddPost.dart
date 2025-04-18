@@ -104,9 +104,9 @@ class PostAdd extends StatelessWidget {
                       tag: taguid,
                       description: descriptionController.text,
                       imagePath: postUrl,
-                      username: currentuserdata.username,
-                      profileUrl: currentuserdata.photoUrl,
-                      uid: currentuserdata.uid!,
+                      username: currentuserdata!.username,
+                      profileUrl: currentuserdata!.photoUrl,
+                      uid: currentuserdata!.uid!,
                       location: location ?? '',
                       music: music ?? '',
                       filterColor: filtercolor.toString());
@@ -185,7 +185,7 @@ class PostAdd extends StatelessWidget {
                             radius: 25,
                             backgroundColor: kTransparentGrey,
                             backgroundImage:
-                                NetworkImage(currentuserdata.photoUrl),
+                                NetworkImage(currentuserdata!.photoUrl),
                           ),
                           const SizedBox(
                             width: 20,
@@ -291,7 +291,7 @@ class PostAdd extends StatelessWidget {
                           valueListenable: off1,
                           builder: (context, value, child) {
                             return CupertinoSwitch(
-                                activeColor: CupertinoColors.systemGrey,
+                                activeTrackColor: CupertinoColors.systemGrey,
                                 value: off1.value,
                                 onChanged: (ischange) {
                                   off1.value = ischange;
@@ -314,7 +314,7 @@ class PostAdd extends StatelessWidget {
                           valueListenable: off2,
                           builder: (context, value, child) {
                             return CupertinoSwitch(
-                                activeColor: CupertinoColors.systemGrey,
+                                activeTrackColor: CupertinoColors.systemGrey,
                                 value: off2.value,
                                 onChanged: (ischange) {
                                   off2.value = ischange;
@@ -337,7 +337,7 @@ class PostAdd extends StatelessWidget {
                         CircleAvatar(
                           radius: 25,
                           backgroundImage:
-                              NetworkImage(currentuserdata.photoUrl),
+                              NetworkImage(currentuserdata!.photoUrl),
                         ),
                         Expanded(
                           child: ListTile(
@@ -349,7 +349,7 @@ class PostAdd extends StatelessWidget {
                               valueListenable: off3,
                               builder: (context, value, child) {
                                 return CupertinoSwitch(
-                                    activeColor: CupertinoColors.systemGrey,
+                                    activeTrackColor: CupertinoColors.systemGrey,
                                     value: off3.value,
                                     onChanged: (ischange) {
                                       off3.value = ischange;
@@ -375,7 +375,7 @@ class PostAdd extends StatelessWidget {
                             valueListenable: off4,
                             builder: (context, value, child) {
                               return CupertinoSwitch(
-                                  activeColor: CupertinoColors.systemGrey,
+                                  activeTrackColor: CupertinoColors.systemGrey,
                                   value: off4.value,
                                   onChanged: (ischange) {
                                     off4.value = ischange;

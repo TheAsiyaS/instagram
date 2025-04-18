@@ -11,14 +11,14 @@ import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
-ValueNotifier<String> name = ValueNotifier(currentuserdata.name );
-ValueNotifier<String> editeusername = ValueNotifier(currentuserdata.username);
-ValueNotifier<String> newusername = ValueNotifier(currentuserdata.username);
-ValueNotifier<String> bio = ValueNotifier(currentuserdata.bio);
-ValueNotifier<String> newname = ValueNotifier(currentuserdata.name );
-ValueNotifier<String> newbio = ValueNotifier(currentuserdata.bio);
+ValueNotifier<String> name = ValueNotifier(currentuserdata!.name );
+ValueNotifier<String> editeusername = ValueNotifier(currentuserdata!.username);
+ValueNotifier<String> newusername = ValueNotifier(currentuserdata!.username);
+ValueNotifier<String> bio = ValueNotifier(currentuserdata!.bio);
+ValueNotifier<String> newname = ValueNotifier(currentuserdata!.name );
+ValueNotifier<String> newbio = ValueNotifier(currentuserdata!.bio);
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({Key? key});
+  const AccountScreen({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class AccountScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "${currentuserdata.posts.length}",
+                                  "${currentuserdata!.posts.length}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -125,7 +125,7 @@ class AccountScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  currentuserdata.follower.length.toString(),
+                              currentuserdata!.follower.length.toString(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -136,7 +136,7 @@ class AccountScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  currentuserdata.following.length.toString(),
+                                 currentuserdata!.following.length.toString(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -303,8 +303,8 @@ class AccountScreen extends StatelessWidget {
                     height: size.height / 1.5,
                     child: TabBarView(
                       children: [
-                        Postpage(uid: currentuserdata.uid!),
-                        Tagpage(uid: currentuserdata.uid!),
+                        Postpage(uid:currentuserdata!.uid!),
+                        Tagpage(uid: currentuserdata!.uid!),
                       ],
                     ),
                   ),

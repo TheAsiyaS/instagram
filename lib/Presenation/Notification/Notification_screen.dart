@@ -20,7 +20,7 @@ class NotificationScreen extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('post')
-            .where('uid', isEqualTo: currentuserdata.uid)
+            .where('uid', isEqualTo: currentuserdata!.uid)
             .snapshots(),
         builder: (context, snapshots) {
           if (snapshots.hasError) {
@@ -32,7 +32,7 @@ class NotificationScreen extends StatelessWidget {
           } else {
             List<dynamic> allLikes = [];
 
-            snapshots.data!.docs.forEach((postDoc) {
+            for (var postDoc in snapshots.data!.docs) {
               Map<String, dynamic>? postData =
                   postDoc.data() as Map<String, dynamic>?;
               List<dynamic>? likes = postData?.containsKey('likes') == true
@@ -41,7 +41,7 @@ class NotificationScreen extends StatelessWidget {
               if (likes != null) {
                 allLikes.addAll(likes);
               }
-            });
+            }
 
             return allLikes.isEmpty
                 ? const Center(child: Text('No activity'))
@@ -189,7 +189,7 @@ class TraillingPost extends StatelessWidget {
     for (String uid in dataList) {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('post')
-          .where('uid', isEqualTo: currentuserdata.uid)
+          .where('uid', isEqualTo:currentuserdata!.uid)
           .where('likes', arrayContains: uid)
           .get();
 

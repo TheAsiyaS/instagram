@@ -17,7 +17,7 @@ class PostListPage extends StatefulWidget {
   final List<QueryDocumentSnapshot> posts;
   final int initialPostIndex;
 
-  const PostListPage({required this.posts, required this.initialPostIndex});
+  const PostListPage({super.key, required this.posts, required this.initialPostIndex});
 
   @override
   _PostListPageState createState() => _PostListPageState();
@@ -62,9 +62,9 @@ class _PostListPageState extends State<PostListPage> {
     final ValueNotifier<int> profilecommentLength = ValueNotifier(0);
 
     final ValueNotifier<List> savepost =
-        ValueNotifier(currentuserdata.savePosts);
+        ValueNotifier(currentuserdata!.savePosts);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      savepost.value = currentuserdata.savePosts;
+      savepost.value =currentuserdata!.savePosts;
     });
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +80,7 @@ class _PostListPageState extends State<PostListPage> {
           final ValueNotifier<List> profilelikes = ValueNotifier(post['likes']);
           final List like = post['likes'];
           final ValueNotifier<bool> isliked =
-              ValueNotifier(like.contains(currentuserdata.uid));
+              ValueNotifier(like.contains(currentuserdata!.uid));
           if (datePublish != null) {
             DateTime myDate = DateTime.parse(datePublish);
             formattedDate.value = DateFormat('dd-MM-yyyy').format(myDate);
@@ -93,7 +93,7 @@ class _PostListPageState extends State<PostListPage> {
               colorString.substring(6, colorString.length - 1);
           final parscode = int.parse(extractedCode);
           final ValueNotifier<bool> issave =
-              ValueNotifier(currentuserdata.savePosts.contains(post['postId']));
+              ValueNotifier(currentuserdata!.savePosts.contains(post['postId']));
           return SizedBox(
             height: size.height / 1.24,
             child: Column(
@@ -137,7 +137,7 @@ class _PostListPageState extends State<PostListPage> {
                         },
                         onSelected: (String value) async {
                           if (value == '1') {
-                            if (post['uid'] == currentuserdata.uid) {
+                            if (post['uid'] == currentuserdata!.uid) {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => EditingPost(
                                         postdata: post as QueryDocumentSnapshot<
@@ -153,7 +153,7 @@ class _PostListPageState extends State<PostListPage> {
                                               'You can\'t edit this post only user can edit this ')));
                             }
                           } else if (value == '2') {
-                            if (post['uid'] == currentuserdata.uid) {
+                            if (post['uid'] == currentuserdata!.uid) {
                               await FirestoreMethods()
                                   .deletePost(post['postId']);
                             } else {
@@ -211,14 +211,14 @@ class _PostListPageState extends State<PostListPage> {
                           return IconButton(
                             onPressed: () {
                               if (profilelikes.value
-                                  .contains(currentuserdata.uid)) {
-                                profilelikes.value.remove(currentuserdata.uid);
+                                  .contains(currentuserdata!.uid)) {
+                                profilelikes.value.remove(currentuserdata!.uid);
                                 isliked.value = false;
                                 // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                 profilelikes.notifyListeners();
                               } else {
                                 isliked.value = true;
-                                profilelikes.value.add(currentuserdata.uid);
+                                profilelikes.value.add(currentuserdata!.uid);
                                 // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                 profilelikes.notifyListeners();
                               }
@@ -272,7 +272,7 @@ class _PostListPageState extends State<PostListPage> {
                         builder: (context, value, _) {
                           return IconButton(
                             onPressed: () async {
-                              if (currentuserdata.savePosts
+                              if (currentuserdata!.savePosts
                                   .contains(post['postId'])) {
                                 savepost.value.remove(post['postId']);
                                 issave.value = false;
@@ -287,7 +287,7 @@ class _PostListPageState extends State<PostListPage> {
 
                               await AuthMethod().updateSavepots(
                                   postId: post['postId']!,
-                                  uid: currentuserdata.uid!);
+                                  uid: currentuserdata!.uid!);
                               print('${issave.value}');
                             },
                             icon: Icon(

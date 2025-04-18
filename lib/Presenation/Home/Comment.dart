@@ -157,7 +157,7 @@ class addComment extends StatelessWidget {
           CircleAvatar(
             radius: 25,
             backgroundImage: NetworkImage(
-              currentuserdata.photoUrl,
+            currentuserdata!.photoUrl,
             ),
           ),
           sizedBoxWidth20,
@@ -173,9 +173,9 @@ class addComment extends StatelessWidget {
                   comment: commentController.text,
                   datePublished: date,
                   postId: postId,
-                  profileImage: currentuserdata.photoUrl,
-                  uid: currentuserdata.uid!,
-                  username: currentuserdata.username,
+                  profileImage: currentuserdata!.photoUrl,
+                  uid: currentuserdata!.uid!,
+                  username: currentuserdata!.username,
                 );
 
                 if (res == true) {
@@ -265,7 +265,7 @@ class commets extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: size.width / 6),
               child: Text(
-                '$date',
+                date,
                 style: const TextStyle(color: kGrey),
               ),
             ),
@@ -284,10 +284,10 @@ class commets extends StatelessWidget {
                   await FirestoreMethods().updatedCommentLike(
                       postid: postId,
                       commentuid: commentId,
-                      uid: currentuserdata.uid!,
+                      uid: currentuserdata!.uid!,
                       likes: likes);
                 },
-                icon: likes.contains(currentuserdata.uid)
+                icon: likes.contains(currentuserdata!.uid)
                     ? const Icon(
                         Icons.favorite,
                         color: kRed,

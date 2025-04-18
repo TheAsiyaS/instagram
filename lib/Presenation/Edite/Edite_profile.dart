@@ -68,7 +68,7 @@ class _EditprofileState extends State<EditProfile> {
               });
               await selectImage();
               final url = await AuthMethod()
-                  .addProfilePic(file: image!, uid: currentuserdata.uid);
+                  .addProfilePic(file: image!, uid: currentuserdata!.uid);
               setState(() {
                 profile.value = url;
               });

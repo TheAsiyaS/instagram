@@ -9,7 +9,7 @@ const websize = 600;
 
 final List<String> drawerTitle = [''];
 ValueNotifier<String> profile =
-    ValueNotifier(currentuserdata.photoUrl );
+    ValueNotifier(currentuserdata!.photoUrl );
 
 final TextEditingController UsernameController = TextEditingController();
 

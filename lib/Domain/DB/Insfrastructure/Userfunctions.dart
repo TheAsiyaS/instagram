@@ -190,7 +190,7 @@ class AuthMethod {
     bool isOk = false;
 
     try {
-      if (currentuserdata.savePosts.contains(postId)) {
+      if (currentuserdata!.savePosts.contains(postId)) {
         _firestore.collection('user').doc(uid).update({
           'savePosts': FieldValue.arrayRemove([postId])
         });
@@ -215,7 +215,7 @@ class AuthMethod {
     bool isOk = false;
 
     try {
-      if (currentuserdata.savePosts.contains(postId)) {
+      if (currentuserdata!.savePosts.contains(postId)) {
         _firestore.collection('user').doc(uid).update({
           'archiveposts': FieldValue.arrayRemove([postId])
         });
