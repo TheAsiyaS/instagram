@@ -9,6 +9,7 @@ import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:instagram_clone/utenslis/styles.dart';
 
 final TextEditingController emailAddress = TextEditingController();
 final TextEditingController password = TextEditingController();
@@ -36,9 +37,7 @@ class LoginScreen extends StatelessWidget {
               child: Container(),
             ),
             GestureDetector(
-              onTap: () async {
-               
-              },
+              onTap: () async {},
               child: Text('Instagram',
                   style: GoogleFonts.grandHotel(
                     fontSize: 45,
@@ -91,6 +90,7 @@ class LoginScreen extends StatelessWidget {
               width: double.infinity,
               height: 45,
               child: ElevatedButton(
+                style: elevatedbuttonstyle,
                 focusNode: FocusNode(),
                 onPressed: () async {
                   final res = await AuthMethod().loginUser(
@@ -98,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                   log(res.toString());
                   if (res == false) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.red,
+                        backgroundColor: kRed,
                         content: SnackbarWidget(
                             icon: Icons.remove,
                             message: 'Something error occured !!!')));
@@ -107,9 +107,9 @@ class LoginScreen extends StatelessWidget {
                         builder: (ctx) => const NavigationPage()));
                   }
                 },
-                child: const Text(
+                child: Text(
                   'Login',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: textstyleWhite,
                 ),
               ),
             ),
@@ -120,22 +120,27 @@ class LoginScreen extends StatelessWidget {
                 const Text('Forgot Login Detalis?'),
                 TextButton(
                     onPressed: () {},
-                    child: const Text(
+                    child:  Text(
                       'Get help with Logging in.',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, color: kWhite),
+                          textstylefontwhite,
                     )),
               ],
             ),
-            const Center(child: Text('OR')),
+             Center(
+                child: Text(
+              'OR',
+              style: textstyleWhite,
+            )),
             TextButton.icon(
               onPressed: () {},
-              icon: const Icon(Icons.facebook),
-              label: const Text(
+              icon: const Icon(
+                Icons.facebook,
+                color: kWhite,
+              ),
+              label:  Text(
                 'Log In With Facebook',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: textstylefontwhite,
               ),
             ),
             Flexible(
@@ -151,10 +156,10 @@ class LoginScreen extends StatelessWidget {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: ((context) => UsernameGet())));
                     },
-                    child: const Text(
+                    child:  Text(
                       'Sign Up',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, color: kWhite),
+                          textstylefontwhite,
                     ))
               ],
             )

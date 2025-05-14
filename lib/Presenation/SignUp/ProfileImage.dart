@@ -10,6 +10,7 @@ import 'package:instagram_clone/Presenation/widget/TextButton.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:instagram_clone/utenslis/styles.dart';
 
 class addProfilePic extends StatefulWidget {
   const addProfilePic({Key? key}) : super(key: key);
@@ -67,6 +68,7 @@ class _addProfilePicState extends State<addProfilePic> {
             ),
             sizedBoxHeight20,
             ElevatedButton(
+              style: elevatedbuttonstyle,
                 onPressed: () async {
                   await selectImage();
                   await AuthMethod().addProfilePic(file: im!);
@@ -80,7 +82,7 @@ class _addProfilePicState extends State<addProfilePic> {
                 child: const Text('Add Photo')),
             sizedBoxHeight10,
             Textbutton(
-                textbuttonwidget: const Text('Skip'),
+                textbuttonwidget:  Text('Skip',style: textstyleBlue,),
                 textbuttonid: '',
                 textbuttonstyle: TextButton.styleFrom()),
             Flexible(

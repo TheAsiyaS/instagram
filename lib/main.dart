@@ -34,6 +34,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        buttonTheme: ButtonThemeData(
+            textTheme: ButtonTextTheme.accent, // Or any other text theme option
+            colorScheme: ColorScheme.light().copyWith(
+              primary: Colors.blue, // Or your desired color
+              onPrimary: Colors.white, // Text color when enabled
+              onSurface: Colors.white, // Text color when disabled
+            )),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: kBlack,
@@ -50,8 +57,7 @@ class MyApp extends StatelessWidget {
                   if (userSnapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (userSnapshot.hasData) {
-                    currentuserdata =
-                        userSnapshot.data!; // ✅ Set the global variable
+                    currentuserdata = userSnapshot.data!;
                     return const NavigationPage();
                   } else {
                     return const Center(child: Text("Failed to get user data"));

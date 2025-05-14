@@ -9,6 +9,7 @@ import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/Presenation/widget/TextButton.dart';
+import 'package:instagram_clone/utenslis/styles.dart';
 
 ValueNotifier<String> welcomepagemessage = ValueNotifier('');
 
@@ -43,6 +44,7 @@ class welcome extends StatelessWidget {
             ),
             sizedBoxHeight30,
             ElevatedButton(
+                style: elevatedbuttonstyle,
                 onPressed: () async {
                   log('username: $username password $password');
                   if (gphonenumber.value == 'Incorrect Phone number' ||
@@ -77,11 +79,16 @@ class welcome extends StatelessWidget {
                         builder: ((context) => const AddFacebookFreinds())));
                   }
                 },
-                child: const Text('Complete Sign-Up')),
+                child: Text(
+                  'Complete Sign-Up',
+                  style: textstylefontwhite,
+                )),
             sizedBoxHeight10,
             Textbutton(
-                textbuttonwidget:
-                    const Text('Add new Phone Number or Email Addrress'),
+                textbuttonwidget: Text(
+                  'Add new Phone Number or Email Addrress',
+                  style: TextStyle(color: kBlue),
+                ),
                 textbuttonid: 'addphn_email',
                 textbuttonstyle: TextButton.styleFrom()),
             Flexible(

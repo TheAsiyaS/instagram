@@ -3,6 +3,7 @@ import 'package:instagram_clone/Presenation/SignUp/ProfileImage.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:instagram_clone/utenslis/styles.dart';
 
 class AddFacebookFreinds extends StatelessWidget {
   const AddFacebookFreinds({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class AddFacebookFreinds extends StatelessWidget {
             Elevated_button(
                 elevatedbutttonwidget: const Text('Find Firends'),
                 elevatedbutttonid: '',
-                elevatedbuttonstyle: ElevatedButton.styleFrom()),
+                elevatedbuttonstyle: elevatedbuttonstyle),
             sizedBoxHeight20,
             const Text(
               '----and 20 other friends using Instagram',
@@ -47,7 +48,10 @@ class AddFacebookFreinds extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const addProfilePic()));
                 },
-                child: const Text('Skip')),
+                child: Text(
+                  'Skip',
+                  style: textstyleBlue,
+                )),
             Flexible(
               flex: 4,
               child: Container(),

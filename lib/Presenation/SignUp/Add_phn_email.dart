@@ -20,6 +20,7 @@ class AddEmailPhoneNumber extends StatelessWidget {
             style: TextStyle(fontSize: 25),
           ),
           bottom: const TabBar(
+            indicatorColor: kWhite,
               isScrollable: true,
               labelColor: kWhite,
               unselectedLabelColor: kGrey,

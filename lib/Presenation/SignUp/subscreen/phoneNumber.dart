@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:instagram_clone/utenslis/styles.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 ValueNotifier<String> gphonenumber = ValueNotifier('');
@@ -49,9 +50,9 @@ class phoneNumberGet extends StatelessWidget {
           ),
           sizedBoxHeight20,
           Elevated_button(
-              elevatedbutttonwidget: const Text('Next'),
+              elevatedbutttonwidget:  Text('Next',style: textstylefontwhite,),
               elevatedbutttonid: 'PhoneNumberGet',
-              elevatedbuttonstyle: ElevatedButton.styleFrom()),
+              elevatedbuttonstyle: elevatedbuttonstyle),
           Flexible(
             flex: 2,
             child: Container(),

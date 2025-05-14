@@ -5,11 +5,12 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 import 'package:instagram_clone/Presenation/widget/Title_subtitle.dart';
+import 'package:instagram_clone/utenslis/styles.dart';
 import 'package:instagram_clone/utenslis/variables.dart';
 
 // ignore: must_be_immutable
 class UsernameGet extends StatelessWidget {
-  UsernameGet({Key? key}) : super(key: key);
+  UsernameGet({super.key});
   ValueNotifier<String> message = ValueNotifier('');
 
   @override
@@ -64,6 +65,7 @@ class UsernameGet extends StatelessWidget {
                     height: 45,
                     width: double.infinity,
                     child: ElevatedButton(
+                      style: elevatedbuttonstyle,
                       onPressed: () async {
                         if (UsernameController.text.isEmpty) {
                           message.value = 'Entered username is empty.';
@@ -94,9 +96,9 @@ class UsernameGet extends StatelessWidget {
                           }
                         }
                       },
-                      child: const Text(
+                      child: Text(
                         'Next',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: textstylefontwhite,
                       ),
                     ),
                   ),

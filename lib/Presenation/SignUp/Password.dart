@@ -5,6 +5,7 @@ import 'package:instagram_clone/Presenation/widget/CupertinoTextfield.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:instagram_clone/utenslis/styles.dart';
 
 final TextEditingController passwordController = TextEditingController();
 
@@ -75,8 +76,11 @@ class passwordGet extends StatelessWidget {
               ],
             ),
             Elevated_button(
-              elevatedbuttonstyle: ElevatedButton.styleFrom(),
-              elevatedbutttonwidget: const Text('Next'),
+              elevatedbuttonstyle: elevatedbuttonstyle,
+              elevatedbutttonwidget: const Text(
+                'Next',
+                style: TextStyle(color: kWhite),
+              ),
               elevatedbutttonid: 'PasswordGet',
               password: passwordController.text,
               username: username,
@@ -87,16 +91,3 @@ class passwordGet extends StatelessWidget {
     );
   }
 }
-/*
-
-return Scaffold(
-      body: SafeArea(
-          child: passwordExtraWidget(
-        username: username,
-        screenSubTitle:
-            'For security, your password must be six \ncharacters or more',
-        Screentitle: '  Create a Password ',
-        ScreenextraText: 'Remeber password',
-      )),
-    );
- */
