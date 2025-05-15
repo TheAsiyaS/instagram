@@ -14,7 +14,7 @@ class Homescreenwidget extends StatefulWidget {
 }
 
 class _HomescreenwidgetState extends State<Homescreenwidget> {
-  bool scrolldirection = false;
+  bool scrolldirection = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,45 +32,47 @@ class _HomescreenwidgetState extends State<Homescreenwidget> {
               scrolldirection = false;
             });
           }
-          return true; // or false, depending on if you want the notification to continue upwards
+          return false; // or false, depending on if you want the notification to continue upwards
         },
-        child: Stack(
-          children: [
-            ListView.builder(itemBuilder: (context, index) {}),
-            scrolldirection
-                ? AnimatedContainer(
-                    duration: const Duration(microseconds: 500),
-                    color: kBlack,
-                    child: Row(
-                      children: [
-                        Text(
-                          'Instagram',
-                          style: GoogleFonts.grandHotel(
-                            fontSize: 45,
+        child: SafeArea(
+          child: Stack(
+            children: [
+              ListView.builder(itemBuilder: (context, index) {}),
+              scrolldirection
+                  ? AnimatedContainer(
+                      duration: const Duration(microseconds: 500),
+                      color: kBlack,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Instagram',
+                            style: GoogleFonts.grandHotel(
+                              fontSize: 45,
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        Iconbuttons(
-                          icon: const Icon(
-                            kfavorite_outline,
-                            size: 29,
+                          const Spacer(),
+                          Iconbuttons(
+                            icon: const Icon(
+                              kfavorite_outline,
+                              size: 29,
+                            ),
+                            iconId: 'fav_out_home_appbar',
+                            style: IconButton.styleFrom(),
                           ),
-                          iconId: 'fav_out_home_appbar',
-                          style: IconButton.styleFrom(),
-                        ),
-                        Iconbuttons(
-                          icon: const Icon(
-                            kmessage,
-                            size: 28,
+                          Iconbuttons(
+                            icon: const Icon(
+                              kmessage,
+                              size: 28,
+                            ),
+                            iconId: 'msg_out_home_appbar',
+                            style: IconButton.styleFrom(),
                           ),
-                          iconId: 'msg_out_home_appbar',
-                          style: IconButton.styleFrom(),
-                        ),
-                      ],
-                    ),
-                  )
-                : sizedBoxHeight10,
-          ],
+                        ],
+                      ),
+                    )
+                  : sizedBoxHeight10,
+            ],
+          ),
         ),
       ),
     );
