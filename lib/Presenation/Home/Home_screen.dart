@@ -57,10 +57,10 @@ class HomeScreen extends StatelessWidget {
                       ),
                       SliverList.separated(
                         itemBuilder: (context, index) {
-                          return StreamBuilder(
-                              stream: FirebaseFirestore.instance
+                          return FutureBuilder(
+                              future: FirebaseFirestore.instance
                                   .collection('post')
-                                  .snapshots(),
+                                  .get(),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
