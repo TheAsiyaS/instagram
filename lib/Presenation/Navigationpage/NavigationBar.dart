@@ -11,7 +11,7 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 
 ValueNotifier<int> Bottomindex = ValueNotifier(0);
 final bottomscreens = [
-  const Homescreenwidget(),
+   Homescreenwidget(),
   const SearchScreen(),
   const AddpostScreen(),
   const NotificationScreen(),
