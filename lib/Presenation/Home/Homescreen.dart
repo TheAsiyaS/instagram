@@ -34,7 +34,7 @@ class Homescreenwidget extends StatelessWidget {
               child: SafeArea(
                 child: Stack(
                   children: [
-                    Homepostcard(),
+              //   Homepostcard(),
                     scrolldirection.value
                         ? AnimatedContainer(
                             duration: const Duration(microseconds: 500),
