@@ -1,9 +1,11 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/AddPost/AddPost.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class EditePost extends StatelessWidget {
   const EditePost({super.key, required this.imagePath});
@@ -11,7 +13,7 @@ class EditePost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
-    ValueNotifier<Color> filtercolor = ValueNotifier(const Color(0x00000000));
+    ValueNotifier<Color> filtercolor = ValueNotifier(const Color.fromRGBO(0, 0, 0, 0));
     const List<String> filterNames = [
       'Original',
       '1977', //lightbule
@@ -100,7 +102,8 @@ class EditePost extends StatelessWidget {
                     10,
                     (index) => GestureDetector(
                           onTap: () {
-                            filtercolor.value = filters[index];
+                           // filtercolor.value = filters[index];
+                           log("${filters[index]}");
                           },
                           child: Column(
                             children: [
@@ -134,7 +137,9 @@ class EditePost extends StatelessWidget {
                       style: TextStyle(fontSize: 20, color: kWhite),
                     )),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      
+                    },
                     child: const Text('Edit',
                         style: TextStyle(fontSize: 20, color: kGrey))),
               ],

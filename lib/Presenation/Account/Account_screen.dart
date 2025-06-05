@@ -185,7 +185,7 @@ class AccountScreen extends StatelessWidget {
                           elevatedbutttonid: 'editprofile_inaccount',
                           elevatedbuttonstyle: ElevatedButton.styleFrom(
                               backgroundColor: kGreyDarkTrans),
-                          elevatedbutttonwidget: const Text('Edit profile'),
+                          elevatedbutttonwidget: const Text('Edit profile',style: TextStyle(color: kWhite)),
                         ),
                       ),
                       SizedBox(
@@ -194,7 +194,7 @@ class AccountScreen extends StatelessWidget {
                           elevatedbutttonid: 'shareprofile_inaccount',
                           elevatedbuttonstyle: ElevatedButton.styleFrom(
                               backgroundColor: kGreyDarkTrans),
-                          elevatedbutttonwidget: const Text('Share profile'),
+                          elevatedbutttonwidget: const Text('Share profile',style: TextStyle(color: kWhite),),
                         ),
                       ),
                       Center(

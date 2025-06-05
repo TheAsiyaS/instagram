@@ -7,12 +7,12 @@ class Post extends StatelessWidget {
   const Post({
     super.key,
     required this.data,
-    required this.parsedCode,
+    required this.color,
     required this.postdata, required this.index,
   });
 
   final QueryDocumentSnapshot<Map<String, dynamic>> data;
-  final int parsedCode;
+  final Color color;
   final postdata;
   final int index;
   @override
@@ -39,7 +39,7 @@ class Post extends StatelessWidget {
           ),
         ),
         child: Container(
-          color: Color(parsedCode),
+          color: color,
         ),
       ),
     );

@@ -151,7 +151,7 @@ class OthersProfile extends StatelessWidget {
                                   elevatedbutttonwidget: Text(follower.value
                                           .contains(currentuserdata!.uid)
                                       ? 'Following'
-                                      : 'Follow'),
+                                      : 'Follow',style: TextStyle(color: kWhite),),
                                   elevatedbutttonid: 'follow_inaccount',
                                   uid: uid,
                                   elevatedbuttonstyle: ElevatedButton.styleFrom(
@@ -160,7 +160,7 @@ class OthersProfile extends StatelessWidget {
                             SizedBox(
                               width: size.width / 2.6,
                               child: Elevated_button(
-                                  elevatedbutttonwidget: const Text('Message'),
+                                  elevatedbutttonwidget: const Text('Message',style: TextStyle(color: kWhite),),
                                   elevatedbutttonid: 'message_inaccount',
                                   elevatedbuttonstyle: ElevatedButton.styleFrom(
                                       backgroundColor: kGreyDarkTrans)),

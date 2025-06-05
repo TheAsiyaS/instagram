@@ -61,7 +61,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  integration_test:
   flutter_driver:
     sdk: flutter
   test: ^1.24.1

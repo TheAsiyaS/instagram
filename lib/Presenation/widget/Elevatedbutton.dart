@@ -40,7 +40,13 @@ class Elevated_button extends StatelessWidget {
                 backgroundColor: kRed,
                 content: SnackbarWidget(
                     icon: Icons.add, message: 'Password must be 6 character')));
+          }else if (password == null){
+             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: kRed,
+                content: SnackbarWidget(
+                    icon: Icons.add, message: 'Password must be 6 character')));
           } else {
+            log(password!);
             Navigator.of(context).push(MaterialPageRoute(
                 builder: ((context) =>
                     welcome(username: username!, password: password!))));

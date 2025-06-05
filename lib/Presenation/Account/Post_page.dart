@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Presenation/Account/post.dart';
@@ -47,9 +49,10 @@ class Postpage extends StatelessWidget {
               String extractedCode =
                   colorString.substring(6, colorString.length - 1);
               final parsedCode = int.parse(extractedCode);
+              log(colorString);
               return Post(
                 data: data,
-                parsedCode: parsedCode,
+                color: colorString,
                 postdata: snapshot.data!.docs,
                 index: index,
               );
