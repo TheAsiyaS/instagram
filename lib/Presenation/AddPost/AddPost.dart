@@ -54,7 +54,7 @@ class PostAdd extends StatelessWidget {
       this.uid,
       required this.filtercolor});
   final Uint8List imagepath;
-  final Color filtercolor;
+  final List<int> filtercolor;
   String? uid;
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,9 @@ class PostAdd extends StatelessWidget {
 
                 if (postUrl.isNotEmpty) {
                   isloading.value = true;
-                  final isOk = await FirestoreMethods().uploadPost(
+                  final isOk = false;
+                  log(filtercolor.toString());
+                  await FirestoreMethods().uploadPost(
                       tag: taguid,
                       description: descriptionController.text,
                       imagePath: postUrl,
@@ -109,7 +111,7 @@ class PostAdd extends StatelessWidget {
                       uid: currentuserdata!.uid!,
                       location: location ?? '',
                       music: music ?? '',
-                      filterColor: filtercolor.toString());
+                      filterColor: filtercolor);
 
                   if (isOk == true) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

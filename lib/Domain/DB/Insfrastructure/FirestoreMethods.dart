@@ -19,7 +19,7 @@ class FirestoreMethods {
     required String uid,
     required String location,
     required String music,
-    required String filterColor,
+    required List<int> filterColor,
     required List<dynamic> tag,
   }) async {
     bool isOk = false;

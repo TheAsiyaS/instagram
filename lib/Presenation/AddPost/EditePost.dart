@@ -13,7 +13,7 @@ class EditePost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
-    ValueNotifier<Color> filtercolor = ValueNotifier(const Color.fromRGBO(0, 0, 0, 0));
+    ValueNotifier<List<int>> filtercolor = ValueNotifier([0, 0, 0, 0]);
     const List<String> filterNames = [
       'Original',
       '1977', //lightbule
@@ -47,7 +47,6 @@ class EditePost extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => PostAdd(
                           imagepath: imagePath,
-                         
                           uid: currentuserdata!.uid,
                           filtercolor: filtercolor.value,
                         )));
@@ -75,7 +74,11 @@ class EditePost extends StatelessWidget {
                       child: Container(
                         height: MediaQuery.of(context).size.height / 2,
                         width: double.infinity,
-                        color: filtercolor.value,
+                        color: Color.fromARGB(
+                            filtercolor.value[0],
+                            filtercolor.value[1],
+                            filtercolor.value[2],
+                            filtercolor.value[3]),
                       ),
                     );
                   }),
@@ -102,8 +105,16 @@ class EditePost extends StatelessWidget {
                     10,
                     (index) => GestureDetector(
                           onTap: () {
-                           // filtercolor.value = filters[index];
-                           log("${filters[index]}");
+                            // filtercolor.value = filters[index];
+
+                            int alpha = (filters[index].a * 255).round();
+                            int red = (filters[index].r * 255).round();
+
+                            int green = (filters[index].g * 255).round();
+                            int blue = (filters[index].b * 255).round();
+
+                            filtercolor.value = [alpha, red, green, blue];
+                            log("value notifier : $filtercolor \n filter color :${filters[index]}");
                           },
                           child: Column(
                             children: [
@@ -137,9 +148,7 @@ class EditePost extends StatelessWidget {
                       style: TextStyle(fontSize: 20, color: kWhite),
                     )),
                 TextButton(
-                    onPressed: () {
-                      
-                    },
+                    onPressed: () {},
                     child: const Text('Edit',
                         style: TextStyle(fontSize: 20, color: kGrey))),
               ],

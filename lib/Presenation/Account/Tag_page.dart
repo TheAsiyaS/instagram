@@ -39,7 +39,7 @@ class Tagpage extends StatelessWidget {
                   final parsedCode = int.parse(extractedCode);
                 return Post(
                     data: data,
-                    parsedCode: parsedCode,
+                    parsecode: parsedCode,
                     postdata: snapshot.data!.docs,
                     index: index);
               }),

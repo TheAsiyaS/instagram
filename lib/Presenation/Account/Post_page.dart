@@ -46,13 +46,13 @@ class Postpage extends StatelessWidget {
             children: List.generate(snapshot.data!.docs.length, (index) {
               final data = snapshot.data!.docs[index];
               String colorString = data['filterColor'];
-              String extractedCode =
+              String extractedCode = 
                   colorString.substring(6, colorString.length - 1);
               final parsedCode = int.parse(extractedCode);
               log(colorString);
               return Post(
                 data: data,
-                color: colorString,
+                parsecode: parsedCode,
                 postdata: snapshot.data!.docs,
                 index: index,
               );

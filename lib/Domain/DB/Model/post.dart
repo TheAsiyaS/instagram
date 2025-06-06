@@ -11,7 +11,7 @@ class PostModel {
   final dynamic likes;
   final String location;
   final String music;
-  final String filterColor;
+  final List<int> filterColor;
   final List<dynamic> tag;
   PostModel({
     required this.location,
