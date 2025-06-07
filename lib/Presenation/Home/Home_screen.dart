@@ -1,4 +1,6 @@
-import 'dart:math';
+
+import 'dart:developer';
+import 'dart:math' hide log;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                                 } else if (snapshot.hasError) {
                                   return const Center(
                                       child: Text('Some Error occurred'));
-                                } else if (snapshot.hasData) {
+                                }  else if (snapshot.hasData) {
                                   final data = snapshot.data!.docs[index];
                                   ValueNotifier<String> formattedDate =
                                       ValueNotifier(data['datePublished']);
@@ -89,10 +91,9 @@ class HomeScreen extends StatelessWidget {
                                   } else {}
                                   final finaldate =
                                       formattedDate.value.split(' ');
-                                  String colorString = data['filterColor'];
-                                  String extractedCode = colorString.substring(
-                                      6, colorString.length - 1);
-                                  final parscode = int.parse(extractedCode);
+                                  // List<int> colorString =
+                                 log("filter color : ${data['filterColor']}");
+                                 
                                   final ValueNotifier<bool> issave =
                                       ValueNotifier(currentuserdata!.savePosts
                                           .contains(data['postId']));
@@ -206,7 +207,7 @@ class HomeScreen extends StatelessWidget {
                                           child: Container(
                                             height: size.height / 2,
                                             width: size.width,
-                                            color: Color(parscode),
+                                            color:  Color.fromARGB(data['filterColor'][0], data['filterColor'][1], data['filterColor'][2], data['filterColor'][3]),
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,

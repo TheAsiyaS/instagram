@@ -100,9 +100,9 @@ class PostAdd extends StatelessWidget {
 
                 if (postUrl.isNotEmpty) {
                   isloading.value = true;
-                  final isOk = false;
+            
                   log(filtercolor.toString());
-                  await FirestoreMethods().uploadPost(
+                     final isOk =    await FirestoreMethods().uploadPost(
                       tag: taguid,
                       description: descriptionController.text,
                       imagePath: postUrl,
