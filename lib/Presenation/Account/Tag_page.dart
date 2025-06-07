@@ -33,13 +33,10 @@ class Tagpage extends StatelessWidget {
               crossAxisSpacing: 3,
               children: List.generate(snapshot.data!.docs.length, (index) {
                 final data = snapshot.data!.docs[index];
-                      String colorString = data['filterColor'];
-                  String extractedCode =
-                      colorString.substring(6, colorString.length - 1);
-                  final parsedCode = int.parse(extractedCode);
+                    
                 return Post(
                     data: data,
-                    parsecode: parsedCode,
+                  
                     postdata: snapshot.data!.docs,
                     index: index);
               }),
