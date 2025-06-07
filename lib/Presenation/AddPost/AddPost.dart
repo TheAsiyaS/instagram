@@ -20,7 +20,7 @@ ValueNotifier<bool> off4 = ValueNotifier(false);
 final TextEditingController descriptionController = TextEditingController();
 ValueNotifier<bool> isloading = ValueNotifier(false);
 ValueNotifier<num> ratios = ValueNotifier(10);
-ValueNotifier<List<String>> items = ValueNotifier([]);
+
 final musicName = [
   'If you beleive',
   'filter',
@@ -60,6 +60,8 @@ class PostAdd extends StatelessWidget {
   Widget build(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
     List<String> taguid = [];
+    String? location;
+    String? music;
     return Scaffold(
       appBar: AppBar(
         title: const Text('NewPost'),
@@ -73,26 +75,7 @@ class PostAdd extends StatelessWidget {
                     taguid.add(uid);
                   }
                 }
-                String? location;
-                String? music;
-                if (CountryName.contains(items.value[0])) {
-                  log('0 is country');
-                  location = items.value[0];
-                }
-                if (musicName.contains(items.value[0])) {
-                  log('0 is music');
-                  music = items.value[0];
-                }
-                if (musicName.contains(items.value[1])) {
-                  log('1 is music');
 
-                  music = items.value[1];
-                }
-                if (CountryName.contains(items.value[1])) {
-                  log('1 is country');
-
-                  location = items.value[1];
-                }
                 log('uid $taguid');
 
                 final String postUrl = await StorageMethods()
@@ -100,9 +83,10 @@ class PostAdd extends StatelessWidget {
 
                 if (postUrl.isNotEmpty) {
                   isloading.value = true;
-            
-                  log(filtercolor.toString());
-                     final isOk =    await FirestoreMethods().uploadPost(
+
+                  log('country : $location');
+                  log('music : $music');
+                  final isOk = await FirestoreMethods().uploadPost(
                       tag: taguid,
                       description: descriptionController.text,
                       imagePath: postUrl,
@@ -181,7 +165,6 @@ class PostAdd extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           CircleAvatar(
                             radius: 25,
@@ -240,10 +223,11 @@ class PostAdd extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return FilterChip(
                                   // selectedColor: green,
+
                                   labelStyle: const TextStyle(fontSize: 16),
                                   label: Text(CountryName[index]),
                                   onSelected: (value) {
-                                    items.value.add(CountryName[index]);
+                                    location = CountryName[index];
                                   });
                             },
                             separatorBuilder: (context, index) {
@@ -268,7 +252,7 @@ class PostAdd extends StatelessWidget {
                                   labelStyle: const TextStyle(fontSize: 16),
                                   label: Text(musicName[index]),
                                   onSelected: (value) {
-                                    items.value.add(musicName[index]);
+                                    music = musicName[index];
                                   });
                             },
                             separatorBuilder: (context, index) {
@@ -351,7 +335,8 @@ class PostAdd extends StatelessWidget {
                               valueListenable: off3,
                               builder: (context, value, child) {
                                 return CupertinoSwitch(
-                                    activeTrackColor: CupertinoColors.systemGrey,
+                                    activeTrackColor:
+                                        CupertinoColors.systemGrey,
                                     value: off3.value,
                                     onChanged: (ischange) {
                                       off3.value = ischange;

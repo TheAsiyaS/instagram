@@ -1,20 +1,20 @@
-import 'dart:math';
+// import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
-import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
-import 'package:instagram_clone/Presenation/Account/Others_account.dart';
-import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
-import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
-import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
-import 'package:instagram_clone/main.dart';
-import 'package:instagram_clone/utenslis/Colors.dart';
-import 'package:instagram_clone/utenslis/Icons.dart';
-import 'package:instagram_clone/utenslis/Sizes.dart';
-import 'package:intl/intl.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
+// import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
+// import 'package:instagram_clone/Presenation/Account/Others_account.dart';
+// import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
+// import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
+// import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
+// import 'package:instagram_clone/main.dart';
+// import 'package:instagram_clone/utenslis/Colors.dart';
+// import 'package:instagram_clone/utenslis/Icons.dart';
+// import 'package:instagram_clone/utenslis/Sizes.dart';
+// import 'package:intl/intl.dart';
 
 // class Homepostcard extends StatelessWidget {
 //   const Homepostcard({
