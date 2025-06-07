@@ -14,12 +14,12 @@ class SavedPosts extends StatelessWidget {
         title: const Text('Saved Posts'),
       ),
       body: SafeArea(
-          child: FutureBuilder( 
+          child: FutureBuilder(
               future: FirebaseFirestore.instance
                   .collection('post')
                   .where('postId', whereIn: currentuserdata!.savePosts)
                   .get(),
-              builder: (context, snapshot) { 
+              builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(
@@ -37,17 +37,16 @@ class SavedPosts extends StatelessWidget {
                     mainAxisSpacing: 2.5,
                     crossAxisSpacing: 2.5,
                     children:
-                    List.generate(snapshot.data!.docs.length, (index) {
-                  final data = snapshot.data!.docs[index];
-              
-                  return Post(
-                      data: data,
-                    
-                      postdata: snapshot.data!.docs,
-                      index: index);
+                        List.generate(snapshot.data!.docs.length, (index) {
+                      final data = snapshot.data!.docs[index];
+
+                      return Post(
+                          data: data,
+                          postdata: snapshot.data!.docs,
+                          index: index);
                     }),
                   );
-                } 
+                }
               })),
     );
   }
