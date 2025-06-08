@@ -31,11 +31,13 @@ class HomeScreen extends StatelessWidget {
         ValueNotifier(currentuserdata!.savePosts);
 
     QuerySnapshot<Map<String, dynamic>>? postdata;
+    QuerySnapshot<Map<String, dynamic>>? likeData;
     final ValueNotifier<bool> loading = ValueNotifier(true);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       savepost.value = currentuserdata!.savePosts;
 
       postdata = await FirebaseFirestore.instance.collection('post').get();
+
       loading.value = false;
     });
 
@@ -69,10 +71,10 @@ class HomeScreen extends StatelessWidget {
                             return SliverList.separated(
                               itemBuilder: (context, index) {
                                 if (loading.value == true) {
-                                  return CircularProgressIndicator();
+                                  return Center(
+                                      child: CircularProgressIndicator());
                                 } else {
                                   final data = postdata!.docs[index];
-                               
 
                                   ValueNotifier<String> formattedDate =
                                       ValueNotifier(data['datePublished']);
@@ -88,8 +90,6 @@ class HomeScreen extends StatelessWidget {
 
                                     final finaldate =
                                         formattedDate.value.split(' ');
-                                    // List<int> colorString =
-                                    log("filter color : ${data['filterColor']}");
 
                                     final ValueNotifier<bool> issave =
                                         ValueNotifier(currentuserdata!.savePosts
@@ -332,125 +332,86 @@ class HomeScreen extends StatelessWidget {
                                             ],
                                           ),
                                           GestureDetector(
-                                            onTap: () {
+                                            onTap: () async {
+                                              if (likes.value.isEmpty) {
+                                                return;
+                                              }
+                                              likeData = await FirebaseFirestore
+                                                  .instance
+                                                  .collection('user')
+                                                  .where(
+                                                    'uid',
+                                                    whereIn: likes.value,
+                                                  )
+                                                  .get();
                                               showModalBottomSheet(
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(40),
-                                                    topRight:
-                                                        Radius.circular(40),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(40),
+                                                      topRight:
+                                                          Radius.circular(40),
+                                                    ),
                                                   ),
-                                                ),
-                                                backgroundColor:
-                                                    kTransparentGrey,
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return SizedBox(
-                                                    width: size.width,
-                                                    height: size.height / 3,
-                                                    child: likes.value.isEmpty
-                                                        ? const Center(
-                                                            child: Text(
-                                                                'No Likes for this post'))
-                                                        : FutureBuilder<
-                                                            QuerySnapshot>(
-                                                            future:
-                                                                FirebaseFirestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        'user')
-                                                                    .where(
-                                                                      'uid',
-                                                                      whereIn: likes
-                                                                          .value,
-                                                                    )
-                                                                    .get(),
-                                                            builder: (context,
-                                                                snapshot) {
-                                                              if (snapshot
-                                                                  .hasError) {
-                                                                return const Center(
-                                                                    child: Text(
-                                                                        'Some Error Occurred!'));
-                                                              } else if (!snapshot
-                                                                      .hasData ||
-                                                                  snapshot
-                                                                      .data!
-                                                                      .docs
-                                                                      .isEmpty) {
-                                                                return const Center(
-                                                                    child: Text(
-                                                                        'No Likes for this post'));
-                                                              } else if (snapshot
-                                                                      .connectionState ==
-                                                                  ConnectionState
-                                                                      .waiting) {
-                                                                return const Center(
-                                                                  child:
-                                                                      CircularProgressIndicator(
-                                                                    strokeWidth:
-                                                                        2,
-                                                                    color:
-                                                                        kWhite,
-                                                                  ),
-                                                                );
-                                                              } else {
-                                                                return ListView
-                                                                    .separated(
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          index) {
-                                                                    final data =
-                                                                        snapshot
-                                                                            .data!
-                                                                            .docs[index];
+                                                  backgroundColor:
+                                                      kTransparentGrey,
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return likeData!
+                                                            .docs.isEmpty
+                                                        ? Text(
+                                                            'This post have no likes')
+                                                        : SizedBox(
+                                                            width: size.width,
+                                                            height:
+                                                                size.height / 3,
+                                                            child: ListView
+                                                                .separated(
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                final data =
+                                                                    likeData!
+                                                                            .docs[
+                                                                        index];
 
-                                                                    return ListTile(
-                                                                      leading:
-                                                                          CircleAvatar(
-                                                                        radius:
-                                                                            30,
-                                                                        backgroundImage:
-                                                                            NetworkImage(data['photoUrl']),
-                                                                      ),
-                                                                      title: Text(
-                                                                          data[
-                                                                              'username']),
-                                                                      subtitle:
-                                                                          Text(data[
-                                                                              'name']),
-                                                                      onTap:
-                                                                          () {
-                                                                        Navigator.of(context).push(MaterialPageRoute(
+                                                                return ListTile(
+                                                                  leading:
+                                                                      CircleAvatar(
+                                                                    radius: 30,
+                                                                    backgroundImage:
+                                                                        NetworkImage(
+                                                                            data['photoUrl']),
+                                                                  ),
+                                                                  title: Text(data[
+                                                                      'username']),
+                                                                  subtitle:
+                                                                      Text(data[
+                                                                          'name']),
+                                                                  onTap: () {
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .push(MaterialPageRoute(
                                                                             builder: (context) =>
                                                                                 OthersProfile(uid: data['uid'])));
-                                                                      },
-                                                                    );
                                                                   },
-                                                                  separatorBuilder:
-                                                                      (context,
-                                                                          index) {
-                                                                    return const Divider(
-                                                                      color:
-                                                                          kWhite,
-                                                                    );
-                                                                  },
-                                                                  itemCount:
-                                                                      snapshot
-                                                                          .data!
-                                                                          .docs
-                                                                          .length,
                                                                 );
-                                                              }
-                                                            },
-                                                          ),
-                                                  );
-                                                },
-                                              );
+                                                              },
+                                                              separatorBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                return const Divider(
+                                                                  color: kWhite,
+                                                                );
+                                                              },
+                                                              itemCount:
+                                                                  likeData!.docs
+                                                                      .length,
+                                                            ));
+                                                  });
                                             },
                                             child: Text(
                                               ' ${likes.value.length} likes',
