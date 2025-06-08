@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +8,7 @@ import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart'
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
+import 'package:instagram_clone/Presenation/Home/NewHomePage.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
 import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
 import 'package:instagram_clone/main.dart';
@@ -514,10 +514,16 @@ class HomeScreen extends StatelessWidget {
                           color: kBlack,
                           child: Row(
                             children: [
-                              Text(
-                                'Instagram',
-                                style: GoogleFonts.grandHotel(
-                                  fontSize: 45,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Newhomepage()));
+                                },
+                                child: Text(
+                                  'Instagram',
+                                  style: GoogleFonts.grandHotel(
+                                    fontSize: 45,
+                                  ),
                                 ),
                               ),
                               const Spacer(),
