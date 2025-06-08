@@ -1,11 +1,12 @@
-import 'dart:math';
-
+import 'dart:developer';
+import 'dart:math' hide log;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
+import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
 import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
@@ -28,12 +29,16 @@ class _NewhomepageState extends State<Newhomepage> {
   QuerySnapshot<Map<String, dynamic>>? postdata;
   QuerySnapshot<Map<String, dynamic>>? likeData;
   List likes = [];
-  List saveby = [];
+  
+    //bool issaved;
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    postdata = await FirebaseFirestore.instance.collection('post').get();
+    fetchPostData(); // call async function without await
+  }
 
+  Future<void> fetchPostData() async {
+    postdata = await FirebaseFirestore.instance.collection('post').get();
     setState(() {
       loading = false;
     });
@@ -42,6 +47,7 @@ class _NewhomepageState extends State<Newhomepage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+      List saveby = [];
     return Scaffold(
       body: NotificationListener<UserScrollNotification>(
         onNotification: (notification) {
@@ -72,9 +78,10 @@ class _NewhomepageState extends State<Newhomepage> {
 
                       ValueNotifier<String> formattedDate =
                           ValueNotifier(data['datePublished']);
-                   
-                        likes = data['likes'];
+
+                      likes = data['likes'];
                       saveby = data['saveby'];
+//issaved = saveby.contains(currentuserdata.uid)
                       String? datePublish = data['datePublished'];
                       if (datePublish != null) {
                         DateTime myDate = DateTime.parse(datePublish);
@@ -82,10 +89,6 @@ class _NewhomepageState extends State<Newhomepage> {
                             DateFormat('dd-MM-yyyy').format(myDate);
 
                         final finaldate = formattedDate.value.split(' ');
-
-                        final ValueNotifier<bool> issave = ValueNotifier(
-                            currentuserdata!.savePosts
-                                .contains(data['postId']));
 
                         return SizedBox(
                           height: size.height / 1.24,
@@ -210,8 +213,7 @@ class _NewhomepageState extends State<Newhomepage> {
                               Row(
                                 children: [
                                   Iconbuttons(
-                                    icon: likes
-                                            .contains(currentuserdata!.uid)
+                                    icon: likes.contains(currentuserdata!.uid)
                                         ? const Icon(
                                             kfavorite,
                                             size: 29,
@@ -259,53 +261,58 @@ class _NewhomepageState extends State<Newhomepage> {
                                   ),
                                   const Spacer(),
                                   IconButton(
-                                          onPressed: () async {
-if (saveby.contains(currentuserdata!.uid)) {
-  
-} else {
-  
-}
-
-                                            //
-                                            if (currentuserdata!.savePosts
-                                                .contains(data['postId'])) {
-                                              savepost.value
-                                                  .remove(data['postId']);
-                                              issave.value = false;
-                                              savepost
-                                                  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-                                                  .notifyListeners();
-                                            } else {
-                                              issave.value = true;
-                                              savepost.value
-                                                  .add(data['postId']);
-                                              savepost
-                                                  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-                                                  .notifyListeners();
-                                            }
-
-                                            await AuthMethod().updateSavepots(
-                                                postId: data['postId']!,
-                                                uid: currentuserdata!.uid!);
-                                          },
-                                          icon: Icon(
-                                            issave.value ? ksaved : ksave,
-                                            size: 28,
-                                          ),
-                                        );
-                                  
+                                    onPressed: () async {
+                                         log('save user : ${saveby}');
+                                      final FirebaseFirestore _firestore =
+                                          FirebaseFirestore.instance;
+                                      if (saveby
+                                          .contains(currentuserdata!.uid)) {
+                                        await _firestore
+                                            .collection('post')
+                                            .doc(data['postId'])
+                                            .update({
+                                          'saveby': FieldValue.arrayRemove(
+                                              [currentuserdata!.uid])
+                                        });
+                                        setState(() {
+                                          saveby.remove(currentuserdata!.uid);
+                                        });
+                                      } else {
+                                        await _firestore
+                                            .collection('post')
+                                            .doc(data['postId'])
+                                            .update({
+                                          'saveby': FieldValue.arrayUnion(
+                                              [currentuserdata!.uid])
+                                        });
+                                        setState(() {
+                                          saveby.add(currentuserdata!.uid!);
+                                        });
+                                      }
+                                      log('save user : ${saveby}');
+                                      // await AuthMethod().updateSavepots(
+                                      //     uid: currentuserdata!.uid!,
+                                      //     postId: data['postId']);
+                                    },
+                                    icon: Icon(
+                                      saveby.contains(currentuserdata!.uid)
+                                          ? ksaved
+                                          : ksave,
+                                      size: 28,
+                                    ),
+                                  )
                                 ],
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  if (likes.value.isEmpty) {
+                                  if (likes.isEmpty) {
                                     return;
                                   }
                                   likeData = await FirebaseFirestore.instance
                                       .collection('user')
                                       .where(
                                         'uid',
-                                        whereIn: likes.value,
+                                        whereIn: likes,
                                       )
                                       .get();
                                   showModalBottomSheet(
@@ -362,7 +369,7 @@ if (saveby.contains(currentuserdata!.uid)) {
                                       });
                                 },
                                 child: Text(
-                                  ' ${likes.value.length} likes',
+                                  ' ${likes.length} likes',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 19,
@@ -388,45 +395,45 @@ if (saveby.contains(currentuserdata!.uid)) {
                                   ],
                                 ),
                               ),
-                              StreamBuilder<
-                                  QuerySnapshot<Map<String, dynamic>>>(
-                                stream: FirebaseFirestore.instance
-                                    .collection('post')
-                                    .doc(data['postId'])
-                                    .collection('comment')
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: kWhite,
-                                      ),
-                                    );
-                                  } else if (snapshot.hasError) {
-                                    return const Center(
-                                      child: Text('Some Error occurred'),
-                                    );
-                                  } else if (!snapshot.hasData ||
-                                      snapshot.data!.docs.isEmpty) {
-                                    commentLength.value = 0;
-                                  }
+                              // StreamBuilder<
+                              //     QuerySnapshot<Map<String, dynamic>>>(
+                              //   stream: FirebaseFirestore.instance
+                              //       .collection('post')
+                              //       .doc(data['postId'])
+                              //       .collection('comment')
+                              //       .snapshots(),
+                              //   builder: (context, snapshot) {
+                              //     if (snapshot.connectionState ==
+                              //         ConnectionState.waiting) {
+                              //       return const Center(
+                              //         child: CircularProgressIndicator(
+                              //           strokeWidth: 2,
+                              //           color: kWhite,
+                              //         ),
+                              //       );
+                              //     } else if (snapshot.hasError) {
+                              //       return const Center(
+                              //         child: Text('Some Error occurred'),
+                              //       );
+                              //     } else if (!snapshot.hasData ||
+                              //         snapshot.data!.docs.isEmpty) {
+                              //       commentLength.value = 0;
+                              //     }
 
-                                  commentLength.value =
-                                      snapshot.data!.docs.length;
+                              //     commentLength.value =
+                              //         snapshot.data!.docs.length;
 
-                                  return Text(
-                                    'View all ${commentLength.value} comments',
-                                    style: const TextStyle(
-                                      color: kGrey,
-                                      fontSize: 17,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  );
-                                },
-                              ),
+                              //     return Text(
+                              //       'View all ${commentLength.value} comments',
+                              //       style: const TextStyle(
+                              //         color: kGrey,
+                              //         fontSize: 17,
+                              //       ),
+                              //       maxLines: 2,
+                              //       overflow: TextOverflow.ellipsis,
+                              //     );
+                              //   },
+                              // ),
                               Text(
                                 ' ${finaldate[0]}',
                                 style: const TextStyle(

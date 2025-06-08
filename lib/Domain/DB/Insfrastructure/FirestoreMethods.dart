@@ -38,7 +38,9 @@ class FirestoreMethods {
           uid: uid,
           profileImage: profileUrl,
           filterColor: filterColor,
-          tag: tag);
+          tag: tag,
+          saveby: []
+          );
 
       final jsonData = post.toJson();
       await _firestore.collection('post').doc(postId).set(jsonData);
