@@ -207,30 +207,30 @@ class AuthMethod {
 
     return isOk;
   }
-  Future<bool> updateSavepotsby({
-    required String uid,
-    required String userID,
-  }) async {
-    bool isOk = false;
+  // Future<bool> updateSavepotsby({
+  //   required String uid,
+  //   required String userID,
+  // }) async {
+  //   bool isOk = false;
 
-    try {
-      if (currentuserdata!.savePosts.contains(postId)) {
-        _firestore.collection('post').doc(uid).update({
-          'saveby': FieldValue.arrayRemove([postId])
-        });
-        isOk = false;
-      } else {
-        _firestore.collection('user').doc(uid).update({
-          'savePosts': FieldValue.arrayUnion([postId])
-        });
-        isOk = true;
-      }
-    } catch (e) {
-      isOk = false;
-    }
+  //   try {
+  //     if (currentuserdata!.savePosts.contains(postId)) {
+  //       _firestore.collection('post').doc(uid).update({
+  //         'saveby': FieldValue.arrayRemove([postId])
+  //       });
+  //       isOk = false;
+  //     } else {
+  //       _firestore.collection('user').doc(uid).update({
+  //         'savePosts': FieldValue.arrayUnion([postId])
+  //       });
+  //       isOk = true;
+  //     }
+  //   } catch (e) {
+  //     isOk = false;
+  //   }
 
-    return isOk;
-  }
+  //   return isOk;
+  // }
 
   Future<bool> updateArchivePost({
     required String uid,
