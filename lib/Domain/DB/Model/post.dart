@@ -13,6 +13,7 @@ class PostModel {
   final String music;
   final List<int> filterColor;
   final List<dynamic> tag;
+  final List saveby;
   PostModel({
     required this.location,
     required this.music,
@@ -26,6 +27,7 @@ class PostModel {
     required this.postUrl,
     required this.filterColor,
     required this.tag,
+    required this.saveby,
   });
 
   Map<String, dynamic> toJson() => {
@@ -40,13 +42,15 @@ class PostModel {
         'location': location,
         'music': music,
         'filterColor': filterColor,
-        'tag': tag
+        'tag': tag,
+        'saveby': saveby
       };
 
   static PostModel fromSnap(DocumentSnapshot<Map<String, dynamic>> snap) {
     final snapshot = snap.data();
     return PostModel(
       music: snapshot!['music'],
+      saveby: snapshot['saveby'],
       location: snapshot['location'],
       description: snapshot['description'],
       postId: snapshot['postId'],
@@ -61,5 +65,3 @@ class PostModel {
     );
   }
 }
-
-
