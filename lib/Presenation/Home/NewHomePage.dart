@@ -97,7 +97,7 @@ class _NewhomepageState extends State<Newhomepage> {
                   separatorBuilder: (context, index) {
                     return sizedBoxHeight10;
                   },
-                  itemCount: postdata!.docs.length,
+                  itemCount: postdata == null ? 0 : postdata!.docs.length,
                 )
               ],
             ),

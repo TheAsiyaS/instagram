@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/AddPost/NewPost.dart';
-import 'package:instagram_clone/Presenation/Home/Home_screen.dart';
+import 'package:instagram_clone/Presenation/Home/NewHomePage.dart';
 import 'package:instagram_clone/Presenation/Notification/Notification_screen.dart';
 import 'package:instagram_clone/Presenation/search/explore_screen.dart';
 import 'package:instagram_clone/main.dart';
@@ -10,7 +10,7 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 
 ValueNotifier<int> Bottomindex = ValueNotifier(0);
 final bottomscreens = [
-   HomeScreen(),
+   Newhomepage(),
   const SearchScreen(),
   const AddpostScreen(),
   const NotificationScreen(),
