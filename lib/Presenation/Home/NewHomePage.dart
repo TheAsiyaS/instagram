@@ -1,19 +1,10 @@
-import 'dart:developer';
-import 'dart:math' hide log;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
-import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
-import 'package:instagram_clone/Presenation/Account/DrawerScreens/SavedPosts.dart';
-import 'package:instagram_clone/Presenation/Account/Others_account.dart';
-import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
+
 import 'package:instagram_clone/Presenation/Home/post.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
-import 'package:instagram_clone/Presenation/widget/SnackBar.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
@@ -83,13 +74,12 @@ class _NewhomepageState extends State<Newhomepage> {
 
                       likes = data['likes'];
                       saveby = data['saveby'];
-                      bool issaved = saveby.contains(currentuserdata!.uid);
+
                       String? datePublish = data['datePublished'];
                       if (datePublish != null) {
                         DateTime myDate = DateTime.parse(datePublish);
                         formattedDate.value =
                             DateFormat('dd-MM-yyyy').format(myDate);
-
                         final finaldate = formattedDate.value.split(' ');
 
                         return post(
