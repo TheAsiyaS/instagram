@@ -82,7 +82,7 @@ class _NewhomepageState extends State<Newhomepage> {
                             DateFormat('dd-MM-yyyy').format(myDate);
                         final finaldate = formattedDate.value.split(' ');
 
-                        return post(
+                        return postHome(
                             size: size,
                             data: data,
                             likes: likes,

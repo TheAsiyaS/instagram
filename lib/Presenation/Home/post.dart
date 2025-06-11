@@ -14,8 +14,8 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
-class post extends StatelessWidget {
-  const post(
+class postHome extends StatelessWidget {
+  const postHome(
       {super.key,
       required this.size,
       required this.data,
@@ -33,6 +33,8 @@ class post extends StatelessWidget {
   Widget build(BuildContext context) {
     ValueNotifier<bool> issaved =
         ValueNotifier(saveby.contains(currentuserdata!.uid));
+    ValueNotifier<bool> isliked =
+        ValueNotifier(likes.contains(currentuserdata!.uid));
     return SizedBox(
       height: size.height / 1.24,
       child: Column(
@@ -144,22 +146,41 @@ class post extends StatelessWidget {
           ),
           Row(
             children: [
-              Iconbuttons(
-                icon: likes.contains(currentuserdata!.uid)
-                    ? const Icon(
-                        kfavorite,
-                        size: 29,
-                        color: kRed,
-                      )
-                    : const Icon(
-                        kfavorite_outline,
-                        size: 29,
-                      ),
-                postid: data['postId'],
-                likes: likes,
-                iconId: 'fav_out_in_post',
-                style: IconButton.styleFrom(),
-              ),
+              ValueListenableBuilder(
+                  valueListenable: isliked,
+                  builder: (context, value, child) {
+                    return IconButton(
+                      onPressed: () async {
+                          final FirebaseFirestore firestore = FirebaseFirestore.instance;
+              if (likes.contains(currentuserdata!.uid)) {
+                await firestore.collection('post').doc(data['postId']).update({
+                  'likes': FieldValue.arrayRemove([currentuserdata!.uid])
+                });
+                likes.remove(currentuserdata!.uid);
+                isliked.value = false;
+              } else {
+                await firestore.collection('post').doc(data['postId']).update({
+                  'likes': FieldValue.arrayUnion([currentuserdata!.uid])
+                });
+                likes.add(currentuserdata!.uid!);
+                isliked.value = true;
+              }
+              log('like user : $likes like ${isliked.value}');
+              await AuthMethod().updateSavepots(
+                  uid: currentuserdata!.uid!, postId: data['postId']);
+                      },
+                      icon: isliked.value
+                          ? const Icon(
+                              kfavorite,
+                              size: 29,
+                              color: kRed,
+                            )
+                          : const Icon(
+                              kfavorite_outline,
+                              size: 29,
+                            ),
+                    );
+                  }),
               Iconbuttons(
                 icon: const Icon(
                   kcomment,
@@ -192,48 +213,7 @@ class post extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              ValueListenableBuilder(
-                valueListenable: issaved,
-                builder: (context, value, child) {
-                  return IconButton(
-                    onPressed: () async {
-                      log('save user : ${saveby} saved ${issaved.value}');
-                      log('save user : ${saveby}');
-                      final FirebaseFirestore _firestore =
-                          FirebaseFirestore.instance;
-                      if (saveby.contains(currentuserdata!.uid)) {
-                        await _firestore
-                            .collection('post')
-                            .doc(data['postId'])
-                            .update({
-                          'saveby': FieldValue.arrayRemove([currentuserdata!.uid])
-                        });
-                        saveby.remove(currentuserdata!.uid);
-                        issaved.value = false;
-                      } else {
-                        await _firestore
-                            .collection('post')
-                            .doc(data['postId'])
-                            .update({
-                          'saveby': FieldValue.arrayUnion([currentuserdata!.uid])
-                        });
-                        saveby.add(currentuserdata!.uid!);
-                        issaved.value = true;
-                      }
-                      log('save user : $saveby saved ${issaved.value}');
-                      await AuthMethod().updateSavepots(
-                          uid: currentuserdata!.uid!,
-                          postId: data['postId']);
-                    }, 
-                    icon: Icon(
-                     issaved.value
-                          ? CupertinoIcons.bookmark_fill
-                          : CupertinoIcons.bookmark,
-                      size: 28,
-                    ),
-                  );
-                }
-              )
+              Savebutton(issaved: issaved, saveby: saveby, data: data)
             ],
           ),
           GestureDetector(
@@ -256,17 +236,16 @@ class post extends StatelessWidget {
                     ),
                   ),
                   backgroundColor: kTransparentGrey,
+                  // ignore: use_build_context_synchronously
                   context: context,
                   builder: (BuildContext context) {
-                    return likeData!.docs.isEmpty
+                    return likeData.docs.isEmpty
                         ? Text('This post have no likes')
                         : SizedBox(
                             width: size.width,
                             height: size.height / 3,
                             child: ListView.separated(
                               itemBuilder: (context, index) {
-                                final data = likeData!.docs[index];
-
                                 return ListTile(
                                   leading: CircleAvatar(
                                     radius: 30,
@@ -368,5 +347,53 @@ class post extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class Savebutton extends StatelessWidget {
+  const Savebutton({
+    super.key,
+    required this.issaved,
+    required this.saveby,
+    required this.data,
+  });
+
+  final ValueNotifier<bool> issaved;
+  final List saveby;
+  final QueryDocumentSnapshot<Map<String, dynamic>> data;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+        valueListenable: issaved,
+        builder: (context, value, child) {
+          return IconButton(
+            onPressed: () async {
+              final FirebaseFirestore firestore = FirebaseFirestore.instance;
+              if (saveby.contains(currentuserdata!.uid)) {
+                await firestore.collection('post').doc(data['postId']).update({
+                  'saveby': FieldValue.arrayRemove([currentuserdata!.uid])
+                });
+                saveby.remove(currentuserdata!.uid);
+                issaved.value = false;
+              } else {
+                await firestore.collection('post').doc(data['postId']).update({
+                  'saveby': FieldValue.arrayUnion([currentuserdata!.uid])
+                });
+                saveby.add(currentuserdata!.uid!);
+                issaved.value = true;
+              }
+              log('save user : $saveby saved ${issaved.value}');
+              await AuthMethod().updateSavepots(
+                  uid: currentuserdata!.uid!, postId: data['postId']);
+            },
+            icon: Icon(
+              issaved.value
+                  ? CupertinoIcons.bookmark_fill
+                  : CupertinoIcons.bookmark,
+              size: 28,
+            ),
+          );
+        });
   }
 }
