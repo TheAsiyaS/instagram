@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/Presenation/Account/post.dart';
+import 'package:instagram_clone/Presenation/Account/post_card.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 
@@ -42,7 +42,7 @@ class SavedPosts extends StatelessWidget {
 
                       return Post(
                           data: data,
-                          postdata: snapshot.data!.docs,
+                          postdata: snapshot.data!.docs[index],
                           index: index);
                     }),
                   );

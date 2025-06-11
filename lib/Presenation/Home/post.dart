@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/Userfunctions.dart';
 import 'package:instagram_clone/Presenation/Account/Others_account.dart';
 import 'package:instagram_clone/Presenation/Edite/Edite_post.dart';
 import 'package:instagram_clone/Presenation/widget/IconButtons.dart';
@@ -220,9 +221,9 @@ class post extends StatelessWidget {
                         issaved.value = true;
                       }
                       log('save user : $saveby saved ${issaved.value}');
-                      // await AuthMethod().updateSavepots(
-                      //     uid: currentuserdata!.uid!,
-                      //     postId: data['postId']);
+                      await AuthMethod().updateSavepots(
+                          uid: currentuserdata!.uid!,
+                          postId: data['postId']);
                     }, 
                     icon: Icon(
                      issaved.value
@@ -287,7 +288,7 @@ class post extends StatelessWidget {
                                   color: kWhite,
                                 );
                               },
-                              itemCount: likeData!.docs.length,
+                              itemCount: likeData.docs.length,
                             ));
                   });
             },
