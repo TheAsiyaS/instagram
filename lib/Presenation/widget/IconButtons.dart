@@ -22,7 +22,9 @@ class Iconbuttons extends StatelessWidget {
       this.profileimg,
       this.uid,
       this.username,
-      this.taguid});
+      this.taguid,
+      this.commentlength,
+      });
 
   final Widget icon;
   final String iconId;
@@ -35,6 +37,7 @@ class Iconbuttons extends StatelessWidget {
   String? uid;
   List<dynamic>? likes;
   List<dynamic>? taguid;
+  int? commentlength;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -46,13 +49,14 @@ class Iconbuttons extends StatelessWidget {
           } else {}
         } else if (iconId == 'cmt_out_in_post') {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => commentScreen(
+              builder: (context) => commentScreen(//-------------------------------------------------------------------------
                     ProfileUrl: profileimg,
                     Username: username,
                     date: date,
                     description: description,
                     uid: uid,
                     postId: postid,
+                    commentLength:commentlength ,
                   )));
         } else if (iconId == 'check_in_edite') {
           await AuthMethod()

@@ -13,18 +13,20 @@ final TextEditingController commentController = TextEditingController();
 class commentScreen extends StatelessWidget {
   const commentScreen(
       {super.key,
-      this.ProfileUrl,
-      this.Username,
-      this.description,
-      this.date,
-      this.uid,
-      this.postId});
+      required this.ProfileUrl,
+      required this.Username,
+      required this.description,
+      required this.date,
+      required this.uid,
+      required this.postId,
+      required this.commentLength});
   final ProfileUrl;
   final Username;
   final description;
   final date;
   final postId;
   final uid;
+  final commentLength;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -157,7 +159,7 @@ class addComment extends StatelessWidget {
           CircleAvatar(
             radius: 25,
             backgroundImage: NetworkImage(
-            currentuserdata!.photoUrl,
+              currentuserdata!.photoUrl,
             ),
           ),
           sizedBoxWidth20,
@@ -169,15 +171,19 @@ class addComment extends StatelessWidget {
           ),
           TextButton(
               onPressed: () async {
+                final FirebaseFirestore firestore = FirebaseFirestore.instance;
                 final res = await FirestoreMethods().uploadComment(
                   comment: commentController.text,
                   datePublished: date,
                   postId: postId,
-                  profileImage: currentuserdata!.photoUrl,
+                  profileImage: currentuserdata!.photoUrl, //
                   uid: currentuserdata!.uid!,
                   username: currentuserdata!.username,
                 );
-
+                await firestore.collection('post').doc(postId).update({
+                  'commentLength':
+                      FieldValue.arrayRemove([currentuserdata!.uid])
+                });
                 if (res == true) {
                   commentController.text = '';
                 }

@@ -74,7 +74,7 @@ class _NewhomepageState extends State<Newhomepage> {
 
                       likes = data['likes'];
                       saveby = data['saveby'];
-
+                 
                       String? datePublish = data['datePublished'];
                       if (datePublish != null) {
                         DateTime myDate = DateTime.parse(datePublish);
@@ -83,12 +83,14 @@ class _NewhomepageState extends State<Newhomepage> {
                         final finaldate = formattedDate.value.split(' ');
 
                         return postHome(
-                            size: size,
-                            data: data,
-                            likes: likes,
-                            date: formattedDate.value,
-                            saveby: saveby,
-                            finaldate: finaldate);
+                          size: size,
+                          data: data,
+                          likes: likes,
+                          date: formattedDate.value,
+                          saveby: saveby,
+                          finaldate: finaldate,
+                         
+                        );
                       } else {
                         return const Text('Data Currently not found');
                       }
@@ -139,4 +141,5 @@ class _NewhomepageState extends State<Newhomepage> {
       ),
     );
   }
+
 }

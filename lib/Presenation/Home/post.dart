@@ -22,22 +22,23 @@ class postHome extends StatelessWidget {
       required this.likes,
       required this.date,
       required this.saveby,
-      required this.finaldate});
+      required this.finaldate,
+     });
   final Size size;
   final QueryDocumentSnapshot<Map<String, dynamic>> data;
   final List likes;
   final String date;
   final List<String> finaldate;
   final List saveby;
+
   @override
   Widget build(BuildContext context) {
     ValueNotifier<bool> issaved =
         ValueNotifier(saveby.contains(currentuserdata!.uid));
     ValueNotifier<bool> isliked =
         ValueNotifier(likes.contains(currentuserdata!.uid));
-    final ValueNotifier<List> likesNotifier =
-    ValueNotifier<List>(likes);
-    
+    final ValueNotifier<List> likesNotifier = ValueNotifier<List>(likes);
+ 
     return SizedBox(
       height: size.height / 1.24,
       child: Column(
@@ -149,7 +150,12 @@ class postHome extends StatelessWidget {
           ),
           Row(
             children: [
-              LikeButton(isliked: isliked, likes: likes, data: data,likesNotifier: likesNotifier,),
+              LikeButton(
+                isliked: isliked,
+                likes: likes,
+                data: data,
+                likesNotifier: likesNotifier,
+              ),
               Iconbuttons(
                 icon: const Icon(
                   kcomment,
@@ -164,6 +170,7 @@ class postHome extends StatelessWidget {
                 uid: data['uid'],
                 username: data['username'],
                 style: IconButton.styleFrom(),
+                commentlength: data['commentLength'],
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -241,17 +248,16 @@ class postHome extends StatelessWidget {
                   });
             },
             child: ValueListenableBuilder(
-              valueListenable: likesNotifier,
-              builder: (context, value, child) {
-                return Text(
-                  ' ${likesNotifier.value.length} likes',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 19,
-                  ),
-                );
-              }
-            ),
+                valueListenable: likesNotifier,
+                builder: (context, value, child) {
+                  return Text(
+                    ' ${likesNotifier.value.length} likes',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 19,
+                    ),
+                  );
+                }),
           ),
           RichText(
             maxLines: 2,
@@ -272,45 +278,15 @@ class postHome extends StatelessWidget {
               ],
             ),
           ),
-          // StreamBuilder<
-          //     QuerySnapshot<Map<String, dynamic>>>(
-          //   stream: FirebaseFirestore.instance
-          //       .collection('post')
-          //       .doc(data['postId'])
-          //       .collection('comment')
-          //       .snapshots(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState ==
-          //         ConnectionState.waiting) {
-          //       return const Center(
-          //         child: CircularProgressIndicator(
-          //           strokeWidth: 2,
-          //           color: kWhite,
-          //         ),
-          //       );
-          //     } else if (snapshot.hasError) {
-          //       return const Center(
-          //         child: Text('Some Error occurred'),
-          //       );
-          //     } else if (!snapshot.hasData ||
-          //         snapshot.data!.docs.isEmpty) {
-          //       commentLength.value = 0;
-          //     }
-
-          //     commentLength.value =
-          //         snapshot.data!.docs.length;
-
-          //     return Text(
-          //       'View all ${commentLength.value} comments',
-          //       style: const TextStyle(
-          //         color: kGrey,
-          //         fontSize: 17,
-          //       ),
-          //       maxLines: 2,
-          //       overflow: TextOverflow.ellipsis,
-          //     );
-          //   },
-          // ),
+          Text(
+            'View all ${data['commentLength']} comments',
+            style: const TextStyle(
+              color: kGrey,
+              fontSize: 17,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           Text(
             ' ${finaldate[0]}',
             style: const TextStyle(
@@ -329,11 +305,12 @@ class LikeButton extends StatelessWidget {
     super.key,
     required this.isliked,
     required this.likes,
-    required this.data, required this.likesNotifier,
+    required this.data,
+    required this.likesNotifier,
   });
 
   final ValueNotifier<bool> isliked;
-    final ValueNotifier<List> likesNotifier;
+  final ValueNotifier<List> likesNotifier;
 
   final List likes;
   final QueryDocumentSnapshot<Map<String, dynamic>> data;
@@ -345,25 +322,27 @@ class LikeButton extends StatelessWidget {
         builder: (context, value, child) {
           return IconButton(
             onPressed: () async {
-                final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    if (likes.contains(currentuserdata!.uid)) {
-      await firestore.collection('post').doc(data['postId']).update({
-        'likes': FieldValue.arrayRemove([currentuserdata!.uid])
-      });
-      likes.remove(currentuserdata!.uid);
-        likesNotifier.value = List.from(likesNotifier.value)..remove(currentuserdata!.uid);
-      isliked.value = false;
-    } else {
-      await firestore.collection('post').doc(data['postId']).update({
-        'likes': FieldValue.arrayUnion([currentuserdata!.uid])
-      });
-      likes.add(currentuserdata!.uid!);
-        likesNotifier.value = List.from(likesNotifier.value)..add(currentuserdata!.uid);
-      isliked.value = true;
-    }
-    log('like user : $likes like ${isliked.value}');
-    await AuthMethod().updateSavepots(
-        uid: currentuserdata!.uid!, postId: data['postId']);
+              final FirebaseFirestore firestore = FirebaseFirestore.instance;
+              if (likes.contains(currentuserdata!.uid)) {
+                await firestore.collection('post').doc(data['postId']).update({
+                  'likes': FieldValue.arrayRemove([currentuserdata!.uid])
+                });
+                likes.remove(currentuserdata!.uid);
+                likesNotifier.value = List.from(likesNotifier.value)
+                  ..remove(currentuserdata!.uid);
+                isliked.value = false;
+              } else {
+                await firestore.collection('post').doc(data['postId']).update({
+                  'likes': FieldValue.arrayUnion([currentuserdata!.uid])
+                });
+                likes.add(currentuserdata!.uid!);
+                likesNotifier.value = List.from(likesNotifier.value)
+                  ..add(currentuserdata!.uid);
+                isliked.value = true;
+              }
+              log('like user : $likes like ${isliked.value}');
+              await AuthMethod().updateSavepots(
+                  uid: currentuserdata!.uid!, postId: data['postId']);
             },
             icon: isliked.value
                 ? const Icon(
