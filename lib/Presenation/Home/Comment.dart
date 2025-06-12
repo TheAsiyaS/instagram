@@ -18,15 +18,15 @@ class commentScreen extends StatelessWidget {
       required this.description,
       required this.date,
       required this.uid,
-      required this.postId,
-      required this.commentLength});
+      required this.postId, required this.commentLength,
+  });
   final ProfileUrl;
   final Username;
   final description;
   final date;
   final postId;
   final uid;
-  final commentLength;
+ final int commentLength;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -66,6 +66,8 @@ class commentScreen extends StatelessWidget {
                           bottomPadding: 60.0,
                           commentId: '',
                           likes: const [],
+                        
+                          
                         ),
                       ),
                       const Divider(
@@ -120,7 +122,9 @@ class commentScreen extends StatelessWidget {
                                             postId: data['postId'],
                                             suffixtext: 'Reply',
                                             bottomPadding: 0.0,
-                                            NoOflikes: '${likelength.length}'),
+                                            NoOflikes: '${likelength.length}',
+                                           
+                                            ),
                                       );
                                     },
                                     separatorBuilder: (context, index) {
@@ -132,7 +136,7 @@ class commentScreen extends StatelessWidget {
                       )
                     ],
                   )),
-              addComment(postId: postId, date: date)
+              addComment(postId: postId, date: date,commentlength:commentLength ,)
             ],
           ),
         )));
@@ -143,12 +147,12 @@ class addComment extends StatelessWidget {
   const addComment({
     Key? key,
     required this.postId,
-    required this.date,
+    required this.date, required this.commentlength,
   }) : super(key: key);
 
   final postId;
   final date;
-
+final int commentlength;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -181,8 +185,7 @@ class addComment extends StatelessWidget {
                   username: currentuserdata!.username,
                 );
                 await firestore.collection('post').doc(postId).update({
-                  'commentLength':
-                      FieldValue.arrayRemove([currentuserdata!.uid])
+                  'commentLength':commentlength+1
                 });
                 if (res == true) {
                   commentController.text = '';
@@ -226,6 +229,7 @@ class commets extends StatelessWidget {
   final String likeText;
   final String commentId;
   final List<dynamic> likes;
+
   @override
   Widget build(BuildContext context) {
     return Column(
