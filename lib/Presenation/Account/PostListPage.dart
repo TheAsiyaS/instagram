@@ -88,10 +88,6 @@ class _PostListPageState extends State<PostListPage> {
 
           final finaldate = formattedDate.value.split(' ');
 
-          String colorString = post['filterColor'];
-          String extractedCode =
-              colorString.substring(6, colorString.length - 1);
-          final parscode = int.parse(extractedCode);
           final ValueNotifier<bool> issave =
               ValueNotifier(currentuserdata!.savePosts.contains(post['postId']));
           return SizedBox(
@@ -185,7 +181,11 @@ class _PostListPageState extends State<PostListPage> {
                   child: Container(
                     height: size.height / 2,
                     width: size.width,
-                    color: Color(parscode),
+                    color: Color.fromARGB(
+                                      post['filterColor'][0],
+                                      post['filterColor'][1],
+                                      post['filterColor'][2],
+                                      post['filterColor'][3]),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,

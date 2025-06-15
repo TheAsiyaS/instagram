@@ -9,48 +9,54 @@ import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
 
-
-class OthersProfile extends StatelessWidget {
+class OthersProfile extends StatefulWidget {
   const OthersProfile({super.key, required this.uid});
   final String uid;
+
+  @override
+  State<OthersProfile> createState() => _OthersProfileState();
+}
+
+class _OthersProfileState extends State<OthersProfile> {
+  QuerySnapshot<Map<String, dynamic>>? postdata;
+  Map<String, dynamic>? userData;
+  bool loading = true;
+  @override
+  void initState() {
+    super.initState();
+    fetchPostData(); // call async function without await
+  }
+
+  Future<void> fetchPostData() async {
+    DocumentSnapshot<Map<String, dynamic>> Data = await FirebaseFirestore
+        .instance
+        .collection('user')
+        .doc(widget.uid)
+        .get();
+
+    userData = Data.data();
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    
     return DefaultTabController(
-      length: 2,
-      child: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('user').doc(uid).get(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: kWhite,
-                  strokeWidth: 2,
-                ),
-              );
-            } else if (!snapshot.hasData || snapshot.hasError) {
-              return const Text('No user found!!!');
-            } else {
-              var userData = snapshot.data!.data() as Map<String, dynamic>;
-              ValueNotifier<List> follower =
-                  ValueNotifier(userData['follower']);
-              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-              follower.notifyListeners();
-              ValueNotifier<List> following =
-                  ValueNotifier(userData['following']);
-              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-              follower.notifyListeners();
-
-              return Scaffold(
-                appBar: AppBar( 
-                 
+        length: 2,
+        child: loading
+            ? Center(child: CircularProgressIndicator())
+            : Scaffold(
+                appBar: AppBar(
                   title: Text(
-                    userData['username'],
+                    userData!['username'],
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 23),
                   ),
-                ), 
-                body: SafeArea( 
+                ),
+                body: SafeArea(
                     child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: SingleChildScrollView(
@@ -63,64 +69,10 @@ class OthersProfile extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               sizedBoxHeight10,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: NetworkImage(
-                                      userData['photoUrl'],
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      StreamBuilder(
-                                          stream: FirebaseFirestore.instance
-                                              .collection('post')
-                                              .where('uid', isEqualTo: uid)
-                                              .snapshots(),
-                                          builder: (context, snapshot) {
-                                            if (!snapshot.hasData ||
-                                                snapshot.data!.docs.isEmpty) {
-                                              return const Text('0');
-                                            } else {
-                                              return Text(
-                                                  "${snapshot.data!.docs.length}",
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold));
-                                            }
-                                          }),
-                                      sizedBoxHeight10,
-                                      const Text('Posts'),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        follower.value.length.toString(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      sizedBoxHeight10,
-                                      const Text('Followers'),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(following.value.length.toString(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      sizedBoxHeight10,
-                                      const Text('Following'),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                              Profiletop(userData: userData, widget: widget),
                               sizedBoxHeight10,
                               Text(
-                                userData['name'],
+                                userData!['name'],
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
@@ -132,7 +84,7 @@ class OthersProfile extends StatelessWidget {
                                     valueListenable: newbio,
                                     builder: (context, snapshot, _) {
                                       return Text(
-                                        userData['bio'],
+                                        userData!['bio'],
                                         maxLines: 3,
                                         style: const TextStyle(fontSize: 15),
                                         overflow: TextOverflow.ellipsis,
@@ -148,19 +100,26 @@ class OthersProfile extends StatelessWidget {
                             SizedBox(
                               width: size.width / 2.6,
                               child: Elevated_button(
-                                  elevatedbutttonwidget: Text(follower.value
-                                          .contains(currentuserdata!.uid)
-                                      ? 'Following'
-                                      : 'Follow',style: TextStyle(color: kWhite),),
+                                  elevatedbutttonwidget: Text(
+                                    follower.value
+                                            .contains(currentuserdata!.uid)
+                                        ? 'Following'
+                                        : 'Follow',
+                                  
+                                    style: TextStyle(color: kWhite),
+                                  ),
                                   elevatedbutttonid: 'follow_inaccount',
-                                  uid: uid,
+                                  uid: widget.uid,
                                   elevatedbuttonstyle: ElevatedButton.styleFrom(
                                       backgroundColor: kBlue)),
                             ),
                             SizedBox(
                               width: size.width / 2.6,
                               child: Elevated_button(
-                                  elevatedbutttonwidget: const Text('Message',style: TextStyle(color: kWhite),),
+                                  elevatedbutttonwidget: const Text(
+                                    'Message',
+                                    style: TextStyle(color: kWhite),
+                                  ),
                                   elevatedbutttonid: 'message_inaccount',
                                   elevatedbuttonstyle: ElevatedButton.styleFrom(
                                       backgroundColor: kGreyDarkTrans)),
@@ -249,16 +208,71 @@ class OthersProfile extends StatelessWidget {
                         SizedBox(
                             height: size.height / 1.5,
                             child: TabBarView(children: [
-                              Postpage(uid: uid),
-                               Tagpage(uid:uid ,)
+                              Postpage(uid: widget.uid),
+                              Tagpage(
+                                uid: widget.uid,
+                              )
                             ]))
                       ],
                     ),
                   ),
                 )),
-              );
-            }
-          }),
+              ));
+  }
+}
+
+class Profiletop extends StatelessWidget {
+  const Profiletop({
+    super.key,
+    required this.userData,
+    required this.widget,
+  });
+
+  final Map<String, dynamic>? userData;
+  final OthersProfile widget;
+
+  @override
+  Widget build(BuildContext context) {
+    List postIds = userData!['posts'];
+  List Followers = userData!['follower'];
+    List Following = userData!['following'];
+  
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        CircleAvatar(
+          radius: 50,
+          backgroundImage: NetworkImage(
+            userData!['photoUrl'],
+          ),
+        ),
+        Column(
+          children: [
+            Text("${postIds.length}",
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            sizedBoxHeight10,
+            const Text('Posts'),
+          ],
+        ),
+        Column(
+          children: [
+            Text(
+              Followers.length.toString(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            sizedBoxHeight10,
+            const Text('Followers'),
+          ],
+        ),
+        Column(
+          children: [
+            Text(Following.length.toString(),
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            sizedBoxHeight10,
+            const Text('Following'),
+          ],
+        ),
+      ],
     );
   }
 }

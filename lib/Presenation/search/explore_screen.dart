@@ -86,10 +86,8 @@ class SearchScreen extends StatelessWidget {
                               childCount: snapshot.data!.docs.length,
                               (context, index) {
                             final data = snapshot.data!.docs[index];
-                          
-                            
-                           
-                            return GestureDetector( 
+
+                            return GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => PostListPage(
@@ -104,8 +102,11 @@ class SearchScreen extends StatelessWidget {
                                         image: NetworkImage(data['postUrl']),
                                         fit: BoxFit.cover)),
                                 child: Container(
-                                   
-                                  color: Color.fromARGB(data['filterColor'][0], data['filterColor'][1], data['filterColor'][2], data['filterColor'][3]),
+                                  color: Color.fromARGB(
+                                      data['filterColor'][0],
+                                      data['filterColor'][1],
+                                      data['filterColor'][2],
+                                      data['filterColor'][3]),
                                 ),
                               ),
                             );

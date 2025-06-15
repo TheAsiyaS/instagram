@@ -5,7 +5,6 @@ import 'package:instagram_clone/Presenation/AddPost/AddPost.dart';
 import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 class EditePost extends StatelessWidget {
   const EditePost({super.key, required this.imagePath});
