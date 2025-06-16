@@ -6,7 +6,6 @@ import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
 import 'package:instagram_clone/Presenation/widget/Elevatedbutton.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/utenslis/Colors.dart';
 import 'package:instagram_clone/utenslis/Icons.dart';
 import 'package:instagram_clone/utenslis/Sizes.dart';
@@ -76,7 +75,12 @@ class _OthersProfileState extends State<OthersProfile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               sizedBoxHeight10,
-                              Profiletop(userData: userData, widget: widget),
+                              Profiletop(
+                                userData: userData,
+                                widget: widget,
+                                Followers: followers,
+                                Following: following,
+                              ),
                               sizedBoxHeight10,
                               Text(
                                 userData!['name'],
@@ -107,31 +111,37 @@ class _OthersProfileState extends State<OthersProfile> {
                             SizedBox(
                               width: size.width / 2.6,
                               child: ValueListenableBuilder(
-                                valueListenable: isfollow,
-                                builder: (context, value, child) {
-                                  return ElevatedButton(
-                                      onPressed: () async {
-                                        await FirestoreMethods().followUser(
-                                            FirebaseAuth.instance.currentUser!.uid,
-                                            widget.uid);
-                                            if (followers.contains(widget.uid)) {
+                                  valueListenable: isfollow,
+                                  builder: (context, value, child) {
+                                    return ElevatedButton(
+                                        onPressed: () async {
+                                          await FirestoreMethods().followUser(
+                                              FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                              widget.uid);
+                                          if (followers.contains(widget.uid)) {
+                                           setState(() {
                                               followers.remove(widget.uid);
-                                              isfollow.value=false;
-                                            }else{
+                                           });
+                                            
+                                            isfollow.value = false;
+                                          } else {
+                                           setState(() {
                                               followers.add(widget.uid);
-                                              isfollow.value =true;
-                                            }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: kBlue),
-                                      child: Text(
-                                        isfollow.value
-                                            ? 'Following'
-                                            : 'Follow',
-                                        style: TextStyle(color: kWhite),
-                                      ));
-                                }
-                              ),
+                                           });
+                                            
+                                            isfollow.value = true;
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: kBlue),
+                                        child: Text(
+                                          isfollow.value
+                                              ? 'Following'
+                                              : 'Follow',
+                                          style: TextStyle(color: kWhite),
+                                        ));
+                                  }),
                             ),
                             SizedBox(
                               width: size.width / 2.6,
@@ -246,16 +256,17 @@ class Profiletop extends StatelessWidget {
     super.key,
     required this.userData,
     required this.widget,
+    required this.Followers,
+    required this.Following,
   });
 
   final Map<String, dynamic>? userData;
   final OthersProfile widget;
-
+  final List Followers;
+  final List Following;
   @override
   Widget build(BuildContext context) {
     List postIds = userData!['posts'];
-    List Followers = userData!['follower'];
-    List Following = userData!['following'];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
