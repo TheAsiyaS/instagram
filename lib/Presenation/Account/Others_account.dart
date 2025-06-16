@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Domain/DB/Insfrastructure/FirestoreMethods.dart';
 import 'package:instagram_clone/Presenation/Account/Account_screen.dart';
 import 'package:instagram_clone/Presenation/Account/Post_page.dart';
 import 'package:instagram_clone/Presenation/Account/Tag_page.dart';
@@ -20,6 +22,8 @@ class OthersProfile extends StatefulWidget {
 class _OthersProfileState extends State<OthersProfile> {
   QuerySnapshot<Map<String, dynamic>>? postdata;
   Map<String, dynamic>? userData;
+  List followers = [];
+  List following = [];
   bool loading = true;
   @override
   void initState() {
@@ -35,6 +39,8 @@ class _OthersProfileState extends State<OthersProfile> {
         .get();
 
     userData = Data.data();
+    followers = userData!['follower'];
+    following = userData!['following'];
     setState(() {
       loading = false;
     });
@@ -43,7 +49,8 @@ class _OthersProfileState extends State<OthersProfile> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    
+    ValueNotifier<bool> isfollow =
+        ValueNotifier(followers.contains(widget.uid));
     return DefaultTabController(
         length: 2,
         child: loading
@@ -99,19 +106,32 @@ class _OthersProfileState extends State<OthersProfile> {
                           children: [
                             SizedBox(
                               width: size.width / 2.6,
-                              child: Elevated_button(
-                                  elevatedbutttonwidget: Text(
-                                    follower.value
-                                            .contains(currentuserdata!.uid)
-                                        ? 'Following'
-                                        : 'Follow',
-                                  
-                                    style: TextStyle(color: kWhite),
-                                  ),
-                                  elevatedbutttonid: 'follow_inaccount',
-                                  uid: widget.uid,
-                                  elevatedbuttonstyle: ElevatedButton.styleFrom(
-                                      backgroundColor: kBlue)),
+                              child: ValueListenableBuilder(
+                                valueListenable: isfollow,
+                                builder: (context, value, child) {
+                                  return ElevatedButton(
+                                      onPressed: () async {
+                                        await FirestoreMethods().followUser(
+                                            FirebaseAuth.instance.currentUser!.uid,
+                                            widget.uid);
+                                            if (followers.contains(widget.uid)) {
+                                              followers.remove(widget.uid);
+                                              isfollow.value=false;
+                                            }else{
+                                              followers.add(widget.uid);
+                                              isfollow.value =true;
+                                            }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: kBlue),
+                                      child: Text(
+                                        isfollow.value
+                                            ? 'Following'
+                                            : 'Follow',
+                                        style: TextStyle(color: kWhite),
+                                      ));
+                                }
+                              ),
                             ),
                             SizedBox(
                               width: size.width / 2.6,
@@ -234,9 +254,9 @@ class Profiletop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List postIds = userData!['posts'];
-  List Followers = userData!['follower'];
+    List Followers = userData!['follower'];
     List Following = userData!['following'];
-  
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [

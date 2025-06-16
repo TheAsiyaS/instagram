@@ -129,7 +129,7 @@ class FirestoreMethods {
   }
 
   Future<void> followUser(String currentUserId, String followedUserId) async {
-    final DocumentSnapshot<Map<String, dynamic>> snap =
+        final DocumentSnapshot<Map<String, dynamic>> snap =
         await _firestore.collection('user').doc(currentUserId).get();
     final List<dynamic> following = snap.data()!['following'];
 

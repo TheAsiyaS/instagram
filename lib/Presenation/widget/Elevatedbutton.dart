@@ -108,8 +108,8 @@ class Elevated_button extends StatelessWidget {
           Navigator.of(context).push(
               MaterialPageRoute(builder: ((context) => const EditProfile())));
         } else if (elevatedbutttonid == 'follow_inaccount') {
-          await FirestoreMethods()
-              .followUser(FirebaseAuth.instance.currentUser!.uid, uid!);
+          // await FirestoreMethods()
+          //     .followUser(FirebaseAuth.instance.currentUser!.uid, uid!);
         }
       },
       style: elevatedbuttonstyle,
