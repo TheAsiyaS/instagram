@@ -120,16 +120,16 @@ class _OthersProfileState extends State<OthersProfile> {
                                                   .instance.currentUser!.uid,
                                               widget.uid);
                                           if (followers.contains(widget.uid)) {
-                                           setState(() {
+                                            setState(() {
                                               followers.remove(widget.uid);
-                                           });
-                                            
+                                            });
+
                                             isfollow.value = false;
                                           } else {
-                                           setState(() {
+                                            setState(() {
                                               followers.add(widget.uid);
-                                           });
-                                            
+                                            });
+
                                             isfollow.value = true;
                                           }
                                         },

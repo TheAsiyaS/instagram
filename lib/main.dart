@@ -37,9 +37,7 @@ class MyApp extends StatelessWidget {
         buttonTheme: ButtonThemeData(
             textTheme: ButtonTextTheme.accent, // Or any other text theme option
             colorScheme: ColorScheme.light().copyWith(
-              primary: Colors.blue, // Or your desired color
-              onPrimary: Colors.white, // Text color when enabled
-              onSurface: Colors.white, // Text color when disabled
+            
             )),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.dark,
@@ -70,7 +68,7 @@ class MyApp extends StatelessWidget {
               );
             }
           }
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) { 
             return const CircularProgressIndicator(
               strokeWidth: 2,
               color: kWhite,
